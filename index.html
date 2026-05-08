@@ -3,275 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSXD Premium Admin Panel</title>
+    <title>PSXD ULTIMATE ADMIN PANEL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
-        body { font-family: 'Hind Siliguri', sans-serif; background: #0f172a; color: white; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .loader { border-top-color: #38bdf8; animation: spinner 1.5s linear infinite; }
-        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Hind+Siliguri:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', 'Hind Siliguri', sans-serif; background: #020617; color: #e2e8f0; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .card-lifetime { background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(15, 23, 42, 1) 100%); border: 1px solid rgba(251, 191, 36, 0.3); box-shadow: 0 0 15px rgba(251, 191, 36, 0.1); }
+        .card-active { border-left: 4px solid #10b981; }
+        .card-blocked { border-left: 4px solid #ef4444; opacity: 0.8; }
+        .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
+        input, select, textarea { background: #1e293b !important; border: 1px solid #334155 !important; color: white !important; }
+        .loader { width: 48px; height: 48px; border: 5px solid #FFF; border-bottom-color: #3b82f6; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="min-h-screen pb-10">
+<body class="min-h-screen">
 
-    <!-- Login Overlay -->
-    <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900">
-        <div class="glass-card p-8 rounded-2xl w-full max-w-md text-center shadow-2xl mx-4">
-            <i class="fas fa-user-shield text-5xl mb-4 text-blue-400"></i>
-            <h2 class="text-2xl font-bold mb-6">এডমিন লগইন</h2>
-            <input type="password" id="adminPass" placeholder="গোপন পাসওয়ার্ড দিন" class="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 mb-4 focus:ring-2 focus:ring-blue-500 outline-none">
-            <button onclick="checkLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all">প্রবেশ করুন</button>
+    <!-- LOGIN SECTION -->
+    <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950 p-4">
+        <div class="glass p-8 rounded-3xl w-full max-w-md shadow-2xl animate__animated animate__zoomIn">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20">
+                    <i class="fas fa-shield-halved text-4xl text-white"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-white">Admin Login</h1>
+                <p class="text-slate-400 text-sm">প্রবেশ করতে আপনার ক্রেডেনশিয়াল দিন</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">EMAIL ADDRESS</label>
+                    <input type="email" id="loginEmail" class="w-full p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="admin@example.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">PASSWORD</label>
+                    <input type="password" id="loginPass" class="w-full p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="••••••••">
+                </div>
+                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition-all active:scale-95">লগইন করুন</button>
+            </div>
         </div>
     </div>
 
-    <!-- Main Content (Hidden initially) -->
-    <div id="adminPanel" class="hidden">
-        <!-- Navbar -->
-        <nav class="glass-card sticky top-0 z-40 px-6 py-4 flex justify-between items-center mb-8 border-b border-slate-700">
-            <h1 class="text-xl font-bold gradient-text"><i class="fas fa-fire-alt mr-2"></i>PSXD ADMIN</h1>
+    <!-- MAIN DASHBOARD (HIDDEN) -->
+    <div id="dashboard" class="hidden">
+        <!-- Top Nav -->
+        <nav class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-slate-800">
+            <div class="flex items-center gap-3">
+                <img id="navLogo" src="" class="w-10 h-10 rounded-lg hidden">
+                <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">PSXD PANEL</h1>
+            </div>
             <div class="flex items-center gap-4">
-                <button onclick="fetchData()" class="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition"><i class="fas fa-sync-alt"></i></button>
-                <button onclick="logout()" class="text-red-400 hover:text-red-300 font-semibold">লগআউট</button>
+                <span class="hidden md:block text-xs text-slate-400 font-mono" id="lastSync">Last Sync: Just Now</span>
+                <button onclick="logout()" class="bg-red-500/10 hover:bg-red-500/20 text-red-500 px-4 py-2 rounded-lg text-sm font-bold transition">লগআউট</button>
             </div>
         </nav>
 
-        <div class="container mx-auto px-4">
-            <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="glass-card p-4 rounded-xl text-center">
-                    <p class="text-slate-400 text-sm">মোট ইউজার</p>
-                    <h3 id="totalUsers" class="text-2xl font-bold text-blue-400">0</h3>
+        <div class="max-w-7xl mx-auto p-4 md:p-8">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="glass p-5 rounded-2xl border-l-4 border-blue-500">
+                    <p class="text-slate-400 text-xs font-bold uppercase mb-1">Total Users</p>
+                    <h2 id="statTotal" class="text-3xl font-bold">0</h2>
                 </div>
-                <div class="glass-card p-4 rounded-xl text-center">
-                    <p class="text-slate-400 text-sm">একটিভ</p>
-                    <h3 id="activeUsers" class="text-2xl font-bold text-green-400">0</h3>
+                <div class="glass p-5 rounded-2xl border-l-4 border-emerald-500">
+                    <p class="text-slate-400 text-xs font-bold uppercase mb-1">Active Now</p>
+                    <h2 id="statActive" class="text-3xl font-bold">0</h2>
                 </div>
-                <div class="glass-card p-4 rounded-xl text-center">
-                    <p class="text-slate-400 text-sm">ব্লকড</p>
-                    <h3 id="blockedUsers" class="text-2xl font-bold text-red-400">0</h3>
+                <div class="glass p-5 rounded-2xl border-l-4 border-amber-500">
+                    <p class="text-slate-400 text-xs font-bold uppercase mb-1">Lifetime</p>
+                    <h2 id="statLifetime" class="text-3xl font-bold">0</h2>
                 </div>
-                <div class="glass-card p-4 rounded-xl text-center">
-                    <p class="text-slate-400 text-sm">লাইফটাইম</p>
-                    <h3 id="lifetimeUsers" class="text-2xl font-bold text-purple-400">0</h3>
+                <div class="glass p-5 rounded-2xl border-l-4 border-red-500">
+                    <p class="text-slate-400 text-xs font-bold uppercase mb-1">Blocked</p>
+                    <h2 id="statBlocked" class="text-3xl font-bold">0</h2>
                 </div>
             </div>
 
-            <!-- Global Config Card -->
-            <div class="glass-card p-6 rounded-2xl mb-8 border-l-4 border-blue-500">
-                <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fas fa-cog"></i> গ্লোবাল কনফিগ আপডেট</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input id="g_instruction" type="text" placeholder="Global Instruction" class="bg-slate-800 p-3 rounded-lg border border-slate-700">
-                    <input id="g_key" type="text" placeholder="Global Free Key" class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+            <!-- Tab Navigation -->
+            <div class="flex gap-8 border-b border-slate-800 mb-8 overflow-x-auto">
+                <button onclick="switchTab('users')" id="tabUsers" class="pb-4 px-2 font-bold tab-active whitespace-nowrap transition">User Database</button>
+                <button onclick="switchTab('config')" id="tabConfig" class="pb-4 px-2 font-bold text-slate-400 whitespace-nowrap transition">App Settings</button>
+            </div>
+
+            <!-- TAB: USERS -->
+            <div id="sectionUsers" class="animate__animated animate__fadeIn">
+                <div class="flex flex-col md:flex-row gap-4 justify-between items-center mb-6">
+                    <div class="relative w-full md:w-96">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                        <input type="text" id="searchInput" onkeyup="filterUsers()" class="w-full pl-11 pr-4 py-3 rounded-2xl outline-none" placeholder="Search by Device ID or Key...">
+                    </div>
+                    <button onclick="openUserModal()" class="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition">
+                        <i class="fas fa-user-plus"></i> নতুন ইউজার যোগ করুন
+                    </button>
                 </div>
-                <button onclick="updateGlobalConfig()" class="mt-4 bg-blue-600 px-6 py-2 rounded-lg hover:bg-blue-700 font-bold transition">সেভ করুন</button>
+
+                <div id="userGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be injected here -->
+                </div>
             </div>
 
-            <!-- User Database Section -->
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">ইউজার ডাটাবেস</h2>
-                <button onclick="openUserModal()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center gap-2">
-                    <i class="fas fa-plus"></i> নতুন ইউজার
-                </button>
-            </div>
+            <!-- TAB: CONFIG -->
+            <div id="sectionConfig" class="hidden animate__animated animate__fadeIn">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Global Config -->
+                    <div class="glass p-6 rounded-3xl">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-globe text-blue-400"></i> Global Config</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-2xl">
+                                <div>
+                                    <p class="font-bold">Global Key Switch</p>
+                                    <p class="text-xs text-slate-400">গ্লোবাল অ্যাক্সেস অন/অফ করুন</p>
+                                </div>
+                                <input type="checkbox" id="c_global_enabled" class="w-6 h-6 rounded">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500">GLOBAL KEY</label>
+                                <input id="c_global_key" class="w-full p-3 rounded-xl mt-1">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500">GLOBAL INSTRUCTION</label>
+                                <textarea id="c_global_instr" rows="3" class="w-full p-3 rounded-xl mt-1"></textarea>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Cards Container -->
-            <div id="userGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Loading Animation -->
-                <div class="col-span-full flex flex-col items-center py-20">
-                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-slate-700 h-12 w-12 mb-4"></div>
-                    <p>ডাটা লোড হচ্ছে বন্ধু...</p>
+                    <!-- App Config -->
+                    <div class="glass p-6 rounded-3xl">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-mobile-screen text-emerald-400"></i> App Config</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-bold text-slate-500">APP TITLE</label>
+                                <input id="c_app_title" class="w-full p-3 rounded-xl mt-1">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500">BUY URL (TELEGRAM)</label>
+                                <input id="c_buy_url" class="w-full p-3 rounded-xl mt-1">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500">LOGO URL</label>
+                                <input id="c_logo_url" class="w-full p-3 rounded-xl mt-1">
+                            </div>
+                            <button onclick="saveConfigs()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20">কনফিগারেশন সেভ করুন</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit/Add Modal (Hidden) -->
-    <div id="userModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-80 p-4">
-        <div class="glass-card w-full max-w-lg p-6 rounded-2xl animate__animated animate__fadeInUp">
-            <h3 id="modalTitle" class="text-xl font-bold mb-6">ইউজার এডিট করুন</h3>
-            <div class="space-y-4">
-                <div><label class="text-xs text-slate-400">Device ID</label><input id="m_device_id" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none"></div>
-                <div><label class="text-xs text-slate-400">Expiry Date (YYYY-MM-DD)</label><input id="m_expiry" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none"></div>
-                <div><label class="text-xs text-slate-400">Key</label><input id="m_key" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none"></div>
-                <div><label class="text-xs text-slate-400">Status</label>
-                    <select id="m_status" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none">
-                        <option value="active text-green-400">active</option>
-                        <option value="blocked text-red-400">blocked</option>
-                        <option value="lifetime text-purple-400">lifetime</option>
+    <!-- USER MODAL -->
+    <div id="userModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/80 p-4">
+        <div class="glass w-full max-w-lg p-8 rounded-3xl animate__animated animate__fadeInUp">
+            <h2 id="modalTitle" class="text-2xl font-bold mb-8">এডিট ইউজার ডাটা</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label class="text-xs font-bold text-slate-500">DEVICE ID</label>
+                    <input id="m_device_id" class="w-full p-3 rounded-xl mt-1 uppercase" placeholder="XD-0000-0000">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">STATUS</label>
+                    <select id="m_status" onchange="toggleExpiryInput()" class="w-full p-3 rounded-xl mt-1">
+                        <option value="active">Active</option>
+                        <option value="lifetime">Lifetime</option>
+                        <option value="blocked">Blocked</option>
                     </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">EXPIRY DATE</label>
+                    <input type="date" id="m_expiry" class="w-full p-3 rounded-xl mt-1">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-xs font-bold text-slate-500">LICENSE KEY</label>
+                    <input id="m_key" class="w-full p-3 rounded-xl mt-1 font-mono" placeholder="SHIMUL-XXXX-XXXX">
                 </div>
             </div>
             <div class="flex gap-4 mt-8">
-                <button onclick="closeUserModal()" class="flex-1 bg-slate-700 py-3 rounded-lg font-bold">বাতিল</button>
-                <button id="saveBtn" onclick="saveUser()" class="flex-1 bg-blue-600 py-3 rounded-lg font-bold">সেভ করুন</button>
+                <button onclick="closeUserModal()" class="flex-1 bg-slate-800 py-4 rounded-2xl font-bold">বাতিল</button>
+                <button onclick="submitUserForm()" class="flex-1 bg-blue-600 py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/20">সেভ করুন</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- Configuration ---
+        // --- CONFIGURATION ---
         const DB_URL = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
-        const ADMIN_PASSWORD = "123"; // বন্ধু, এখানে তোমার পছন্দমতো পাসওয়ার্ড দাও
+        const ADMIN_EMAIL = "admin@psxd.com"; // তোমার ইমেইল দাও
+        const ADMIN_PASS = "shimulxd"; // তোমার পাসওয়ার্ড দাও
 
-        let fullData = null;
-        let editingIndex = -1;
+        let masterData = null;
+        let editIndex = -1;
 
-        // Login Check
-        function checkLogin() {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === ADMIN_PASSWORD) {
-                document.getElementById('loginOverlay').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                fetchData();
+        // --- AUTH ---
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+
+            if(email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                init();
             } else {
-                Swal.fire({ icon: 'error', title: 'ভুল পাসওয়ার্ড!', background: '#1e293b', color: '#fff' });
+                Swal.fire('ভুল তথ্য!', 'সঠিক ইমেইল ও পাসওয়ার্ড দিন বন্ধু।', 'error');
             }
         }
 
         function logout() { location.reload(); }
 
-        // Fetch Data
-        async function fetchData() {
+        // --- DATA ENGINE ---
+        async function init() {
             try {
-                const response = await fetch(DB_URL);
-                fullData = await response.json();
-                renderDashboard();
-            } catch (error) {
-                Swal.fire('Error', 'ডাটা লোড করতে সমস্যা হয়েছে!', 'error');
+                const res = await fetch(DB_URL);
+                masterData = await res.json();
+                renderUI();
+            } catch (err) {
+                Swal.fire('Error', 'Firebase সংযোগে সমস্যা হচ্ছে!', 'error');
             }
         }
 
-        function renderDashboard() {
-            const userGrid = document.getElementById('userGrid');
-            const authDB = fullData.auth_database || [];
-            userGrid.innerHTML = "";
+        function renderUI() {
+            const grid = document.getElementById('userGrid');
+            const authDB = masterData.auth_database || [];
+            grid.innerHTML = "";
 
             // Update Stats
-            document.getElementById('totalUsers').innerText = authDB.length;
-            document.getElementById('activeUsers').innerText = authDB.filter(u => u.status === 'active').length;
-            document.getElementById('blockedUsers').innerText = authDB.filter(u => u.status === 'blocked').length;
-            document.getElementById('lifetimeUsers').innerText = authDB.filter(u => u.status === 'lifetime').length;
+            document.getElementById('statTotal').innerText = authDB.length;
+            document.getElementById('statActive').innerText = authDB.filter(u => u.status === 'active').length;
+            document.getElementById('statLifetime').innerText = authDB.filter(u => u.status === 'lifetime').length;
+            document.getElementById('statBlocked').innerText = authDB.filter(u => u.status === 'blocked').length;
 
-            // Global Config Form
-            document.getElementById('g_instruction').value = fullData.global_config.global_instruction;
-            document.getElementById('g_key').value = fullData.global_config.global_key;
+            // Nav Setup
+            document.getElementById('navLogo').src = masterData.app_config.logo_url;
+            document.getElementById('navLogo').classList.remove('hidden');
 
             // Render Cards
             authDB.forEach((user, index) => {
-                const statusColor = user.status === 'active' ? 'bg-green-500/20 text-green-400' : 
-                                    user.status === 'blocked' ? 'bg-red-500/20 text-red-400' : 'bg-purple-500/20 text-purple-400';
+                const isLifetime = user.status === 'lifetime';
+                const cardClass = isLifetime ? 'card-lifetime' : (user.status === 'blocked' ? 'card-blocked' : 'card-active');
                 
                 const card = `
-                    <div class="glass-card p-5 rounded-2xl relative overflow-hidden transition-all hover:scale-[1.02] border-t-4 ${user.status === 'active' ? 'border-green-500' : user.status === 'blocked' ? 'border-red-500' : 'border-purple-500'}">
+                    <div class="glass p-6 rounded-3xl relative overflow-hidden transition-all hover:-translate-y-1 ${cardClass} group">
+                        ${isLifetime ? '<div class="absolute -right-8 -top-8 w-24 h-24 bg-amber-500/20 rotate-45 flex items-end justify-center pb-2"><i class="fas fa-crown text-amber-500"></i></div>' : ''}
+                        
                         <div class="flex justify-between items-start mb-4">
-                            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase ${statusColor}">${user.status}</span>
-                            <div class="flex gap-2">
-                                <button onclick="openUserModal(${index})" class="text-blue-400 hover:text-blue-300"><i class="fas fa-edit"></i></button>
-                                <button onclick="deleteUser(${index})" class="text-red-400 hover:text-red-300"><i class="fas fa-trash-alt"></i></button>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${isLifetime ? 'bg-amber-500 text-black' : (user.status === 'blocked' ? 'bg-red-500 text-white' : 'bg-emerald-500 text-white')}">
+                                ${user.status}
+                            </span>
+                            <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="openUserModal(${index})" class="text-blue-400 hover:text-white transition"><i class="fas fa-pen-to-square"></i></button>
+                                <button onclick="deleteUser(${index})" class="text-red-400 hover:text-white transition"><i class="fas fa-trash-can"></i></button>
                             </div>
                         </div>
-                        <h4 class="text-slate-400 text-xs uppercase mb-1">Device ID</h4>
-                        <p class="font-mono text-sm mb-4 truncate">${user.device_id}</p>
-                        
-                        <div class="grid grid-cols-2 gap-2">
+
+                        <div class="space-y-3">
                             <div>
-                                <p class="text-slate-400 text-[10px] uppercase">Expiry</p>
-                                <p class="text-sm font-semibold text-slate-200">${user.expiry}</p>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase">Device Identity</p>
+                                <p class="font-mono text-sm font-semibold truncate">${user.device_id}</p>
                             </div>
-                            <div>
-                                <p class="text-slate-400 text-[10px] uppercase">Login Key</p>
-                                <p class="text-xs font-mono font-semibold text-blue-300 truncate">${user.key}</p>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-[10px] text-slate-500 font-bold uppercase">Expiry Status</p>
+                                    <p class="text-sm font-bold ${isLifetime ? 'text-amber-400' : 'text-slate-200'}">
+                                        <i class="fas ${isLifetime ? 'fa-infinity' : 'fa-calendar-day'} mr-1"></i>
+                                        ${isLifetime ? 'UNLIMITED ACCESS' : user.expiry}
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] text-slate-500 font-bold uppercase">Key</p>
+                                    <p class="text-xs font-mono bg-slate-800 px-2 py-1 rounded select-all">${user.key}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 `;
-                userGrid.innerHTML += card;
+                grid.innerHTML += card;
             });
+
+            // Sync Config Tabs
+            document.getElementById('c_global_enabled').checked = masterData.global_config.global_key_enabled;
+            document.getElementById('c_global_key').value = masterData.global_config.global_key;
+            document.getElementById('c_global_instr').value = masterData.global_config.global_instruction;
+            document.getElementById('c_app_title').value = masterData.app_config.title;
+            document.getElementById('c_buy_url').value = masterData.app_config.buy_url;
+            document.getElementById('c_logo_url').value = masterData.app_config.logo_url;
+            
+            document.getElementById('lastSync').innerText = "Last Sync: " + new Date().toLocaleTimeString();
         }
 
-        // Modal Controls
+        // --- CRUD LOGIC ---
         function openUserModal(index = -1) {
-            editingIndex = index;
+            editIndex = index;
             const modal = document.getElementById('userModal');
             document.getElementById('modalTitle').innerText = index === -1 ? 'নতুন ইউজার যোগ করুন' : 'ইউজার ডাটা এডিট';
             
-            if (index !== -1) {
-                const user = fullData.auth_database[index];
-                document.getElementById('m_device_id').value = user.device_id;
-                document.getElementById('m_expiry').value = user.expiry;
-                document.getElementById('m_key').value = user.key;
-                document.getElementById('m_status').value = user.status;
+            if(index !== -1) {
+                const u = masterData.auth_database[index];
+                document.getElementById('m_device_id').value = u.device_id;
+                document.getElementById('m_status').value = u.status;
+                document.getElementById('m_expiry').value = u.expiry === 'unlimited' ? '' : u.expiry;
+                document.getElementById('m_key').value = u.key;
             } else {
                 document.querySelectorAll('#userModal input').forEach(i => i.value = "");
+                document.getElementById('m_status').value = 'active';
             }
+            toggleExpiryInput();
             modal.classList.remove('hidden');
         }
 
-        function closeUserModal() {
-            document.getElementById('userModal').classList.add('hidden');
+        function toggleExpiryInput() {
+            const status = document.getElementById('m_status').value;
+            const expiryInput = document.getElementById('m_expiry');
+            if(status === 'lifetime') {
+                expiryInput.disabled = true;
+                expiryInput.classList.add('opacity-30');
+                expiryInput.value = "";
+            } else {
+                expiryInput.disabled = false;
+                expiryInput.classList.remove('opacity-30');
+            }
         }
 
-        // CRUD Operations
-        async function saveUser() {
-            const newUser = {
-                device_id: document.getElementById('m_device_id').value,
-                expiry: document.getElementById('m_expiry').value,
-                key: document.getElementById('m_key').value,
-                status: document.getElementById('m_status').value
+        async function submitUserForm() {
+            const status = document.getElementById('m_status').value;
+            const userData = {
+                device_id: document.getElementById('m_device_id').value || "ANY",
+                status: status,
+                expiry: status === 'lifetime' ? 'unlimited' : document.getElementById('m_expiry').value,
+                key: document.getElementById('m_key').value || "SHIMUL-GEN-KEY"
             };
 
-            if (editingIndex === -1) {
-                fullData.auth_database.push(newUser);
+            if(editIndex === -1) {
+                masterData.auth_database.push(userData);
             } else {
-                fullData.auth_database[editingIndex] = newUser;
+                masterData.auth_database[editIndex] = userData;
             }
 
-            await syncWithFirebase();
+            await syncFirebase();
             closeUserModal();
         }
 
         async function deleteUser(index) {
-            const result = await Swal.fire({
-                title: 'আপনি কি নিশ্চিত?',
-                text: "ইউজার ডাটা চিরতরে মুছে যাবে!",
+            const confirm = await Swal.fire({
+                title: 'ডিলিট করতে চান?',
+                text: "এই ইউজারের অ্যাক্সেস বন্ধ হয়ে যাবে!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#334155',
-                confirmButtonText: 'হ্যাঁ, ডিলিট করুন!',
                 background: '#1e293b',
                 color: '#fff'
             });
 
-            if (result.isConfirmed) {
-                fullData.auth_database.splice(index, 1);
-                await syncWithFirebase();
+            if(confirm.isConfirmed) {
+                masterData.auth_database.splice(index, 1);
+                await syncFirebase();
             }
         }
 
-        async function updateGlobalConfig() {
-            fullData.global_config.global_instruction = document.getElementById('g_instruction').value;
-            fullData.global_config.global_key = document.getElementById('g_key').value;
-            await syncWithFirebase();
+        async function saveConfigs() {
+            masterData.global_config.global_key_enabled = document.getElementById('c_global_enabled').checked;
+            masterData.global_config.global_key = document.getElementById('c_global_key').value;
+            masterData.global_config.global_instruction = document.getElementById('c_global_instr').value;
+            masterData.app_config.title = document.getElementById('c_app_title').value;
+            masterData.app_config.buy_url = document.getElementById('c_buy_url').value;
+            masterData.app_config.logo_url = document.getElementById('c_logo_url').value;
+            await syncFirebase();
         }
 
-        async function syncWithFirebase() {
-            Swal.fire({ title: 'আপডেট হচ্ছে...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        async function syncFirebase() {
+            Swal.fire({ title: 'Updating Database...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             try {
-                await fetch(DB_URL, {
-                    method: 'PUT', // Firebase REST API updates entire path with PUT
-                    body: JSON.stringify(fullData)
+                const res = await fetch(DB_URL, {
+                    method: 'PUT',
+                    body: JSON.stringify(masterData)
                 });
-                Swal.fire({ icon: 'success', title: 'সাফল্যের সাথে সেভ হয়েছে!', timer: 1500, showConfirmButton: false });
-                renderDashboard();
+                if(res.ok) {
+                    Swal.fire({ icon: 'success', title: 'সাফল্যের সাথে আপডেট হয়েছে!', timer: 1500, showConfirmButton: false });
+                    renderUI();
+                }
             } catch (e) {
-                Swal.fire('Error', 'ডাটা আপডেট ব্যর্থ হয়েছে!', 'error');
+                Swal.fire('Error', 'ডাটাবেস সেভ হয়নি!', 'error');
             }
         }
+
+        // --- UTILS ---
+        function switchTab(tab) {
+            document.getElementById('sectionUsers').classList.toggle('hidden', tab !== 'users');
+            document.getElementById('sectionConfig').classList.toggle('hidden', tab !== 'config');
+            document.getElementById('tabUsers').classList.toggle('tab-active', tab === 'users');
+            document.getElementById('tabConfig').classList.toggle('tab-active', tab === 'config');
+            document.getElementById('tabUsers').classList.toggle('text-slate-400', tab !== 'users');
+            document.getElementById('tabConfig').classList.toggle('text-slate-400', tab !== 'config');
+        }
+
+        function filterUsers() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('#userGrid > div');
+            cards.forEach(card => {
+                const content = card.innerText.toLowerCase();
+                card.style.display = content.includes(term) ? 'block' : 'none';
+            });
+        }
+
+        function closeUserModal() { document.getElementById('userModal').classList.add('hidden'); }
     </script>
 </body>
 </html>
