@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSXD ULTIMATE PRO ADMIN</title>
+    <title>PSXD CYBER PANEL PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -12,242 +12,271 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Hind+Siliguri:wght@400;600;700&display=swap');
         
         :root {
-            --glass: rgba(15, 23, 42, 0.7);
-            --border: rgba(255, 255, 255, 0.1);
+            --accent: #3b82f6;
+            --glass: rgba(15, 23, 42, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         body {
             font-family: 'Outfit', 'Hind Siliguri', sans-serif;
-            background: radial-gradient(circle at top left, #1e293b, #0f172a, #020617);
+            background: #020617;
             color: #f1f5f9;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .glass-panel {
+        /* Background Animation */
+        .bg-animate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #020617);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-morphism {
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         }
 
-        .premium-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
+        .user-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.3), rgba(15, 23, 42, 0.5));
+            border-radius: 28px;
             border: 1px solid var(--border);
-            border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .premium-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        .user-card:hover {
+            transform: scale(1.02) translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
         }
 
         .lifetime-glow {
-            border-color: rgba(245, 158, 11, 0.5) !important;
-            box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.05), rgba(15, 23, 42, 0.5));
         }
 
-        .btn-gradient {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        .lifetime-glow::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .custom-input {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid var(--border) !important;
+            color: white !important;
             transition: 0.3s;
         }
+        .custom-input:focus { border-color: var(--accent) !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
 
-        .btn-gradient:hover {
-            filter: brightness(1.2);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
         }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-
-        .loader-ring {
-            width: 50px; height: 50px;
-            border: 4px solid #334155;
-            border-top-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        /* Floating Button for Mobile */
+        .fab-btn {
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 65px; height: 65px; border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex; items-center; justify-center;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+            z-index: 50; cursor: pointer; transition: 0.3s;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .copy-success { animation: bounceIn 0.5s; color: #10b981 !important; }
+        .fab-btn:hover { transform: scale(1.1) rotate(90deg); }
     </style>
 </head>
-<body class="p-0 m-0">
+<body>
 
-    <!-- LOGIN OVERLAY -->
-    <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#020617] p-4 hidden">
-        <div class="glass-panel p-8 w-full max-w-md animate__animated animate__fadeIn">
-            <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
-                    <i class="fas fa-shield-halved text-4xl text-white"></i>
+    <div class="bg-animate"></div>
+
+    <!-- LOGIN SHIELD -->
+    <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="glass-morphism p-10 rounded-[40px] w-full max-w-md animate__animated animate__zoomIn">
+            <div class="text-center mb-10">
+                <div class="w-24 h-24 bg-blue-600/20 rounded-[30px] flex items-center justify-center mx-auto mb-6 relative">
+                    <i class="fas fa-fingerprint text-5xl text-blue-500"></i>
+                    <div class="absolute inset-0 border-2 border-blue-500/30 rounded-[30px] animate-pulse"></div>
                 </div>
-                <h1 class="text-3xl font-bold text-white tracking-tight">Admin Portal</h1>
-                <p class="text-slate-400 mt-2">আপনার সিকিউরড অ্যাক্সেস ভেরিফাই করুন</p>
+                <h1 class="text-3xl font-black text-white tracking-tight">SYSTEM ACCESS</h1>
+                <p class="text-slate-400 mt-2 text-sm">Please verify your admin identity</p>
             </div>
-            <div class="space-y-5">
-                <div class="relative">
-                    <i class="fas fa-envelope absolute left-4 top-4 text-slate-500"></i>
-                    <input type="email" id="emailInput" class="w-full bg-slate-900/50 border border-slate-700 p-4 pl-12 rounded-2xl outline-none focus:border-blue-500 transition" placeholder="Admin Email">
-                </div>
-                <div class="relative">
-                    <i class="fas fa-key absolute left-4 top-4 text-slate-500"></i>
-                    <input type="password" id="passInput" class="w-full bg-slate-900/50 border border-slate-700 p-4 pl-12 rounded-2xl outline-none focus:border-blue-500 transition" placeholder="Password">
-                </div>
-                <button onclick="handleAuth()" class="w-full btn-gradient py-4 rounded-2xl font-bold text-lg shadow-xl shadow-blue-500/20 active:scale-95">Verify & Login</button>
+            <div class="space-y-6">
+                <input type="email" id="l_email" class="w-full custom-input p-5 rounded-2xl outline-none" placeholder="Admin Email">
+                <input type="password" id="l_pass" class="w-full custom-input p-5 rounded-2xl outline-none" placeholder="Secure Password">
+                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl shadow-2xl transition active:scale-95">Access Terminal</button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP CONTENT -->
-    <div id="mainApp" class="max-w-6xl mx-auto p-4 md:p-8 hidden">
+    <!-- MAIN DASHBOARD -->
+    <div id="dashboardSection" class="hidden min-h-screen">
         
-        <!-- Navbar -->
-        <header class="flex justify-between items-center mb-10 animate__animated animate__fadeInDown">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 glass-panel flex items-center justify-center overflow-hidden">
-                    <img id="appLogo" src="" class="w-full h-full object-cover">
+        <!-- Header -->
+        <header class="sticky top-0 z-40 p-6 flex justify-between items-center glass-morphism border-b border-white/5 mb-8">
+            <div class="flex items-center gap-5">
+                <div class="relative">
+                    <img id="navLogo" class="w-14 h-14 rounded-2xl object-cover border border-white/10 shadow-xl">
+                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-[#020617] rounded-full"></div>
                 </div>
                 <div>
-                    <h2 id="appTitle" class="text-xl font-bold text-white leading-none">Dashboard</h2>
-                    <span class="text-xs text-blue-400 font-bold tracking-widest uppercase">Premium Controller</span>
+                    <h2 id="navTitle" class="text-2xl font-black text-white leading-none">PSXD ADMIN</h2>
+                    <span class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Authorized Access Only</span>
                 </div>
             </div>
-            <button onclick="logout()" class="p-3 bg-red-500/10 text-red-500 rounded-2xl hover:bg-red-500 transition">
-                <i class="fas fa-power-off"></i>
-            </button>
+            <div class="flex items-center gap-3">
+                <button onclick="openConfig()" class="p-3 glass-morphism rounded-xl text-slate-400 hover:text-white transition">
+                    <i class="fas fa-sliders text-lg"></i>
+                </button>
+                <button onclick="logout()" class="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition">
+                    <i class="fas fa-power-off text-lg"></i>
+                </button>
+            </div>
         </header>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            <div class="glass-panel p-5 text-center">
-                <p class="text-xs font-bold text-slate-500 uppercase">Total Users</p>
-                <h3 id="statTotal" class="text-3xl font-bold mt-1">0</h3>
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Analytics Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-blue-500">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase">Total Nodes</p>
+                    <h3 id="st_total" class="text-3xl font-black mt-1">0</h3>
+                </div>
+                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-emerald-500">
+                    <p class="text-[10px] font-bold text-emerald-500 uppercase">Verified</p>
+                    <h3 id="st_active" class="text-3xl font-black mt-1">0</h3>
+                </div>
+                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-amber-500">
+                    <p class="text-[10px] font-bold text-amber-500 uppercase">Elite Status</p>
+                    <h3 id="st_life" class="text-3xl font-black mt-1">0</h3>
+                </div>
+                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-red-500">
+                    <p class="text-[10px] font-bold text-red-500 uppercase">Terminated</p>
+                    <h3 id="st_block" class="text-3xl font-black mt-1">0</h3>
+                </div>
             </div>
-            <div class="glass-panel p-5 text-center">
-                <p class="text-xs font-bold text-emerald-500 uppercase">Active</p>
-                <h3 id="statActive" class="text-3xl font-bold mt-1">0</h3>
+
+            <!-- Action Bar -->
+            <div class="flex flex-col md:flex-row gap-5 mb-10 items-center justify-between">
+                <div class="relative w-full md:w-[450px] group">
+                    <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition"></i>
+                    <input type="text" id="searchBar" oninput="liveSearch()" onpaste="liveSearch()" class="w-full glass-morphism py-5 pl-14 pr-6 rounded-[25px] outline-none text-sm tracking-wide" placeholder="Search by Node ID, License or Status...">
+                </div>
+                <div class="flex gap-4 w-full md:w-auto">
+                    <button onclick="fetchData()" class="p-5 glass-morphism rounded-2xl hover:bg-slate-800 transition"><i class="fas fa-sync-alt"></i></button>
+                    <button onclick="openEditor()" class="flex-1 md:flex-none px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/20 flex items-center justify-center gap-3"><i class="fas fa-plus"></i> NEW NODE</button>
+                </div>
             </div>
-            <div class="glass-panel p-5 text-center">
-                <p class="text-xs font-bold text-amber-500 uppercase">Lifetime</p>
-                <h3 id="statLife" class="text-3xl font-bold mt-1">0</h3>
-            </div>
-            <div class="glass-panel p-5 text-center">
-                <p class="text-xs font-bold text-red-500 uppercase">Blocked</p>
-                <h3 id="statBlock" class="text-3xl font-bold mt-1">0</h3>
+
+            <!-- User Grid -->
+            <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24 animate__animated animate__fadeInUp">
+                <!-- Data will load here -->
             </div>
         </div>
-
-        <!-- Controls Area -->
-        <div class="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
-            <div class="relative w-full md:w-96">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                <input type="text" id="searchBox" onkeyup="filterCards()" class="w-full glass-panel py-3 pl-12 pr-4 outline-none focus:border-blue-500" placeholder="Search Device ID or Key...">
-            </div>
-            <div class="flex w-full md:w-auto gap-3">
-                <button onclick="switchView('config')" class="flex-1 md:flex-none p-3 glass-panel hover:bg-slate-800 transition"><i class="fas fa-sliders mr-2"></i> Config</button>
-                <button onclick="openEditor()" class="flex-1 md:flex-none btn-gradient px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2"><i class="fas fa-plus"></i> New User</button>
-            </div>
-        </div>
-
-        <!-- Cards Display Area -->
-        <div id="userGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate__animated animate__fadeInUp">
-            <!-- Dynamic Cards Here -->
-        </div>
-
     </div>
 
-    <!-- MODAL: USER EDITOR -->
-    <div id="userModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-        <div class="glass-panel w-full max-w-lg p-8 animate__animated animate__zoomIn">
-            <h2 id="modalTitle" class="text-2xl font-bold mb-8">Edit User Intelligence</h2>
-            <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="col-span-2">
-                        <label class="text-xs font-bold text-slate-500 ml-1">DEVICE IDENTITY</label>
-                        <input id="m_device" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none uppercase font-mono mt-1">
-                    </div>
+    <!-- MODAL: EDITOR -->
+    <div id="editModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-xl p-4">
+        <div class="glass-morphism w-full max-w-xl p-10 rounded-[40px] animate__animated animate__zoomIn">
+            <h2 id="modalTitle" class="text-3xl font-black mb-10 text-white">MANAGE NODE</h2>
+            <div class="space-y-6">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Target Identity (Device ID)</label>
+                    <input id="m_device" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono uppercase tracking-widest">
+                </div>
+                <div class="grid grid-cols-2 gap-6">
                     <div>
-                        <label class="text-xs font-bold text-slate-500 ml-1">STATUS</label>
-                        <select id="m_status" onchange="checkStatus()" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none mt-1">
+                        <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Privilege Level</label>
+                        <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-5 rounded-2xl mt-2">
                             <option value="active">Active</option>
                             <option value="lifetime">Lifetime</option>
                             <option value="blocked">Blocked</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-500 ml-1">EXPIRY DATE</label>
-                        <input type="date" id="m_expiry" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none mt-1">
+                        <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Expiry Timeline</label>
+                        <input type="date" id="m_expiry" class="w-full custom-input p-5 rounded-2xl mt-2">
                     </div>
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-slate-500 ml-1">LICENSE KEY</label>
-                    <input id="m_key" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none font-mono mt-1">
+                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Cyber Key (License)</label>
+                    <input id="m_key" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono text-blue-400">
                 </div>
             </div>
-            <div class="flex gap-4 mt-8">
-                <button onclick="closeModal()" class="flex-1 p-4 rounded-2xl font-bold bg-slate-800 hover:bg-slate-700 transition">Cancel</button>
-                <button onclick="processSave()" class="flex-1 btn-gradient p-4 rounded-2xl font-bold">Save Data</button>
+            <div class="flex gap-5 mt-12">
+                <button onclick="closeModal()" class="flex-1 p-5 rounded-2xl font-bold bg-slate-800 text-slate-400 hover:bg-slate-700 transition">Discard</button>
+                <button onclick="saveChanges()" class="flex-[2] p-5 rounded-2xl font-bold bg-blue-600 text-white shadow-xl shadow-blue-600/20 active:scale-95 transition">Authorize Update</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: GLOBAL CONFIG -->
-    <div id="configModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-        <div class="glass-panel w-full max-w-2xl p-8 overflow-y-auto max-h-[90vh]">
-            <h2 class="text-2xl font-bold mb-8 flex items-center gap-3"><i class="fas fa-cogs text-blue-500"></i> Advanced System Settings</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <h4 class="font-bold text-blue-400 border-b border-slate-700 pb-2">App Config</h4>
-                    <div><label class="text-[10px] font-bold">APP TITLE</label><input id="c_title" class="w-full bg-slate-900 p-3 rounded-xl border border-slate-700 mt-1"></div>
-                    <div><label class="text-[10px] font-bold">LOGO URL</label><input id="c_logo" class="w-full bg-slate-900 p-3 rounded-xl border border-slate-700 mt-1"></div>
-                    <div><label class="text-[10px] font-bold">BUY URL (TELEGRAM)</label><input id="c_buy" class="w-full bg-slate-900 p-3 rounded-xl border border-slate-700 mt-1"></div>
+    <!-- MODAL: APP CONFIG -->
+    <div id="configModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
+        <div class="glass-morphism w-full max-w-3xl p-10 rounded-[40px] max-h-[90vh] overflow-y-auto">
+            <h2 class="text-3xl font-black mb-10 flex items-center gap-4 text-white"><i class="fas fa-terminal text-blue-500"></i> SYSTEM CORE SETTINGS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <h4 class="font-bold text-blue-400 border-b border-white/5 pb-3 uppercase tracking-widest text-xs">Primary Config</h4>
+                    <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl">
+                    <input id="c_logo" placeholder="Logo Link" class="w-full custom-input p-4 rounded-xl">
+                    <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl">
                 </div>
-                <div class="space-y-4">
-                    <h4 class="font-bold text-emerald-400 border-b border-slate-700 pb-2">Global Config</h4>
-                    <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-xl">
-                        <span class="text-sm font-bold">Global Access Switch</span>
-                        <input type="checkbox" id="c_global_on" class="w-6 h-6 rounded-md accent-blue-500">
+                <div class="space-y-6">
+                    <h4 class="font-bold text-emerald-400 border-b border-white/5 pb-3 uppercase tracking-widest text-xs">Broadcast Config</h4>
+                    <div class="flex items-center justify-between p-4 glass-morphism rounded-xl">
+                        <span class="text-sm font-bold text-slate-300">Global Switch</span>
+                        <input type="checkbox" id="c_gl_on" class="w-6 h-6 accent-blue-500">
                     </div>
-                    <div><label class="text-[10px] font-bold">GLOBAL FREE KEY</label><input id="c_global_key" class="w-full bg-slate-900 p-3 rounded-xl border border-slate-700 mt-1"></div>
-                    <div><label class="text-[10px] font-bold">GLOBAL INSTRUCTION</label><textarea id="c_global_msg" rows="3" class="w-full bg-slate-900 p-3 rounded-xl border border-slate-700 mt-1"></textarea></div>
+                    <input id="c_gl_key" placeholder="Global Access Key" class="w-full custom-input p-4 rounded-xl">
+                    <textarea id="c_gl_msg" placeholder="Global Announcement Message..." rows="3" class="w-full custom-input p-4 rounded-xl"></textarea>
                 </div>
             </div>
-            <div class="flex gap-4 mt-10">
-                <button onclick="switchView('close')" class="flex-1 p-4 rounded-2xl bg-slate-800 font-bold">Close</button>
-                <button onclick="saveConfigs()" class="flex-2 btn-gradient p-4 rounded-2xl font-bold">Apply Changes</button>
+            <div class="flex gap-5 mt-12">
+                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="flex-1 p-5 rounded-2xl bg-slate-800 font-bold">Back</button>
+                <button onclick="saveSystem()" class="flex-[2] p-5 rounded-2xl bg-emerald-600 text-white font-bold shadow-xl shadow-emerald-600/20">Apply Protocol</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- APP CONFIG ---
-        const DATABASE_URL = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
-        const ADMIN_CRED = { email: "admin@psxd.com", pass: "shimulxd" }; // Change as needed
+        // --- CONSTANTS ---
+        const DB_ENDPOINT = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
+        const ADM_USER = "admin@psxd.com"; // Edit this
+        const ADM_PASS = "shimulxd";      // Edit this
 
-        let store = null;
-        let editingIndex = -1;
+        let appData = null;
+        let activeIdx = -1;
 
-        // AUTH SYSTEM
+        // AUTH GUARD
         window.onload = () => {
-            if(localStorage.getItem('isLoggedIn') === 'true') {
-                showApp();
-            } else {
-                document.getElementById('loginPage').classList.remove('hidden');
+            if(localStorage.getItem('session_active') === 'true') {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                fetchData();
             }
         };
 
-        function handleAuth() {
-            const e = document.getElementById('emailInput').value;
-            const p = document.getElementById('passInput').value;
-            if(e === ADMIN_CRED.email && p === ADMIN_CRED.pass) {
-                localStorage.setItem('isLoggedIn', 'true');
-                showApp();
+        function handleLogin() {
+            const e = document.getElementById('l_email').value;
+            const p = document.getElementById('l_pass').value;
+            if(e === ADM_USER && p === ADM_PASS) {
+                localStorage.setItem('session_active', 'true');
+                location.reload();
             } else {
-                Swal.fire({ icon: 'error', title: 'Invalid Admin', background: '#0f172a', color: '#fff' });
+                Swal.fire({ icon: 'error', title: 'ACCESS DENIED', text: 'Unauthorized identity detected!', background: '#020617', color: '#fff' });
             }
         }
 
@@ -256,193 +285,192 @@
             location.reload();
         }
 
-        async function showApp() {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            fetchData();
-        }
-
-        // DATABASE OPERATIONS
+        // DATABASE OPS
         async function fetchData() {
             try {
-                const res = await fetch(DATABASE_URL);
-                store = await res.json();
-                refreshUI();
-            } catch(e) { 
-                Swal.fire('Error', 'Failed to connect database!', 'error'); 
-            }
+                const res = await fetch(DB_ENDPOINT);
+                appData = await res.json();
+                renderCards();
+            } catch(e) { Swal.fire('Error', 'Database Offline', 'error'); }
         }
 
-        function refreshUI() {
-            const grid = document.getElementById('userGrid');
-            const users = store.auth_database || [];
+        function renderCards() {
+            const grid = document.getElementById('userContainer');
+            const users = [...(appData.auth_database || [])]; // Reverse copy for "Newest First" logic if needed
             grid.innerHTML = "";
 
-            // Stats
-            document.getElementById('statTotal').innerText = users.length;
-            document.getElementById('statActive').innerText = users.filter(u => u.status === 'active').length;
-            document.getElementById('statLife').innerText = users.filter(u => u.status === 'lifetime').length;
-            document.getElementById('statBlock').innerText = users.filter(u => u.status === 'blocked').length;
+            // Statistics Update
+            document.getElementById('st_total').innerText = users.length;
+            document.getElementById('st_active').innerText = users.filter(u => u.status === 'active').length;
+            document.getElementById('st_life').innerText = users.filter(u => u.status === 'lifetime').length;
+            document.getElementById('st_block').innerText = users.filter(u => u.status === 'blocked').length;
             
-            // Navbar
-            document.getElementById('appLogo').src = store.app_config.logo_url;
-            document.getElementById('appTitle').innerText = store.app_config.title;
+            // Branding Update
+            document.getElementById('navLogo').src = appData.app_config.logo_url;
+            document.getElementById('navTitle').innerText = appData.app_config.title;
 
-            users.forEach((user, idx) => {
+            users.forEach((user, i) => {
                 const isLife = user.status === 'lifetime';
-                const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (user.status === 'blocked' ? 'text-red-400 bg-red-400/10' : 'text-emerald-400 bg-emerald-400/10');
+                const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (user.status === 'blocked' ? 'text-red-500 bg-red-500/10' : 'text-emerald-400 bg-emerald-400/10');
                 
-                const card = `
-                    <div class="premium-card p-6 relative group overflow-hidden ${isLife ? 'lifetime-glow' : ''}">
-                        ${isLife ? '<div class="absolute -right-6 -top-6 w-16 h-16 bg-amber-500 rotate-45 flex items-end justify-center pb-1"><i class="fas fa-crown text-white text-xs"></i></div>' : ''}
-                        
-                        <div class="flex justify-between items-start mb-5">
-                            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${sColor}">${user.status}</span>
-                            <div class="flex gap-3">
-                                <button onclick="openEditor(${idx})" class="text-blue-400 hover:text-white transition"><i class="fas fa-user-edit"></i></button>
-                                <button onclick="deleteUser(${idx})" class="text-red-500 hover:text-white transition"><i class="fas fa-trash-alt"></i></button>
+                const cardHtml = `
+                    <div class="user-card p-8 group ${isLife ? 'lifetime-glow' : ''}">
+                        <div class="flex justify-between items-start mb-8">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full ${user.status === 'blocked' ? 'bg-red-500' : 'bg-emerald-500'} shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                                <span class="text-[11px] font-black uppercase tracking-widest ${sColor} px-3 py-1 rounded-lg">${user.status}</span>
+                            </div>
+                            <div class="flex gap-4 opacity-40 group-hover:opacity-100 transition-opacity">
+                                <button onclick="openEditor(${i})" class="text-blue-400 hover:text-white"><i class="fas fa-pen-nib text-lg"></i></button>
+                                <button onclick="removeNode(${i})" class="text-red-500 hover:text-white"><i class="fas fa-trash-alt text-lg"></i></button>
                             </div>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-6">
                             <div>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Device ID</p>
-                                <p class="font-mono text-white text-sm truncate">${user.device_id}</p>
+                                <div class="flex justify-between items-end mb-2">
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">NODE IDENTITY</p>
+                                    <button onclick="copy('${user.device_id}', this)" class="text-[10px] text-slate-600 hover:text-blue-400 transition"><i class="fas fa-copy"></i></button>
+                                </div>
+                                <p class="font-mono text-white text-lg font-bold truncate tracking-widest">${user.device_id}</p>
                             </div>
-                            <div class="flex justify-between items-end gap-2">
-                                <div class="flex-1 overflow-hidden">
-                                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Security Key</p>
-                                    <div class="flex items-center gap-2 bg-slate-950 p-2 rounded-lg border border-slate-800">
-                                        <p class="text-[11px] font-mono text-blue-300 truncate">${user.key}</p>
-                                        <button onclick="copyToClipboard('${user.key}', this)" class="text-slate-500 hover:text-emerald-400 transition-all"><i class="fas fa-copy"></i></button>
-                                    </div>
+
+                            <div>
+                                <div class="flex justify-between items-end mb-2">
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase">ACCESS KEY</p>
+                                    <button onclick="copy('${user.key}', this)" class="text-[10px] text-slate-600 hover:text-emerald-400 transition"><i class="fas fa-link"></i></button>
                                 </div>
-                                <div class="text-right">
-                                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Expires</p>
-                                    <p class="text-xs font-bold ${isLife ? 'text-amber-500' : 'text-slate-300'}">${isLife ? 'UNLIMITED' : user.expiry}</p>
+                                <div class="bg-slate-950/80 p-3 rounded-xl border border-white/5 font-mono text-[11px] text-blue-300 truncate tracking-wider">${user.key}</div>
+                            </div>
+
+                            <div class="pt-4 border-t border-white/5 flex justify-between items-center">
+                                <div>
+                                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">VALID UNTIL</p>
+                                    <p class="text-xs font-black ${isLife ? 'text-amber-500' : 'text-slate-200'}">${isLife ? '<i class="fas fa-infinity mr-1"></i> ELITE LIFETIME' : user.expiry}</p>
                                 </div>
+                                ${isLife ? '<i class="fas fa-crown text-amber-500 text-xl drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]"></i>' : ''}
                             </div>
                         </div>
                     </div>
                 `;
-                grid.innerHTML += card;
+                grid.innerHTML += cardHtml;
             });
         }
 
-        // CRUD HELPERS
+        // ACTIONS
         function openEditor(idx = -1) {
-            editingIndex = idx;
-            const modal = document.getElementById('userModal');
-            document.getElementById('modalTitle').innerText = idx === -1 ? 'Provision New Device' : 'Override User Protocol';
-            
+            activeIdx = idx;
+            document.getElementById('modalTitle').innerText = idx === -1 ? "DEPLOY NEW NODE" : "MODIFY PROTOCOL";
             if(idx !== -1) {
-                const u = store.auth_database[idx];
+                const u = appData.auth_database[idx];
                 document.getElementById('m_device').value = u.device_id;
                 document.getElementById('m_status').value = u.status;
                 document.getElementById('m_key').value = u.key;
                 document.getElementById('m_expiry').value = u.expiry === 'unlimited' ? '' : u.expiry;
             } else {
-                document.querySelectorAll('#userModal input').forEach(i => i.value = "");
+                document.querySelectorAll('#editModal input').forEach(i => i.value = "");
                 document.getElementById('m_status').value = 'active';
             }
-            checkStatus();
-            modal.classList.remove('hidden');
+            toggleDate();
+            document.getElementById('editModal').classList.remove('hidden');
         }
 
-        function checkStatus() {
-            const s = document.getElementById('m_status').value;
+        function toggleDate() {
+            const isLife = document.getElementById('m_status').value === 'lifetime';
             const exp = document.getElementById('m_expiry');
-            if(s === 'lifetime') { exp.disabled = true; exp.style.opacity = '0.3'; }
-            else { exp.disabled = false; exp.style.opacity = '1'; }
+            exp.disabled = isLife;
+            exp.style.opacity = isLife ? '0.2' : '1';
         }
 
-        async function processSave() {
+        async function saveChanges() {
             const s = document.getElementById('m_status').value;
-            const obj = {
+            const nodeObj = {
                 device_id: document.getElementById('m_device').value || "ANY",
                 status: s,
                 expiry: s === 'lifetime' ? 'unlimited' : document.getElementById('m_expiry').value,
-                key: document.getElementById('m_key').value || "GEN-KEY-" + Math.random().toString(36).substr(2, 5).toUpperCase()
+                key: document.getElementById('m_key').value || ("KEY-" + Math.random().toString(36).substr(2, 6).toUpperCase())
             };
 
-            if(editingIndex === -1) store.auth_database.push(obj);
-            else store.auth_database[editingIndex] = obj;
+            if(activeIdx === -1) {
+                appData.auth_database.unshift(nodeObj); // Add to the TOP
+            } else {
+                appData.auth_database[activeIdx] = nodeObj;
+            }
 
-            await syncData();
+            await sync();
             closeModal();
         }
 
-        async function deleteUser(idx) {
-            const res = await Swal.fire({
-                title: 'Terminate Access?',
-                text: "This action cannot be undone!",
+        async function removeNode(idx) {
+            const confirm = await Swal.fire({
+                title: 'TERMINATE NODE?',
+                text: "Access will be permanently revoked!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#ef4444',
-                background: '#0f172a', color: '#fff'
+                background: '#020617', color: '#fff'
             });
-            if(res.isConfirmed) {
-                store.auth_database.splice(idx, 1);
-                await syncData();
+            if(confirm.isConfirmed) {
+                appData.auth_database.splice(idx, 1);
+                await sync();
             }
         }
 
-        async function saveConfigs() {
-            store.app_config.title = document.getElementById('c_title').value;
-            store.app_config.logo_url = document.getElementById('c_logo').value;
-            store.app_config.buy_url = document.getElementById('c_buy').value;
-            store.global_config.global_key_enabled = document.getElementById('c_global_on').checked;
-            store.global_config.global_key = document.getElementById('c_global_key').value;
-            store.global_config.global_instruction = document.getElementById('c_global_msg').value;
-            
-            await syncData();
-            switchView('close');
+        async function saveSystem() {
+            appData.app_config.title = document.getElementById('c_title').value;
+            appData.app_config.logo_url = document.getElementById('c_logo').value;
+            appData.app_config.buy_url = document.getElementById('c_buy').value;
+            appData.global_config.global_key_enabled = document.getElementById('c_gl_on').checked;
+            appData.global_config.global_key = document.getElementById('c_gl_key').value;
+            appData.global_config.global_instruction = document.getElementById('c_gl_msg').value;
+            await sync();
+            document.getElementById('configModal').classList.add('hidden');
         }
 
-        async function syncData() {
-            Swal.fire({ title: 'Syncing...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        async function sync() {
+            Swal.fire({ title: 'Syncing Data...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             try {
-                const response = await fetch(DATABASE_URL, { method: 'PUT', body: JSON.stringify(store) });
-                if(response.ok) {
-                    Swal.fire({ icon: 'success', title: 'Intelligence Synced!', timer: 1000, showConfirmButton: false });
-                    refreshUI();
+                const res = await fetch(DB_ENDPOINT, { method: 'PUT', body: JSON.stringify(appData) });
+                if(res.ok) {
+                    Swal.fire({ icon: 'success', title: 'SYNC SUCCESS', timer: 1000, showConfirmButton: false, background: '#020617' });
+                    renderCards();
                 }
-            } catch(e) { Swal.fire('Error', 'Synchronization Failed', 'error'); }
+            } catch(e) { Swal.fire('Error', 'Sync Failure!', 'error'); }
         }
 
-        // UI HELPERS
-        function closeModal() { document.getElementById('userModal').classList.add('hidden'); }
-        
-        function switchView(mode) {
-            const m = document.getElementById('configModal');
-            if(mode === 'config') {
-                document.getElementById('c_title').value = store.app_config.title;
-                document.getElementById('c_logo').value = store.app_config.logo_url;
-                document.getElementById('c_buy').value = store.app_config.buy_url;
-                document.getElementById('c_global_on').checked = store.global_config.global_key_enabled;
-                document.getElementById('c_global_key').value = store.global_config.global_key;
-                document.getElementById('c_global_msg').value = store.global_config.global_instruction;
-                m.classList.remove('hidden');
-            } else m.classList.add('hidden');
+        // UTILS
+        function liveSearch() {
+            // Enhanced search that runs on input or paste instantly
+            setTimeout(() => {
+                const val = document.getElementById('searchBar').value.toLowerCase();
+                const cards = document.querySelectorAll('#userContainer > div');
+                cards.forEach(c => {
+                    c.style.display = c.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+                });
+            }, 10);
         }
 
-        function filterCards() {
-            const val = document.getElementById('searchBox').value.toLowerCase();
-            const cards = document.querySelectorAll('#userGrid > div');
-            cards.forEach(c => {
-                c.style.display = c.innerText.toLowerCase().includes(val) ? 'block' : 'none';
-            });
-        }
-
-        function copyToClipboard(text, btn) {
+        function copy(text, btn) {
             navigator.clipboard.writeText(text);
             const icon = btn.querySelector('i');
-            icon.classList.remove('fa-copy');
-            icon.classList.add('fa-check', 'copy-success');
+            icon.classList.replace('fa-copy', 'fa-check');
+            icon.classList.replace('fa-link', 'fa-check');
             setTimeout(() => {
-                icon.classList.remove('fa-check', 'copy-success');
-                icon.classList.add('fa-copy');
+                icon.classList.replace('fa-check', 'fa-copy');
+                icon.classList.replace('fa-check', 'fa-link');
             }, 1500);
+        }
+
+        function closeModal() { document.getElementById('editModal').classList.add('hidden'); }
+        
+        function openConfig() {
+            document.getElementById('c_title').value = appData.app_config.title;
+            document.getElementById('c_logo').value = appData.app_config.logo_url;
+            document.getElementById('c_buy').value = appData.app_config.buy_url;
+            document.getElementById('c_gl_on').checked = appData.global_config.global_key_enabled;
+            document.getElementById('c_gl_key').value = appData.global_config.global_key;
+            document.getElementById('c_gl_msg').value = appData.global_config.global_instruction;
+            document.getElementById('configModal').classList.remove('hidden');
         }
     </script>
 </body>
