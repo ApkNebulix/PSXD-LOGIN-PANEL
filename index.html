@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSXD Premium Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+        body { font-family: 'Hind Siliguri', sans-serif; background: #0f172a; color: white; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .loader { border-top-color: #38bdf8; animation: spinner 1.5s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="min-h-screen pb-10">
+
+    <!-- Login Overlay -->
+    <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900">
+        <div class="glass-card p-8 rounded-2xl w-full max-w-md text-center shadow-2xl mx-4">
+            <i class="fas fa-user-shield text-5xl mb-4 text-blue-400"></i>
+            <h2 class="text-2xl font-bold mb-6">এডমিন লগইন</h2>
+            <input type="password" id="adminPass" placeholder="গোপন পাসওয়ার্ড দিন" class="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 mb-4 focus:ring-2 focus:ring-blue-500 outline-none">
+            <button onclick="checkLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all">প্রবেশ করুন</button>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden initially) -->
+    <div id="adminPanel" class="hidden">
+        <!-- Navbar -->
+        <nav class="glass-card sticky top-0 z-40 px-6 py-4 flex justify-between items-center mb-8 border-b border-slate-700">
+            <h1 class="text-xl font-bold gradient-text"><i class="fas fa-fire-alt mr-2"></i>PSXD ADMIN</h1>
+            <div class="flex items-center gap-4">
+                <button onclick="fetchData()" class="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="logout()" class="text-red-400 hover:text-red-300 font-semibold">লগআউট</button>
+            </div>
+        </nav>
+
+        <div class="container mx-auto px-4">
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="glass-card p-4 rounded-xl text-center">
+                    <p class="text-slate-400 text-sm">মোট ইউজার</p>
+                    <h3 id="totalUsers" class="text-2xl font-bold text-blue-400">0</h3>
+                </div>
+                <div class="glass-card p-4 rounded-xl text-center">
+                    <p class="text-slate-400 text-sm">একটিভ</p>
+                    <h3 id="activeUsers" class="text-2xl font-bold text-green-400">0</h3>
+                </div>
+                <div class="glass-card p-4 rounded-xl text-center">
+                    <p class="text-slate-400 text-sm">ব্লকড</p>
+                    <h3 id="blockedUsers" class="text-2xl font-bold text-red-400">0</h3>
+                </div>
+                <div class="glass-card p-4 rounded-xl text-center">
+                    <p class="text-slate-400 text-sm">লাইফটাইম</p>
+                    <h3 id="lifetimeUsers" class="text-2xl font-bold text-purple-400">0</h3>
+                </div>
+            </div>
+
+            <!-- Global Config Card -->
+            <div class="glass-card p-6 rounded-2xl mb-8 border-l-4 border-blue-500">
+                <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fas fa-cog"></i> গ্লোবাল কনফিগ আপডেট</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input id="g_instruction" type="text" placeholder="Global Instruction" class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+                    <input id="g_key" type="text" placeholder="Global Free Key" class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+                </div>
+                <button onclick="updateGlobalConfig()" class="mt-4 bg-blue-600 px-6 py-2 rounded-lg hover:bg-blue-700 font-bold transition">সেভ করুন</button>
+            </div>
+
+            <!-- User Database Section -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">ইউজার ডাটাবেস</h2>
+                <button onclick="openUserModal()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center gap-2">
+                    <i class="fas fa-plus"></i> নতুন ইউজার
+                </button>
+            </div>
+
+            <!-- Cards Container -->
+            <div id="userGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Loading Animation -->
+                <div class="col-span-full flex flex-col items-center py-20">
+                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-slate-700 h-12 w-12 mb-4"></div>
+                    <p>ডাটা লোড হচ্ছে বন্ধু...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit/Add Modal (Hidden) -->
+    <div id="userModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-80 p-4">
+        <div class="glass-card w-full max-w-lg p-6 rounded-2xl animate__animated animate__fadeInUp">
+            <h3 id="modalTitle" class="text-xl font-bold mb-6">ইউজার এডিট করুন</h3>
+            <div class="space-y-4">
+                <div><label class="text-xs text-slate-400">Device ID</label><input id="m_device_id" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none"></div>
+                <div><label class="text-xs text-slate-400">Expiry Date (YYYY-MM-DD)</label><input id="m_expiry" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none"></div>
+                <div><label class="text-xs text-slate-400">Key</label><input id="m_key" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none"></div>
+                <div><label class="text-xs text-slate-400">Status</label>
+                    <select id="m_status" class="w-full bg-slate-800 p-3 rounded-lg border border-slate-700 outline-none">
+                        <option value="active text-green-400">active</option>
+                        <option value="blocked text-red-400">blocked</option>
+                        <option value="lifetime text-purple-400">lifetime</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex gap-4 mt-8">
+                <button onclick="closeUserModal()" class="flex-1 bg-slate-700 py-3 rounded-lg font-bold">বাতিল</button>
+                <button id="saveBtn" onclick="saveUser()" class="flex-1 bg-blue-600 py-3 rounded-lg font-bold">সেভ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const DB_URL = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
+        const ADMIN_PASSWORD = "123"; // বন্ধু, এখানে তোমার পছন্দমতো পাসওয়ার্ড দাও
+
+        let fullData = null;
+        let editingIndex = -1;
+
+        // Login Check
+        function checkLogin() {
+            const pass = document.getElementById('adminPass').value;
+            if (pass === ADMIN_PASSWORD) {
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                fetchData();
+            } else {
+                Swal.fire({ icon: 'error', title: 'ভুল পাসওয়ার্ড!', background: '#1e293b', color: '#fff' });
+            }
+        }
+
+        function logout() { location.reload(); }
+
+        // Fetch Data
+        async function fetchData() {
+            try {
+                const response = await fetch(DB_URL);
+                fullData = await response.json();
+                renderDashboard();
+            } catch (error) {
+                Swal.fire('Error', 'ডাটা লোড করতে সমস্যা হয়েছে!', 'error');
+            }
+        }
+
+        function renderDashboard() {
+            const userGrid = document.getElementById('userGrid');
+            const authDB = fullData.auth_database || [];
+            userGrid.innerHTML = "";
+
+            // Update Stats
+            document.getElementById('totalUsers').innerText = authDB.length;
+            document.getElementById('activeUsers').innerText = authDB.filter(u => u.status === 'active').length;
+            document.getElementById('blockedUsers').innerText = authDB.filter(u => u.status === 'blocked').length;
+            document.getElementById('lifetimeUsers').innerText = authDB.filter(u => u.status === 'lifetime').length;
+
+            // Global Config Form
+            document.getElementById('g_instruction').value = fullData.global_config.global_instruction;
+            document.getElementById('g_key').value = fullData.global_config.global_key;
+
+            // Render Cards
+            authDB.forEach((user, index) => {
+                const statusColor = user.status === 'active' ? 'bg-green-500/20 text-green-400' : 
+                                    user.status === 'blocked' ? 'bg-red-500/20 text-red-400' : 'bg-purple-500/20 text-purple-400';
+                
+                const card = `
+                    <div class="glass-card p-5 rounded-2xl relative overflow-hidden transition-all hover:scale-[1.02] border-t-4 ${user.status === 'active' ? 'border-green-500' : user.status === 'blocked' ? 'border-red-500' : 'border-purple-500'}">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase ${statusColor}">${user.status}</span>
+                            <div class="flex gap-2">
+                                <button onclick="openUserModal(${index})" class="text-blue-400 hover:text-blue-300"><i class="fas fa-edit"></i></button>
+                                <button onclick="deleteUser(${index})" class="text-red-400 hover:text-red-300"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                        <h4 class="text-slate-400 text-xs uppercase mb-1">Device ID</h4>
+                        <p class="font-mono text-sm mb-4 truncate">${user.device_id}</p>
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <p class="text-slate-400 text-[10px] uppercase">Expiry</p>
+                                <p class="text-sm font-semibold text-slate-200">${user.expiry}</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-400 text-[10px] uppercase">Login Key</p>
+                                <p class="text-xs font-mono font-semibold text-blue-300 truncate">${user.key}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                userGrid.innerHTML += card;
+            });
+        }
+
+        // Modal Controls
+        function openUserModal(index = -1) {
+            editingIndex = index;
+            const modal = document.getElementById('userModal');
+            document.getElementById('modalTitle').innerText = index === -1 ? 'নতুন ইউজার যোগ করুন' : 'ইউজার ডাটা এডিট';
+            
+            if (index !== -1) {
+                const user = fullData.auth_database[index];
+                document.getElementById('m_device_id').value = user.device_id;
+                document.getElementById('m_expiry').value = user.expiry;
+                document.getElementById('m_key').value = user.key;
+                document.getElementById('m_status').value = user.status;
+            } else {
+                document.querySelectorAll('#userModal input').forEach(i => i.value = "");
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.add('hidden');
+        }
+
+        // CRUD Operations
+        async function saveUser() {
+            const newUser = {
+                device_id: document.getElementById('m_device_id').value,
+                expiry: document.getElementById('m_expiry').value,
+                key: document.getElementById('m_key').value,
+                status: document.getElementById('m_status').value
+            };
+
+            if (editingIndex === -1) {
+                fullData.auth_database.push(newUser);
+            } else {
+                fullData.auth_database[editingIndex] = newUser;
+            }
+
+            await syncWithFirebase();
+            closeUserModal();
+        }
+
+        async function deleteUser(index) {
+            const result = await Swal.fire({
+                title: 'আপনি কি নিশ্চিত?',
+                text: "ইউজার ডাটা চিরতরে মুছে যাবে!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#334155',
+                confirmButtonText: 'হ্যাঁ, ডিলিট করুন!',
+                background: '#1e293b',
+                color: '#fff'
+            });
+
+            if (result.isConfirmed) {
+                fullData.auth_database.splice(index, 1);
+                await syncWithFirebase();
+            }
+        }
+
+        async function updateGlobalConfig() {
+            fullData.global_config.global_instruction = document.getElementById('g_instruction').value;
+            fullData.global_config.global_key = document.getElementById('g_key').value;
+            await syncWithFirebase();
+        }
+
+        async function syncWithFirebase() {
+            Swal.fire({ title: 'আপডেট হচ্ছে...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            try {
+                await fetch(DB_URL, {
+                    method: 'PUT', // Firebase REST API updates entire path with PUT
+                    body: JSON.stringify(fullData)
+                });
+                Swal.fire({ icon: 'success', title: 'সাফল্যের সাথে সেভ হয়েছে!', timer: 1500, showConfirmButton: false });
+                renderDashboard();
+            } catch (e) {
+                Swal.fire('Error', 'ডাটা আপডেট ব্যর্থ হয়েছে!', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
