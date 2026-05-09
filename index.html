@@ -3,1518 +3,1705 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSXD CYBER PANEL PRO V2</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>PSXD CYBER PANEL PRO</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Hind+Siliguri:wght@400;600;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
         :root {
-            --primary: #3b82f6;
-            --secondary: #8b5cf6;
-            --accent: #06b6d4;
-            --glass-bg: rgba(15, 23, 42, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --card-bg: rgba(30, 41, 59, 0.4);
+            --accent: #3b82f6;
+            --accent2: #8b5cf6;
+            --accent3: #06b6d4;
+            --glass: rgba(15, 23, 42, 0.75);
+            --glass-strong: rgba(15, 23, 42, 0.9);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.14);
+            --glow-blue: rgba(59, 130, 246, 0.3);
+            --glow-purple: rgba(139, 92, 246, 0.25);
+            --glow-amber: rgba(245, 158, 11, 0.3);
+            --radius-xl: 24px;
+            --radius-2xl: 32px;
+            --radius-3xl: 40px;
+            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.65);
+            --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
             font-family: 'Outfit', 'Hind Siliguri', sans-serif;
             background: #020617;
             color: #f1f5f9;
+            min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Animated Background */
-        .animated-bg {
+        /* ============ MOTION BLUR BACKGROUND ORBS ============ */
+        .bg-orbs-layer {
             position: fixed;
-            inset: 0;
-            background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #312e81, #020617);
-            background-size: 400% 400%;
-            animation: gradientFlow 20s ease infinite;
-            z-index: -2;
-        }
-
-        .particles {
-            position: fixed;
-            inset: 0;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, rgba(59, 130, 246, 0.3), transparent),
-                radial-gradient(2px 2px at 60% 70%, rgba(139, 92, 246, 0.3), transparent),
-                radial-gradient(1px 1px at 50% 50%, rgba(6, 182, 212, 0.2), transparent),
-                radial-gradient(1px 1px at 80% 10%, rgba(59, 130, 246, 0.2), transparent);
-            background-size: 200% 200%;
-            animation: particleFloat 15s ease infinite;
-            z-index: -1;
-        }
-
-        @keyframes gradientFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes particleFloat {
-            0%, 100% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-        }
-
-        /* Glass Morphism */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                0 8px 32px 0 rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: 0.5s;
-        }
-
-        .glass-card:hover::before {
-            left: 100%;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 
-                0 20px 60px -15px rgba(59, 130, 246, 0.3),
-                0 0 0 1px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Motion Blur Effect */
-        .motion-blur {
-            filter: blur(0px);
-            transition: filter 0.3s ease;
-        }
-
-        .motion-blur:active {
-            filter: blur(2px);
-        }
-
-        /* Lifetime Glow */
-        .lifetime-card {
-            background: linear-gradient(145deg, rgba(245, 158, 11, 0.1), var(--card-bg));
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            box-shadow: 0 0 30px rgba(245, 158, 11, 0.2);
-        }
-
-        .lifetime-card::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            background: linear-gradient(45deg, transparent, rgba(245, 158, 11, 0.1), transparent);
-            border-radius: 24px;
-            z-index: -1;
-            animation: borderGlow 3s linear infinite;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* Custom Input */
-        .custom-input {
-            background: rgba(15, 23, 42, 0.7) !important;
-            border: 1px solid var(--glass-border) !important;
-            color: white !important;
-            transition: all 0.3s ease;
-        }
-
-        .custom-input:focus {
-            border-color: var(--primary) !important;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-            background: rgba(15, 23, 42, 0.9) !important;
-        }
-
-        /* Tab System */
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab-btn::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
             left: 0;
             width: 100%;
-            height: 3px;
-            background: var(--primary);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .tab-btn.active::before {
-            transform: scaleX(1);
-        }
-
-        .tab-btn.active {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-        }
-
-        /* Stats Animation */
-        .stat-number {
-            font-variant-numeric: tabular-nums;
-            animation: countUp 1s ease-out;
-        }
-
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Pulse Animation */
-        .pulse-dot {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Loading Shimmer */
-        .shimmer {
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.08), 
-                transparent
-            );
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(59, 130, 246, 0.5);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(59, 130, 246, 0.7);
-        }
-
-        /* Floating Action Button */
-        .fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 40;
-        }
-
-        .fab:hover {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
-        }
-
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-        }
-
-        .tooltip::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 0.5rem 1rem;
-            background: rgba(15, 23, 42, 0.95);
-            color: white;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
+            height: 100%;
             pointer-events: none;
-            transition: opacity 0.3s;
-            border: 1px solid var(--glass-border);
+            z-index: -2;
+        }
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.45;
+            will-change: transform;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+        }
+        .bg-orb-1 {
+            width: 55vw;
+            height: 55vw;
+            max-width: 700px;
+            max-height: 700px;
+            background: #3b82f6;
+            top: -15%;
+            left: -10%;
+            animation-name: orbFloat1;
+            animation-duration: 18s;
+        }
+        .bg-orb-2 {
+            width: 45vw;
+            height: 45vw;
+            max-width: 550px;
+            max-height: 550px;
+            background: #8b5cf6;
+            top: 40%;
+            right: -12%;
+            animation-name: orbFloat2;
+            animation-duration: 22s;
+        }
+        .bg-orb-3 {
+            width: 38vw;
+            height: 38vw;
+            max-width: 480px;
+            max-height: 480px;
+            background: #06b6d4;
+            bottom: -18%;
+            left: 25%;
+            animation-name: orbFloat3;
+            animation-duration: 20s;
+        }
+        .bg-orb-4 {
+            width: 30vw;
+            height: 30vw;
+            max-width: 350px;
+            max-height: 350px;
+            background: #f59e0b;
+            top: 55%;
+            left: 55%;
+            animation-name: orbFloat4;
+            animation-duration: 24s;
+            opacity: 0.25;
         }
 
-        .tooltip:hover::after {
-            opacity: 1;
+        @keyframes orbFloat1 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(8vw, 6vh) scale(1.15);
+            }
+            50% {
+                transform: translate(-3vw, 12vh) scale(0.9);
+            }
+            75% {
+                transform: translate(5vw, -4vh) scale(1.08);
+            }
         }
-
-        /* Badge */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        @keyframes orbFloat2 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(-7vw, -8vh) scale(1.12);
+            }
+            66% {
+                transform: translate(4vw, 10vh) scale(0.88);
+            }
         }
-
-        /* Status Colors */
-        .status-active { 
-            background: rgba(16, 185, 129, 0.15); 
-            color: #10b981; 
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        @keyframes orbFloat3 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            30% {
+                transform: translate(6vw, -7vh) scale(1.1);
+            }
+            60% {
+                transform: translate(-5vw, 5vh) scale(0.92);
+            }
         }
-        .status-lifetime { 
-            background: rgba(245, 158, 11, 0.15); 
-            color: #f59e0b; 
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-        .status-blocked { 
-            background: rgba(239, 68, 68, 0.15); 
-            color: #ef4444; 
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .fab {
-                bottom: 1rem;
-                right: 1rem;
-                width: 56px;
-                height: 56px;
+        @keyframes orbFloat4 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            40% {
+                transform: translate(-6vw, -5vh) scale(1.18);
+            }
+            80% {
+                transform: translate(3vw, 8vh) scale(0.85);
             }
         }
 
-        /* Print Styles */
-        @media print {
-            .no-print { display: none !important; }
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.03;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* ============ GLASS MORPHISM ============ */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-card);
+        }
+        .glass-strong {
+            background: var(--glass-strong);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--shadow-card);
+        }
+        .glass-subtle {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+        }
+
+        /* ============ CARDS ============ */
+        .user-card {
+            background: linear-gradient(150deg, rgba(30, 41, 59, 0.55), rgba(15, 23, 42, 0.7));
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            transition: all 0.5s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .user-card:hover {
+            transform: translateY(-6px) scale(1.015);
+            border-color: rgba(59, 130, 246, 0.45);
+            box-shadow: var(--shadow-hover), 0 0 60px rgba(59, 130, 246, 0.08);
+        }
+        .user-card:active {
+            transform: scale(0.985);
+            transition: all 0.15s var(--transition-smooth);
+        }
+        .user-card.lifetime-card {
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            background: linear-gradient(150deg, rgba(245, 158, 11, 0.08), rgba(30, 41, 59, 0.5));
+        }
+        .user-card.lifetime-card::after {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.07) 0%, transparent 65%);
+            pointer-events: none;
+            border-radius: inherit;
+            animation: lifetimeShimmer 4s ease-in-out infinite;
+        }
+        @keyframes lifetimeShimmer {
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+        }
+        .user-card.blocked-card {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            opacity: 0.85;
+        }
+        .user-card.blocked-card:hover {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: var(--shadow-hover), 0 0 40px rgba(239, 68, 68, 0.06);
+        }
+
+        /* ============ INPUTS ============ */
+        .custom-input {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid var(--border) !important;
+            color: #f1f5f9 !important;
+            transition: all 0.3s var(--transition-smooth);
+            font-family: 'Outfit', sans-serif;
+            outline: none !important;
+        }
+        .custom-input:focus {
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2), 0 0 0 4px rgba(59, 130, 246, 0.06) !important;
+            background: rgba(15, 23, 42, 0.8) !important;
+        }
+        .custom-input::placeholder {
+            color: #64748b;
+            font-weight: 400;
+        }
+        select.custom-input {
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 16px center !important;
+            padding-right: 40px !important;
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.35s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 14px 40px rgba(37, 99, 235, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: scale(0.96);
+            transition: all 0.1s var(--transition-smooth);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.35s var(--transition-smooth);
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.3);
+        }
+        .btn-danger:hover {
+            box-shadow: 0 14px 40px rgba(220, 38, 38, 0.45);
+            transform: translateY(-2px);
+        }
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            font-weight: 600;
+        }
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--border-strong);
+            color: #f1f5f9;
+        }
+
+        /* ============ TAB SYSTEM ============ */
+        .tab-btn {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.35s var(--transition-smooth);
+            white-space: nowrap;
+            user-select: none;
+        }
+        .tab-btn.active {
+            color: #f1f5f9;
+            font-weight: 700;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--glow-blue);
+        }
+        .tab-btn:not(.active) {
+            color: #64748b;
+        }
+        .tab-btn:not(.active):hover {
+            color: #cbd5e1;
+        }
+        .tab-panel {
+            display: none;
+            animation: fadeSlideIn 0.45s var(--transition-smooth);
+        }
+        .tab-panel.active {
+            display: block;
+        }
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        /* ============ BOTTOM NAV (MOBILE) ============ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 90;
+            display: flex;
+            gap: 6px;
+            padding: 6px 8px;
+            border-radius: 50px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--border-strong);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 8px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+            min-width: 50px;
+            user-select: none;
+        }
+        .bottom-nav-item i {
+            font-size: 18px;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        .bottom-nav-item.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
+        }
+        .bottom-nav-item.active i {
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.6);
+        }
+        .bottom-nav-item:not(.active):active {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(0.9);
+        }
+
+        /* ============ FAB ============ */
+        .fab {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
+            z-index: 85;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-smooth);
+            border: none;
+            color: #fff;
+            font-size: 22px;
+        }
+        .fab:hover {
+            transform: scale(1.1) rotate(45deg);
+            box-shadow: 0 18px 45px rgba(59, 130, 246, 0.65);
+        }
+        .fab:active {
+            transform: scale(0.9) rotate(90deg);
+            transition: all 0.15s var(--transition-smooth);
+        }
+
+        /* ============ TOAST ============ */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .toast {
+            pointer-events: auto;
+            padding: 14px 22px;
+            border-radius: 18px;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--border-strong);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            color: #f1f5f9;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastIn 0.4s var(--transition-smooth);
+            min-width: 260px;
+            max-width: 400px;
+        }
+        .toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        .toast.error {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+        .toast.info {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+                filter: blur(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+                filter: blur(0);
+            }
+        }
+
+        /* ============ SKELETON ============ */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.07) 50%, rgba(255, 255, 255, 0.03) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.6s infinite;
+            border-radius: 16px;
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* ============ STAT COUNTER ============ */
+        .stat-card {
+            transition: all 0.4s var(--transition-smooth);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+        }
+        .stat-card .stat-icon {
+            transition: all 0.4s var(--transition-smooth);
+        }
+        .stat-card:hover .stat-icon {
+            transform: scale(1.2);
+        }
+
+        /* ============ SCROLLBAR ============ */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .desktop-tabs {
+                display: none !important;
+            }
+            .bottom-nav {
+                display: flex !important;
+            }
+            .fab {
+                display: flex !important;
+            }
+            .user-card {
+                border-radius: 20px;
+            }
+            .stat-card {
+                border-radius: 20px;
+                padding: 16px !important;
+            }
+            .toast-container {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                align-items: stretch;
+            }
+            .toast {
+                max-width: 100%;
+            }
+        }
+        @media (min-width: 769px) {
+            .bottom-nav {
+                display: none !important;
+            }
+            .fab {
+                display: none !important;
+            }
+            .desktop-tabs {
+                display: flex !important;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="animated-bg"></div>
-    <div class="particles"></div>
+    <!-- ============ BACKGROUND LAYERS ============ -->
+    <div class="bg-orbs-layer">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+        <div class="bg-orb bg-orb-4"></div>
+    </div>
+    <div class="grid-overlay"></div>
 
-    <!-- LOGIN SECTION -->
-    <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div class="glass p-12 rounded-[48px] w-full max-w-md animate__animated animate__zoomIn">
-            <div class="text-center mb-12">
-                <div class="relative w-28 h-28 bg-gradient-to-br from-blue-600 to-purple-600 rounded-[32px] flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-shield-halved text-6xl text-white"></i>
-                    <div class="absolute inset-0 border-4 border-blue-500/30 rounded-[32px] animate-ping"></div>
-                    <div class="absolute -top-2 -right-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
-                        <i class="fas fa-check text-white text-sm"></i>
-                    </div>
+    <!-- ============ TOAST CONTAINER ============ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ============ LOGIN SHIELD ============ -->
+    <div id="loginSection" class="fixed inset-0 z-[200] flex items-center justify-center p-4" style="background: rgba(2,6,23,0.95); backdrop-filter:blur(40px);">
+        <div class="glass-strong p-8 sm:p-10 rounded-[36px] w-full max-w-md animate__animated animate__zoomIn" style="box-shadow: 0 20px 60px rgba(0,0,0,0.7);">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-5 rounded-[25px] flex items-center justify-center relative" style="background:rgba(59,130,246,0.12);">
+                    <i class="fas fa-fingerprint text-4xl sm:text-5xl text-blue-500"></i>
+                    <div class="absolute inset-0 border-2 border-blue-500/25 rounded-[25px] animate-pulse"></div>
+                    <div class="absolute inset-[-6px] border border-blue-400/10 rounded-[30px] animate-ping" style="animation-duration:3s;"></div>
                 </div>
-                <h1 class="text-4xl font-black bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    SECURE ACCESS
-                </h1>
-                <p class="text-slate-400 mt-3 text-sm font-medium">প্রবেশাধিকার যাচাইকরণ প্রয়োজন</p>
+                <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">SYSTEM ACCESS</h1>
+                <p class="text-slate-400 mt-2 text-xs sm:text-sm font-medium">Biometric-style identity verification</p>
             </div>
-
             <div class="space-y-5">
                 <div class="relative">
-                    <i class="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                    <input 
-                        type="email" 
-                        id="l_email" 
-                        class="w-full custom-input p-5 pl-14 rounded-2xl outline-none" 
-                        placeholder="অ্যাডমিন ইমেইল"
-                        onkeypress="if(event.key==='Enter') handleLogin()"
-                    >
+                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                    <input type="email" id="l_email" class="w-full custom-input p-4 sm:p-5 pl-11 rounded-2xl outline-none text-sm" placeholder="Admin Email">
                 </div>
                 <div class="relative">
-                    <i class="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                    <input 
-                        type="password" 
-                        id="l_pass" 
-                        class="w-full custom-input p-5 pl-14 pr-14 rounded-2xl outline-none" 
-                        placeholder="সুরক্ষিত পাসওয়ার্ড"
-                        onkeypress="if(event.key==='Enter') handleLogin()"
-                    >
-                    <button 
-                        onclick="togglePassword()" 
-                        class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition"
-                    >
-                        <i id="passIcon" class="fas fa-eye"></i>
-                    </button>
+                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                    <input type="password" id="l_pass" class="w-full custom-input p-4 sm:p-5 pl-11 rounded-2xl outline-none text-sm" placeholder="Secure Password">
                 </div>
-
-                <div class="flex items-center justify-between text-sm">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-blue-500">
-                        <span class="text-slate-400">মনে রাখুন</span>
-                    </label>
-                    <a href="#" class="text-blue-400 hover:text-blue-300 transition">পাসওয়ার্ড ভুলে গেছেন?</a>
+                <div class="flex items-center gap-2 text-slate-400 text-xs ml-1">
+                    <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-blue-500 rounded">
+                    <label for="rememberMe" class="cursor-pointer select-none">Remember this device for 7 days</label>
                 </div>
-
-                <button 
-                    onclick="handleLogin()" 
-                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-5 rounded-2xl shadow-2xl shadow-blue-600/30 transition-all active:scale-95 motion-blur"
-                >
-                    <i class="fas fa-fingerprint mr-2"></i>
-                    প্রবেশ করুন
+                <button onclick="handleLogin()" class="btn-primary w-full py-4 sm:py-5 rounded-2xl text-sm sm:text-base active:scale-95 transition">
+                    <i class="fas fa-arrow-right-to-bracket mr-2"></i> Access Terminal
                 </button>
-            </div>
-
-            <div class="mt-8 pt-8 border-t border-white/10 text-center text-xs text-slate-500">
-                <p>PSXD Cyber Panel Pro v2.0 © 2024</p>
-                <p class="mt-1">Secured by Advanced Authentication</p>
             </div>
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="dashboardSection" class="hidden min-h-screen">
-        
-        <!-- Header -->
-        <header class="sticky top-0 z-40 glass border-b border-white/10 no-print">
-            <div class="max-w-7xl mx-auto px-6 py-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-5">
-                        <div class="relative">
-                            <img id="navLogo" class="w-16 h-16 rounded-2xl object-cover border-2 border-white/20 shadow-xl" alt="Logo">
-                            <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 border-2 border-[#020617] rounded-full pulse-dot"></div>
-                        </div>
-                        <div>
-                            <h2 id="navTitle" class="text-2xl font-black text-white">PSXD ADMIN</h2>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Authorized Access</span>
-                                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
-                                <span id="lastSync" class="text-[10px] text-slate-500">সর্বশেষ সিঙ্ক: কখনো নয়</span>
-                            </div>
-                        </div>
-                    </div>
+    <!-- ============ MAIN DASHBOARD ============ -->
+    <div id="dashboardSection" class="hidden min-h-screen pb-32 md:pb-10">
 
-                    <div class="flex items-center gap-3">
-                        <button onclick="exportData()" class="tooltip p-3 glass rounded-xl text-slate-400 hover:text-emerald-400 transition motion-blur" data-tooltip="ডেটা এক্সপোর্ট">
-                            <i class="fas fa-download text-lg"></i>
-                        </button>
-                        <button onclick="document.getElementById('importInput').click()" class="tooltip p-3 glass rounded-xl text-slate-400 hover:text-blue-400 transition motion-blur" data-tooltip="ডেটা ইম্পোর্ট">
-                            <i class="fas fa-upload text-lg"></i>
-                        </button>
-                        <input type="file" id="importInput" accept=".json" class="hidden" onchange="importData(event)">
-                        <button onclick="openConfig()" class="tooltip p-3 glass rounded-xl text-slate-400 hover:text-purple-400 transition motion-blur" data-tooltip="সেটিংস">
-                            <i class="fas fa-sliders text-lg"></i>
-                        </button>
-                        <button onclick="logout()" class="tooltip p-3 bg-red-500/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition motion-blur" data-tooltip="লগআউট">
-                            <i class="fas fa-power-off text-lg"></i>
-                        </button>
-                    </div>
+        <!-- HEADER -->
+        <header class="sticky top-0 z-40 p-4 sm:p-6 flex justify-between items-center glass-strong border-b border-white/5" style="box-shadow:0 4px 30px rgba(0,0,0,0.4);">
+            <div class="flex items-center gap-3 sm:gap-5">
+                <div class="relative flex-shrink-0">
+                    <img id="navLogo" class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl object-cover border border-white/10 shadow-xl" src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" alt="Logo">
+                    <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#020617] rounded-full animate-pulse"></div>
                 </div>
+                <div class="min-w-0">
+                    <h2 id="navTitle" class="text-lg sm:text-2xl font-black text-white leading-none truncate">PSXD ADMIN</h2>
+                    <span class="text-[9px] sm:text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Authorized Access</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="openConfig()" class="p-2.5 sm:p-3 glass-subtle rounded-xl text-slate-400 hover:text-white transition active:scale-90" title="Settings">
+                    <i class="fas fa-sliders text-base sm:text-lg"></i>
+                </button>
+                <button onclick="exportData()" class="p-2.5 sm:p-3 glass-subtle rounded-xl text-slate-400 hover:text-emerald-400 transition active:scale-90 hidden sm:flex" title="Export Data">
+                    <i class="fas fa-file-export text-base sm:text-lg"></i>
+                </button>
+                <button onclick="logout()" class="p-2.5 sm:p-3 rounded-xl text-red-400 hover:bg-red-500 hover:text-white transition active:scale-90" style="background:rgba(239,68,68,0.08);" title="Logout">
+                    <i class="fas fa-power-off text-base sm:text-lg"></i>
+                </button>
             </div>
         </header>
 
-        <!-- Tab Navigation -->
-        <div class="max-w-7xl mx-auto px-6 py-6 no-print">
-            <div class="glass p-2 rounded-2xl inline-flex gap-2">
-                <button onclick="switchTab('dashboard')" class="tab-btn active" id="tab-dashboard">
-                    <i class="fas fa-chart-line mr-2"></i> ড্যাশবোর্ড
-                </button>
-                <button onclick="switchTab('users')" class="tab-btn" id="tab-users">
-                    <i class="fas fa-users mr-2"></i> ব্যবহারকারী
-                </button>
-                <button onclick="switchTab('analytics')" class="tab-btn" id="tab-analytics">
-                    <i class="fas fa-chart-pie mr-2"></i> বিশ্লেষণ
-                </button>
-                <button onclick="switchTab('activity')" class="tab-btn" id="tab-activity">
-                    <i class="fas fa-history mr-2"></i> কার্যক্রম লগ
-                </button>
-            </div>
+        <!-- DESKTOP TABS -->
+        <div class="desktop-tabs max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-2 flex gap-1 sm:gap-3 overflow-x-auto" id="desktopTabs">
+            <button class="tab-btn active px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-dashboard">
+                <i class="fas fa-th-large"></i> <span>Dashboard</span>
+            </button>
+            <button class="tab-btn px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-users">
+                <i class="fas fa-users"></i> <span>Nodes</span>
+            </button>
+            <button class="tab-btn px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-analytics">
+                <i class="fas fa-chart-pie"></i> <span>Analytics</span>
+            </button>
+            <button class="tab-btn px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-logs">
+                <i class="fas fa-history"></i> <span>Activity Log</span>
+            </button>
         </div>
 
-        <!-- Dashboard Tab -->
-        <div id="content-dashboard" class="max-w-7xl mx-auto px-6 pb-24">
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-                <div class="glass-card p-6 border-l-4 border-blue-500">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">মোট নোড</p>
-                        <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-network-wired text-blue-400"></i>
+        <!-- TAB CONTENT -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
+
+            <!-- TAB: DASHBOARD -->
+            <div class="tab-panel active" id="tab-dashboard">
+                <!-- Stat Cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-6 sm:mb-8" id="statCards">
+                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-blue-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">Total Nodes</p>
+                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_total">0</h3>
+                            </div>
+                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(59,130,246,0.15);">
+                                <i class="fas fa-server text-blue-400 text-lg sm:text-xl"></i>
+                            </div>
                         </div>
                     </div>
-                    <h3 id="st_total" class="text-4xl font-black stat-number">0</h3>
-                    <p class="text-xs text-slate-500 mt-2">সর্বমোট রেজিস্ট্রেশন</p>
+                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-emerald-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] sm:text-xs font-bold text-emerald-500 uppercase tracking-wider">Active</p>
+                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_active">0</h3>
+                            </div>
+                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(16,185,129,0.15);">
+                                <i class="fas fa-check-circle text-emerald-400 text-lg sm:text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-amber-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] sm:text-xs font-bold text-amber-500 uppercase tracking-wider">Lifetime Elite</p>
+                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_life">0</h3>
+                            </div>
+                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(245,158,11,0.15);">
+                                <i class="fas fa-crown text-amber-400 text-lg sm:text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-red-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] sm:text-xs font-bold text-red-500 uppercase tracking-wider">Blocked</p>
+                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_block">0</h3>
+                            </div>
+                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(239,68,68,0.15);">
+                                <i class="fas fa-ban text-red-400 text-lg sm:text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="glass-card p-6 border-l-4 border-emerald-500">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-wider">সক্রিয়</p>
-                        <div class="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-check-circle text-emerald-400"></i>
+                <!-- Quick Actions + Recent -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
+                        <h3 class="text-base sm:text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fas fa-bolt text-amber-400"></i> Quick Actions
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="switchTab('tab-users');openEditor(-1)" class="btn-primary py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
+                                <i class="fas fa-plus"></i> New Node
+                            </button>
+                            <button onclick="fetchData()" class="btn-ghost py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                            <button onclick="switchTab('tab-users')" class="btn-ghost py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
+                                <i class="fas fa-list"></i> View All
+                            </button>
+                            <button onclick="openConfig()" class="btn-ghost py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
+                                <i class="fas fa-cog"></i> Settings
+                            </button>
                         </div>
                     </div>
-                    <h3 id="st_active" class="text-4xl font-black stat-number text-emerald-400">0</h3>
-                    <p class="text-xs text-slate-500 mt-2">যাচাইকৃত অ্যাকাউন্ট</p>
-                </div>
-
-                <div class="glass-card p-6 border-l-4 border-amber-500">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-amber-500 uppercase tracking-wider">লাইফটাইম</p>
-                        <div class="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-crown text-amber-400"></i>
+                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
+                        <h3 class="text-base sm:text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fas fa-clock text-blue-400"></i> Recent Activity
+                        </h3>
+                        <div id="recentActivity" class="space-y-3 max-h-48 overflow-y-auto">
+                            <p class="text-slate-500 text-xs sm:text-sm italic">No recent activity recorded.</p>
                         </div>
                     </div>
-                    <h3 id="st_life" class="text-4xl font-black stat-number text-amber-400">0</h3>
-                    <p class="text-xs text-slate-500 mt-2">এলিট সদস্য</p>
-                </div>
-
-                <div class="glass-card p-6 border-l-4 border-red-500">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-red-500 uppercase tracking-wider">ব্লক করা</p>
-                        <div class="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-ban text-red-400"></i>
-                        </div>
-                    </div>
-                    <h3 id="st_block" class="text-4xl font-black stat-number text-red-400">0</h3>
-                    <p class="text-xs text-slate-500 mt-2">নিষ্ক্রিয় অ্যাকাউন্ট</p>
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="glass-card p-6 mb-10">
-                <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
-                    <i class="fas fa-bolt text-yellow-400"></i>
-                    দ্রুত কার্যক্রম
-                </h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <button onclick="openEditor()" class="glass-card p-5 hover:bg-blue-600/20 transition text-center motion-blur">
-                        <i class="fas fa-plus-circle text-3xl text-blue-400 mb-2"></i>
-                        <p class="text-sm font-bold">নতুন নোড</p>
-                    </button>
-                    <button onclick="bulkOperation('active')" class="glass-card p-5 hover:bg-emerald-600/20 transition text-center motion-blur">
-                        <i class="fas fa-check-double text-3xl text-emerald-400 mb-2"></i>
-                        <p class="text-sm font-bold">সব সক্রিয় করুন</p>
-                    </button>
-                    <button onclick="exportData()" class="glass-card p-5 hover:bg-purple-600/20 transition text-center motion-blur">
-                        <i class="fas fa-file-export text-3xl text-purple-400 mb-2"></i>
-                        <p class="text-sm font-bold">এক্সপোর্ট ডেটা</p>
-                    </button>
-                    <button onclick="fetchData()" class="glass-card p-5 hover:bg-amber-600/20 transition text-center motion-blur">
-                        <i class="fas fa-sync-alt text-3xl text-amber-400 mb-2"></i>
-                        <p class="text-sm font-bold">রিফ্রেশ</p>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Users Tab -->
-        <div id="content-users" class="hidden max-w-7xl mx-auto px-6 pb-24">
-            <!-- Search & Filter Bar -->
-            <div class="glass-card p-6 mb-8">
-                <div class="flex flex-col lg:flex-row gap-5">
-                    <div class="flex-1 relative">
-                        <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                        <input 
-                            type="text" 
-                            id="searchBar" 
-                            oninput="liveSearch()" 
-                            class="w-full glass py-4 pl-14 pr-6 rounded-2xl outline-none custom-input" 
-                            placeholder="নোড আইডি, লাইসেন্স বা স্ট্যাটাস অনুসন্ধান করুন..."
-                        >
+            <!-- TAB: USERS (NODES) -->
+            <div class="tab-panel" id="tab-users">
+                <!-- Action Bar -->
+                <div class="flex flex-col md:flex-row gap-4 mb-6 items-center justify-between">
+                    <div class="relative w-full md:w-[420px] group">
+                        <i class="fas fa-search absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition text-sm"></i>
+                        <input type="text" id="searchBar" oninput="liveSearch()" onpaste="setTimeout(liveSearch,50)" class="w-full glass-subtle py-4 sm:py-5 pl-11 sm:pl-14 pr-5 rounded-[20px] sm:rounded-[25px] outline-none text-xs sm:text-sm tracking-wide" placeholder="Search Node ID, License Key or Status...">
+                        <button onclick="document.getElementById('searchBar').value='';liveSearch();" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-white transition text-sm hidden sm:block">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <div class="flex gap-3">
-                        <select id="filterStatus" onchange="applyFilters()" class="glass px-6 py-4 rounded-2xl outline-none custom-input cursor-pointer">
-                            <option value="all">সব স্ট্যাটাস</option>
-                            <option value="active">শুধু সক্রিয়</option>
-                            <option value="lifetime">শুধু লাইফটাইম</option>
-                            <option value="blocked">শুধু ব্লক করা</option>
+                    <div class="flex gap-3 w-full md:w-auto">
+                        <button onclick="fetchData()" class="p-4 sm:p-5 glass-subtle rounded-2xl hover:bg-slate-800 transition active:scale-90" title="Refresh Data">
+                            <i class="fas fa-sync-alt text-sm sm:text-base"></i>
+                        </button>
+                        <select id="statusFilter" onchange="liveSearch()" class="custom-input py-4 sm:py-5 px-3 sm:px-4 rounded-2xl text-xs sm:text-sm font-semibold w-32 sm:w-auto">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="lifetime">Lifetime</option>
+                            <option value="blocked">Blocked</option>
                         </select>
-                        <select id="sortBy" onchange="applyFilters()" class="glass px-6 py-4 rounded-2xl outline-none custom-input cursor-pointer">
-                            <option value="newest">নতুন প্রথম</option>
-                            <option value="oldest">পুরাতন প্রথম</option>
-                            <option value="status">স্ট্যাটাস অনুযায়ী</option>
-                        </select>
+                        <button onclick="openEditor(-1)" class="flex-1 md:flex-none px-6 sm:px-10 py-4 sm:py-5 btn-primary rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xl">
+                            <i class="fas fa-plus"></i> <span class="hidden sm:inline">NEW NODE</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Bulk Actions -->
-                <div class="flex items-center gap-3 mt-5 pt-5 border-t border-white/10">
-                    <label class="flex items-center gap-2 text-sm font-medium">
-                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" class="w-4 h-4 accent-blue-500">
-                        সব নির্বাচন করুন
-                    </label>
-                    <span class="text-slate-500">|</span>
-                    <button onclick="bulkDelete()" class="text-sm text-red-400 hover:text-red-300 transition">
-                        <i class="fas fa-trash mr-1"></i> মুছে ফেলুন
-                    </button>
-                    <button onclick="bulkOperation('active')" class="text-sm text-emerald-400 hover:text-emerald-300 transition">
-                        <i class="fas fa-check mr-1"></i> সক্রিয় করুন
-                    </button>
-                    <button onclick="bulkOperation('blocked')" class="text-sm text-amber-400 hover:text-amber-300 transition">
-                        <i class="fas fa-ban mr-1"></i> ব্লক করুন
-                    </button>
+                <div id="bulkBar" class="glass-subtle p-3 sm:p-4 rounded-2xl mb-5 hidden flex-wrap items-center gap-3 text-xs sm:text-sm">
+                    <span class="text-slate-400 font-semibold"><span id="bulkCount">0</span> selected</span>
+                    <button onclick="bulkDelete()" class="btn-danger py-2 px-4 rounded-xl text-xs font-semibold">Delete Selected</button>
+                    <button onclick="clearSelection()" class="btn-ghost py-2 px-4 rounded-xl text-xs font-semibold">Clear</button>
+                </div>
+
+                <!-- User Grid -->
+                <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 animate__animated animate__fadeInUp">
+                    <!-- Skeleton loaders appear here initially -->
+                </div>
+                <div id="emptyState" class="hidden text-center py-16">
+                    <i class="fas fa-inbox text-5xl text-slate-700 mb-4"></i>
+                    <p class="text-slate-500 font-semibold">No nodes found.</p>
+                    <button onclick="openEditor(-1)" class="btn-primary mt-4 py-3 px-8 rounded-xl text-sm inline-block">Create First Node</button>
                 </div>
             </div>
 
-            <!-- User Cards Grid -->
-            <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate__animated animate__fadeInUp">
-                <!-- Cards will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Analytics Tab -->
-        <div id="content-analytics" class="hidden max-w-7xl mx-auto px-6 pb-24">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="glass-card p-8">
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
-                        <i class="fas fa-chart-pie text-blue-400"></i>
-                        স্ট্যাটাস বন্টন
-                    </h3>
-                    <canvas id="statusChart" class="max-h-[300px]"></canvas>
-                </div>
-
-                <div class="glass-card p-8">
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
-                        <i class="fas fa-chart-line text-emerald-400"></i>
-                        মাসিক প্রবণতা
-                    </h3>
-                    <canvas id="trendChart" class="max-h-[300px]"></canvas>
-                </div>
-            </div>
-
-            <!-- Detailed Stats -->
-            <div class="glass-card p-8 mt-8">
-                <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
-                    <i class="fas fa-database text-purple-400"></i>
-                    বিস্তারিত পরিসংখ্যান
-                </h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="text-center">
-                        <p class="text-slate-500 text-sm mb-2">আজকের নতুন</p>
-                        <p id="stat_today" class="text-3xl font-black text-blue-400">0</p>
+            <!-- TAB: ANALYTICS -->
+            <div class="tab-panel" id="tab-analytics">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-7">
+                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
+                        <h3 class="text-base sm:text-lg font-bold text-white mb-5 flex items-center gap-2">
+                            <i class="fas fa-chart-bar text-blue-400"></i> Status Distribution
+                        </h3>
+                        <div class="space-y-4" id="statusDistribution">
+                            <div>
+                                <div class="flex justify-between text-xs sm:text-sm mb-1.5"><span class="text-emerald-400 font-semibold">Active</span><span class="text-slate-400" id="ana_active">0</span></div>
+                                <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-emerald-500 h-full rounded-full transition-all duration-700" id="bar_active" style="width:0%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs sm:text-sm mb-1.5"><span class="text-amber-400 font-semibold">Lifetime</span><span class="text-slate-400" id="ana_life">0</span></div>
+                                <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-amber-500 h-full rounded-full transition-all duration-700" id="bar_life" style="width:0%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs sm:text-sm mb-1.5"><span class="text-red-400 font-semibold">Blocked</span><span class="text-slate-400" id="ana_block">0</span></div>
+                                <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-red-500 h-full rounded-full transition-all duration-700" id="bar_block" style="width:0%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <p class="text-slate-500 text-sm mb-2">এই সপ্তাহে</p>
-                        <p id="stat_week" class="text-3xl font-black text-emerald-400">0</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-slate-500 text-sm mb-2">এই মাসে</p>
-                        <p id="stat_month" class="text-3xl font-black text-amber-400">0</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-slate-500 text-sm mb-2">শীঘ্রই মেয়াদোত্তীর্ণ</p>
-                        <p id="stat_expiring" class="text-3xl font-black text-red-400">0</p>
+                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
+                        <h3 class="text-base sm:text-lg font-bold text-white mb-5 flex items-center gap-2">
+                            <i class="fas fa-globe text-purple-400"></i> Global Config Status
+                        </h3>
+                        <div class="space-y-4 text-xs sm:text-sm" id="globalStatus">
+                            <div class="flex justify-between py-3 border-b border-white/5">
+                                <span class="text-slate-400">Global Key Switch</span>
+                                <span class="font-bold" id="gstatus_switch">—</span>
+                            </div>
+                            <div class="flex justify-between py-3 border-b border-white/5">
+                                <span class="text-slate-400">Global Key Set</span>
+                                <span class="font-bold text-blue-400 font-mono text-xs truncate max-w-[180px]" id="gstatus_key">—</span>
+                            </div>
+                            <div class="flex justify-between py-3 border-b border-white/5">
+                                <span class="text-slate-400">App Title</span>
+                                <span class="font-bold text-white truncate max-w-[180px]" id="gstatus_title">—</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Activity Log Tab -->
-        <div id="content-activity" class="hidden max-w-7xl mx-auto px-6 pb-24">
-            <div class="glass-card p-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl font-bold flex items-center gap-3">
-                        <i class="fas fa-history text-blue-400"></i>
-                        সাম্প্রতিক কার্যক্রম
-                    </h3>
-                    <button onclick="clearLogs()" class="text-sm text-red-400 hover:text-red-300 transition">
-                        <i class="fas fa-trash mr-1"></i> লগ সাফ করুন
-                    </button>
-                </div>
-                <div id="activityLog" class="space-y-3 max-h-[600px] overflow-y-auto">
-                    <div class="text-center text-slate-500 py-12">
-                        <i class="fas fa-clipboard-list text-5xl mb-4 opacity-20"></i>
-                        <p>কোনো কার্যক্রম লগ নেই</p>
+            <!-- TAB: ACTIVITY LOG -->
+            <div class="tab-panel" id="tab-logs">
+                <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
+                    <div class="flex justify-between items-center mb-5">
+                        <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-history text-teal-400"></i> Activity Log
+                        </h3>
+                        <button onclick="clearLogs()" class="btn-ghost py-2 px-4 rounded-xl text-xs font-semibold text-red-400 hover:text-red-300">
+                            <i class="fas fa-eraser mr-1"></i> Clear
+                        </button>
+                    </div>
+                    <div id="activityLogList" class="space-y-3 max-h-[500px] overflow-y-auto">
+                        <p class="text-slate-500 text-xs sm:text-sm italic">No activity logged yet.</p>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- Edit Modal -->
-    <div id="editModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
-        <div class="glass w-full max-w-2xl p-10 rounded-[40px] animate__animated animate__zoomIn">
-            <h2 id="modalTitle" class="text-3xl font-black mb-8 flex items-center gap-3">
-                <i class="fas fa-edit text-blue-400"></i>
-                <span>নোড ম্যানেজমেন্ট</span>
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="md:col-span-2">
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">ডিভাইস আইডেন্টিটি</label>
-                    <input id="m_device" class="w-full custom-input p-5 rounded-2xl font-mono uppercase" placeholder="DEVICE-ID-HERE">
-                </div>
+    <!-- ============ BOTTOM NAV (MOBILE) ============ -->
+    <nav class="bottom-nav" id="bottomNav" style="display:none;">
+        <div class="bottom-nav-item active" data-tab="tab-dashboard">
+            <i class="fas fa-th-large"></i> <span>Home</span>
+        </div>
+        <div class="bottom-nav-item" data-tab="tab-users">
+            <i class="fas fa-users"></i> <span>Nodes</span>
+        </div>
+        <div class="bottom-nav-item" data-tab="tab-analytics">
+            <i class="fas fa-chart-pie"></i> <span>Stats</span>
+        </div>
+        <div class="bottom-nav-item" data-tab="tab-logs">
+            <i class="fas fa-clock"></i> <span>Logs</span>
+        </div>
+    </nav>
 
+    <!-- ============ FAB (MOBILE) ============ -->
+    <button class="fab" onclick="openEditor(-1)" title="Add New Node" style="display:none;">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- ============ MODAL: EDITOR ============ -->
+    <div id="editModal" class="fixed inset-0 z-[150] hidden flex items-center justify-center p-4" style="background:rgba(0,0,0,0.88); backdrop-filter:blur(30px);" onclick="if(event.target===this)closeModal()">
+        <div class="glass-strong w-full max-w-xl p-6 sm:p-10 rounded-[32px] sm:rounded-[40px] animate__animated animate__zoomIn" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6 sm:mb-10">
+                <h2 id="modalTitle" class="text-2xl sm:text-3xl font-black text-white">MANAGE NODE</h2>
+                <button onclick="closeModal()" class="p-2 glass-subtle rounded-xl text-slate-400 hover:text-white transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-5 sm:space-y-6">
                 <div>
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">স্ট্যাটাস</label>
-                    <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-5 rounded-2xl cursor-pointer">
-                        <option value="active">সক্রিয়</option>
-                        <option value="lifetime">লাইফটাইম</option>
-                        <option value="blocked">ব্লক করা</option>
-                    </select>
+                    <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Target Identity (Device ID)</label>
+                    <input id="m_device" class="w-full custom-input p-4 sm:p-5 rounded-2xl mt-1.5 font-mono uppercase tracking-widest text-sm" placeholder="DEVICE-XXXX-XXXX">
                 </div>
-
+                <div class="grid grid-cols-2 gap-4 sm:gap-6">
+                    <div>
+                        <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Privilege Level</label>
+                        <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-4 sm:p-5 rounded-2xl mt-1.5 text-sm font-semibold">
+                            <option value="active">🟢 Active</option>
+                            <option value="lifetime">👑 Lifetime</option>
+                            <option value="blocked">🔴 Blocked</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Expiry Date</label>
+                        <input type="date" id="m_expiry" class="w-full custom-input p-4 sm:p-5 rounded-2xl mt-1.5 text-sm">
+                    </div>
+                </div>
                 <div>
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">মেয়াদ উত্তীর্ণ</label>
-                    <input type="date" id="m_expiry" class="w-full custom-input p-5 rounded-2xl">
-                </div>
-
-                <div class="md:col-span-2">
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">লাইসেন্স কী</label>
-                    <div class="relative">
-                        <input id="m_key" class="w-full custom-input p-5 pr-32 rounded-2xl font-mono text-blue-400" placeholder="LICENSE-KEY-HERE">
-                        <button onclick="generateKey()" class="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl text-sm font-bold transition">
-                            <i class="fas fa-key mr-1"></i> জেনারেট
+                    <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Cyber Key (License)</label>
+                    <div class="relative mt-1.5">
+                        <input id="m_key" class="w-full custom-input p-4 sm:p-5 rounded-2xl font-mono text-blue-400 text-sm tracking-wider" placeholder="KEY-XXXXXX">
+                        <button onclick="generateKey()" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 glass-subtle rounded-lg text-slate-400 hover:text-emerald-400 transition text-xs font-bold" title="Generate Random Key">
+                            <i class="fas fa-dice-d6"></i>
                         </button>
                     </div>
                 </div>
             </div>
-
-            <div class="flex gap-4 mt-10">
-                <button onclick="closeModal()" class="flex-1 p-5 rounded-2xl font-bold bg-slate-800/50 hover:bg-slate-700 transition motion-blur">
-                    বাতিল করুন
-                </button>
-                <button onclick="saveChanges()" class="flex-[2] p-5 rounded-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl shadow-blue-600/30 transition motion-blur">
-                    <i class="fas fa-save mr-2"></i>
-                    সংরক্ষণ করুন
-                </button>
+            <div class="flex gap-4 sm:gap-5 mt-8 sm:mt-12">
+                <button onclick="closeModal()" class="flex-1 p-4 sm:p-5 rounded-2xl font-bold bg-slate-800 text-slate-400 hover:bg-slate-700 transition text-sm">Discard</button>
+                <button onclick="saveChanges()" class="flex-[2] p-4 sm:p-5 rounded-2xl font-bold btn-primary text-sm active:scale-95 transition">Authorize Update</button>
             </div>
         </div>
     </div>
 
-    <!-- Config Modal -->
-    <div id="configModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
-        <div class="glass w-full max-w-4xl p-10 rounded-[40px] max-h-[90vh] overflow-y-auto">
-            <h2 class="text-3xl font-black mb-8 flex items-center gap-3">
-                <i class="fas fa-cogs text-blue-400"></i>
-                সিস্টেম কনফিগারেশন
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- App Config -->
-                <div class="glass-card p-6">
-                    <h4 class="font-bold text-blue-400 mb-5 flex items-center gap-2">
-                        <i class="fas fa-palette"></i>
-                        অ্যাপ্লিকেশন সেটিংস
-                    </h4>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">শিরোনাম</label>
-                            <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">লোগো URL</label>
-                            <input id="c_logo" placeholder="Logo URL" class="w-full custom-input p-4 rounded-xl">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">ক্রয় লিংক</label>
-                            <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl">
-                        </div>
-                    </div>
+    <!-- ============ MODAL: APP CONFIG ============ -->
+    <div id="configModal" class="fixed inset-0 z-[150] hidden flex items-center justify-center p-4" style="background:rgba(0,0,0,0.88); backdrop-filter:blur(30px);" onclick="if(event.target===this)document.getElementById('configModal').classList.add('hidden')">
+        <div class="glass-strong w-full max-w-3xl p-6 sm:p-10 rounded-[32px] sm:rounded-[40px] max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6 sm:mb-10">
+                <h2 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-3"><i class="fas fa-terminal text-blue-500"></i> SYSTEM CORE</h2>
+                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="p-2 glass-subtle rounded-xl text-slate-400 hover:text-white transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <div class="space-y-5">
+                    <h4 class="font-bold text-blue-400 border-b border-white/5 pb-3 uppercase tracking-widest text-[10px] sm:text-xs">Primary Config</h4>
+                    <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl text-sm">
+                    <input id="c_logo" placeholder="Logo URL" class="w-full custom-input p-4 rounded-xl text-sm">
+                    <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl text-sm">
                 </div>
-
-                <!-- Global Config -->
-                <div class="glass-card p-6">
-                    <h4 class="font-bold text-emerald-400 mb-5 flex items-center gap-2">
-                        <i class="fas fa-globe"></i>
-                        গ্লোবাল সেটিংস
-                    </h4>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-4 glass rounded-xl">
-                            <span class="text-sm font-bold">গ্লোবাল কী সক্রিয়</span>
-                            <label class="relative inline-block w-12 h-6">
-                                <input type="checkbox" id="c_gl_on" class="sr-only peer">
-                                <div class="w-12 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                            </label>
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">গ্লোবাল কী</label>
-                            <input id="c_gl_key" placeholder="Global Key" class="w-full custom-input p-4 rounded-xl">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">বার্তা</label>
-                            <textarea id="c_gl_msg" placeholder="Global Message..." rows="4" class="w-full custom-input p-4 rounded-xl resize-none"></textarea>
-                        </div>
+                <div class="space-y-5">
+                    <h4 class="font-bold text-emerald-400 border-b border-white/5 pb-3 uppercase tracking-widest text-[10px] sm:text-xs">Broadcast Config</h4>
+                    <div class="flex items-center justify-between p-4 glass-subtle rounded-xl">
+                        <span class="text-sm font-bold text-slate-300">Global Key Switch</span>
+                        <input type="checkbox" id="c_gl_on" class="w-5 h-5 accent-blue-500 rounded">
                     </div>
+                    <input id="c_gl_key" placeholder="Global Access Key" class="w-full custom-input p-4 rounded-xl text-sm">
+                    <textarea id="c_gl_msg" placeholder="Global Announcement Message..." rows="3" class="w-full custom-input p-4 rounded-xl text-sm resize-none"></textarea>
                 </div>
             </div>
-
-            <div class="flex gap-4 mt-10">
-                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="flex-1 p-5 rounded-2xl bg-slate-800/50 hover:bg-slate-700 font-bold transition motion-blur">
-                    বন্ধ করুন
-                </button>
-                <button onclick="saveSystem()" class="flex-[2] p-5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold shadow-xl shadow-emerald-600/30 transition motion-blur">
-                    <i class="fas fa-check mr-2"></i>
-                    সংরক্ষণ করুন
-                </button>
+            <div class="flex gap-4 sm:gap-5 mt-8 sm:mt-12">
+                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="flex-1 p-4 sm:p-5 rounded-2xl bg-slate-800 font-bold text-sm">Back</button>
+                <button onclick="saveSystem()" class="flex-[2] p-4 sm:p-5 rounded-2xl font-bold text-sm text-white active:scale-95 transition" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 8px 30px rgba(16,185,129,0.3);">Apply Protocol</button>
             </div>
         </div>
     </div>
 
-    <!-- Floating Action Button -->
-    <div class="fab no-print" onclick="openEditor()">
-        <i class="fas fa-plus text-white text-2xl"></i>
-    </div>
-
+    <!-- ============ SCRIPTS ============ -->
     <script>
-        // ===== CONFIGURATION =====
-        const DB_ENDPOINT = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
-        const ADM_USER = "admin@psxd.com";
-        const ADM_PASS = "shimulxd";
+        (function() {
+            // ============ CONSTANTS ============
+            const DB_ENDPOINT =
+                "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
+            const ADM_USER = "admin@psxd.com";
+            const ADM_PASS = "shimulxd";
+            const SESSION_KEY = 'psxd_session_v2';
+            const REMEMBER_KEY = 'psxd_remember_v2';
 
-        // ===== STATE MANAGEMENT =====
-        let appData = null;
-        let activeIdx = -1;
-        let activityLogs = JSON.parse(localStorage.getItem('activity_logs') || '[]');
-        let statusChart = null;
-        let trendChart = null;
+            let appData = null;
+            let activeIdx = -1;
+            let selectedNodes = new Set();
+            let activityLog = [];
 
-        // ===== INITIALIZATION =====
-        window.onload = () => {
-            if(localStorage.getItem('session_active') === 'true') {
-                showDashboard();
+            // ============ DOM REFS ============
+            const $ = (sel) => document.querySelector(sel);
+            const $$ = (sel) => document.querySelectorAll(sel);
+
+            // ============ TOAST SYSTEM ============
+            function showToast(msg, type = 'info', duration = 2800) {
+                const container = $('#toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                const icons = { success: 'fa-check-circle text-emerald-400', error: 'fa-exclamation-circle text-red-400',
+                    info: 'fa-info-circle text-blue-400' };
+                toast.innerHTML = `<i class="fas ${icons[type]||icons.info}"></i> ${msg}`;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(80px)';
+                    toast.style.transition = 'all 0.4s ease';
+                    setTimeout(() => toast.remove(), 400);
+                }, duration);
             }
-        };
 
-        // ===== AUTHENTICATION =====
-        function togglePassword() {
-            const passInput = document.getElementById('l_pass');
-            const icon = document.getElementById('passIcon');
-            if(passInput.type === 'password') {
-                passInput.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                passInput.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            // ============ ACTIVITY LOG ============
+            function addLog(action, target, details = '') {
+                const entry = {
+                    action,
+                    target,
+                    details,
+                    timestamp: new Date().toISOString(),
+                    timeFormatted: new Date().toLocaleString('bn-BD', { hour12: true })
+                };
+                activityLog.unshift(entry);
+                if (activityLog.length > 200) activityLog.length = 200;
+                renderActivityLog();
             }
-        }
 
-        function handleLogin() {
-            const email = document.getElementById('l_email').value.trim();
-            const pass = document.getElementById('l_pass').value;
-            const remember = document.getElementById('rememberMe').checked;
-
-            if(email === ADM_USER && pass === ADM_PASS) {
-                localStorage.setItem('session_active', 'true');
-                if(remember) {
-                    localStorage.setItem('remember_me', 'true');
+            function renderActivityLog() {
+                const list = $('#activityLogList');
+                if (!list) return;
+                if (activityLog.length === 0) {
+                    list.innerHTML =
+                        '<p class="text-slate-500 text-xs sm:text-sm italic">No activity logged yet.</p>';
+                    return;
                 }
-                addLog('সফল লগইন', 'success');
-                showDashboard();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'প্রবেশ ব্যর্থ!',
-                    text: 'ভুল ইমেইল বা পাসওয়ার্ড',
-                    background: '#0f172a',
-                    color: '#fff',
-                    confirmButtonColor: '#3b82f6'
-                });
+                const colors = {
+                    create: 'text-emerald-400',
+                    update: 'text-blue-400',
+                    delete: 'text-red-400',
+                    config: 'text-purple-400',
+                    login: 'text-amber-400',
+                    export: 'text-teal-400',
+                    bulk_delete: 'text-red-500'
+                };
+                const icons = {
+                    create: 'fa-plus-circle',
+                    update: 'fa-pen',
+                    delete: 'fa-trash',
+                    config: 'fa-cog',
+                    login: 'fa-sign-in-alt',
+                    export: 'fa-download',
+                    bulk_delete: 'fa-trash-alt'
+                };
+                list.innerHTML = activityLog.slice(0, 50).map(a => `
+                <div class="flex items-center gap-3 py-2.5 border-b border-white/5 text-xs sm:text-sm">
+                    <i class="fas ${icons[a.action]||'fa-circle'} ${colors[a.action]||'text-slate-400'} w-6 text-center"></i>
+                    <span class="text-slate-300 font-semibold capitalize">${a.action.replace('_',' ')}</span>
+                    <span class="text-slate-500 truncate flex-1">${a.target||''}</span>
+                    <span class="text-slate-600 text-[10px] sm:text-xs whitespace-nowrap">${a.timeFormatted}</span>
+                </div>
+            `).join('');
             }
-        }
 
-        function showDashboard() {
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('dashboardSection').classList.remove('hidden');
-            fetchData();
-        }
+            function clearLogs() {
+                activityLog = [];
+                renderActivityLog();
+                showToast('Activity log cleared', 'info');
+            }
 
-        function logout() {
-            Swal.fire({
-                title: 'লগআউট করবেন?',
-                text: "আপনি কি নিশ্চিত?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#64748b',
-                confirmButtonText: 'হ্যাঁ, লগআউট',
-                cancelButtonText: 'বাতিল',
-                background: '#0f172a',
-                color: '#fff'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    addLog('লগআউট করা হয়েছে', 'info');
-                    if(!localStorage.getItem('remember_me')) {
-                        localStorage.clear();
-                    } else {
-                        localStorage.removeItem('session_active');
+            // ============ SESSION MANAGEMENT ============
+            function checkSession() {
+                const session = localStorage.getItem(SESSION_KEY);
+                const remember = localStorage.getItem(REMEMBER_KEY);
+                if (session === 'true') return true;
+                if (remember === 'true') {
+                    const exp = localStorage.getItem('psxd_remember_exp');
+                    if (exp && Date.now() < parseInt(exp)) {
+                        localStorage.setItem(SESSION_KEY, 'true');
+                        return true;
                     }
-                    location.reload();
+                    localStorage.removeItem(REMEMBER_KEY);
+                    localStorage.removeItem('psxd_remember_exp');
                 }
-            });
-        }
-
-        // ===== TAB MANAGEMENT =====
-        function switchTab(tabName) {
-            // Hide all content
-            ['dashboard', 'users', 'analytics', 'activity'].forEach(t => {
-                document.getElementById(`content-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).classList.remove('active');
-            });
-
-            // Show selected
-            document.getElementById(`content-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabName}`).classList.add('active');
-
-            // Load specific content
-            if(tabName === 'analytics') {
-                loadAnalytics();
-            } else if(tabName === 'activity') {
-                loadActivityLog();
-            }
-        }
-
-        // ===== DATABASE OPERATIONS =====
-        async function fetchData() {
-            try {
-                const loadingToast = Swal.fire({
-                    title: 'লোড হচ্ছে...',
-                    allowOutsideClick: false,
-                    didOpen: () => Swal.showLoading()
-                });
-
-                const res = await fetch(DB_ENDPOINT);
-                appData = await res.json();
-                
-                loadingToast.close();
-                renderCards();
-                updateStats();
-                updateLastSync();
-                
-                addLog('ডেটা সফলভাবে লোড হয়েছে', 'success');
-            } catch(e) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'ত্রুটি!',
-                    text: 'ডেটাবেস লোড করতে ব্যর্থ',
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-                addLog('ডেটা লোড ব্যর্থ: ' + e.message, 'error');
-            }
-        }
-
-        function renderCards() {
-            const grid = document.getElementById('userContainer');
-            let users = [...(appData.auth_database || [])];
-            
-            // Apply filters
-            const statusFilter = document.getElementById('filterStatus')?.value || 'all';
-            const sortBy = document.getElementById('sortBy')?.value || 'newest';
-
-            if(statusFilter !== 'all') {
-                users = users.filter(u => u.status === statusFilter);
+                return false;
             }
 
-            // Sort
-            if(sortBy === 'oldest') {
-                users.reverse();
-            } else if(sortBy === 'status') {
-                users.sort((a, b) => a.status.localeCompare(b.status));
-            }
-
-            grid.innerHTML = "";
-
-            // Update stats
-            updateStats();
-
-            // Update branding
-            if(appData.app_config) {
-                document.getElementById('navLogo').src = appData.app_config.logo_url;
-                document.getElementById('navTitle').innerText = appData.app_config.title;
-            }
-
-            // Render cards
-            users.forEach((user, i) => {
-                const isLife = user.status === 'lifetime';
-                const isBlocked = user.status === 'blocked';
-                const statusClass = isLife ? 'status-lifetime' : (isBlocked ? 'status-blocked' : 'status-active');
-                
-                const cardHtml = `
-                    <div class="glass-card ${isLife ? 'lifetime-card' : ''} p-8 group" data-device="${user.device_id}" data-status="${user.status}">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center gap-3">
-                                <input type="checkbox" class="user-select w-4 h-4 accent-blue-500" data-index="${i}">
-                                <div class="w-3 h-3 rounded-full ${isBlocked ? 'bg-red-500' : 'bg-emerald-500'} ${!isBlocked ? 'pulse-dot' : ''}"></div>
-                                <span class="badge ${statusClass}">${user.status === 'active' ? 'সক্রিয়' : user.status === 'lifetime' ? 'লাইফটাইম' : 'ব্লক'}</span>
-                            </div>
-                            <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onclick="openEditor(${i})" class="tooltip p-2 hover:bg-blue-600/20 rounded-lg transition" data-tooltip="এডিট">
-                                    <i class="fas fa-edit text-blue-400"></i>
-                                </button>
-                                <button onclick="duplicateNode(${i})" class="tooltip p-2 hover:bg-purple-600/20 rounded-lg transition" data-tooltip="ডুপ্লিকেট">
-                                    <i class="fas fa-copy text-purple-400"></i>
-                                </button>
-                                <button onclick="removeNode(${i})" class="tooltip p-2 hover:bg-red-600/20 rounded-lg transition" data-tooltip="মুছুন">
-                                    <i class="fas fa-trash text-red-400"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="space-y-5">
-                            <div>
-                                <div class="flex justify-between items-center mb-2">
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase">নোড আইডি</p>
-                                    <button onclick="copy('${user.device_id}', this)" class="text-xs text-slate-600 hover:text-blue-400 transition">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <p class="font-mono text-white font-bold text-sm break-all">${user.device_id}</p>
-                            </div>
-
-                            <div>
-                                <div class="flex justify-between items-center mb-2">
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase">লাইসেন্স কী</p>
-                                    <button onclick="copy('${user.key}', this)" class="text-xs text-slate-600 hover:text-emerald-400 transition">
-                                        <i class="fas fa-link"></i>
-                                    </button>
-                                </div>
-                                <div class="glass p-3 rounded-xl font-mono text-xs text-blue-300 break-all">${user.key}</div>
-                            </div>
-
-                            <div class="pt-4 border-t border-white/10 flex justify-between items-center">
-                                <div>
-                                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">মেয়াদোত্তীর্ণ</p>
-                                    <p class="text-sm font-black ${isLife ? 'text-amber-400' : 'text-slate-300'}">
-                                        ${isLife ? '<i class="fas fa-infinity mr-1"></i> লাইফটাইম' : user.expiry}
-                                    </p>
-                                </div>
-                                ${isLife ? '<i class="fas fa-crown text-amber-400 text-2xl drop-shadow-[0_0_10px_rgba(245,158,11,0.6)]"></i>' : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                grid.innerHTML += cardHtml;
-            });
-
-            if(users.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-20">
-                        <i class="fas fa-inbox text-6xl text-slate-700 mb-4"></i>
-                        <p class="text-slate-500 text-lg">কোনো ডেটা পাওয়া যায়নি</p>
-                    </div>
-                `;
-            }
-        }
-
-        function updateStats() {
-            const users = appData.auth_database || [];
-            document.getElementById('st_total').innerText = users.length;
-            document.getElementById('st_active').innerText = users.filter(u => u.status === 'active').length;
-            document.getElementById('st_life').innerText = users.filter(u => u.status === 'lifetime').length;
-            document.getElementById('st_block').innerText = users.filter(u => u.status === 'blocked').length;
-        }
-
-        function updateLastSync() {
-            const now = new Date();
-            const time = now.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('lastSync').innerText = `সর্বশেষ সিঙ্ক: ${time}`;
-        }
-
-        // ===== EDITOR MODAL =====
-        function openEditor(idx = -1) {
-            activeIdx = idx;
-            document.getElementById('modalTitle').innerHTML = idx === -1 
-                ? '<i class="fas fa-plus-circle text-blue-400"></i><span>নতুন নোড যোগ করুন</span>' 
-                : '<i class="fas fa-edit text-blue-400"></i><span>নোড সম্পাদনা করুন</span>';
-            
-            if(idx !== -1) {
-                const u = appData.auth_database[idx];
-                document.getElementById('m_device').value = u.device_id;
-                document.getElementById('m_status').value = u.status;
-                document.getElementById('m_key').value = u.key;
-                document.getElementById('m_expiry').value = u.expiry === 'unlimited' ? '' : u.expiry;
-            } else {
-                document.querySelectorAll('#editModal input:not([type="date"])').forEach(i => i.value = "");
-                document.getElementById('m_status').value = 'active';
-                document.getElementById('m_expiry').value = '';
-            }
-            
-            toggleDate();
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('editModal').classList.add('hidden');
-        }
-
-        function toggleDate() {
-            const isLife = document.getElementById('m_status').value === 'lifetime';
-            const exp = document.getElementById('m_expiry');
-            exp.disabled = isLife;
-            exp.style.opacity = isLife ? '0.3' : '1';
-        }
-
-        function generateKey() {
-            const key = 'KEY-' + Math.random().toString(36).substr(2, 12).toUpperCase();
-            document.getElementById('m_key').value = key;
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'কী জেনারেট হয়েছে!',
-                text: key,
-                background: '#0f172a',
-                color: '#fff',
-                timer: 2000
-            });
-        }
-
-        async function saveChanges() {
-            const device = document.getElementById('m_device').value.trim();
-            const status = document.getElementById('m_status').value;
-            const key = document.getElementById('m_key').value.trim();
-            const expiry = document.getElementById('m_expiry').value;
-
-            if(!device) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'সতর্কতা!',
-                    text: 'ডিভাইস আইডি প্রয়োজন',
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-                return;
-            }
-
-            const nodeObj = {
-                device_id: device || "ANY",
-                status: status,
-                expiry: status === 'lifetime' ? 'unlimited' : (expiry || 'N/A'),
-                key: key || generateKey()
-            };
-
-            const action = activeIdx === -1 ? 'যোগ' : 'আপডেট';
-            
-            if(activeIdx === -1) {
-                appData.auth_database.unshift(nodeObj);
-                addLog(`নতুন নোড যোগ করা হয়েছে: ${device}`, 'success');
-            } else {
-                appData.auth_database[activeIdx] = nodeObj;
-                addLog(`নোড আপডেট করা হয়েছে: ${device}`, 'info');
-            }
-
-            await sync();
-            closeModal();
-        }
-
-        async function removeNode(idx) {
-            const user = appData.auth_database[idx];
-            const result = await Swal.fire({
-                title: 'নিশ্চিত করুন',
-                text: `"${user.device_id}" মুছে ফেলবেন?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#64748b',
-                confirmButtonText: 'হ্যাঁ, মুছুন',
-                cancelButtonText: 'বাতিল',
-                background: '#0f172a',
-                color: '#fff'
-            });
-
-            if(result.isConfirmed) {
-                appData.auth_database.splice(idx, 1);
-                addLog(`নোড মুছে ফেলা হয়েছে: ${user.device_id}`, 'warning');
-                await sync();
-            }
-        }
-
-        function duplicateNode(idx) {
-            const user = {...appData.auth_database[idx]};
-            user.device_id = user.device_id + '-COPY';
-            user.key = 'KEY-' + Math.random().toString(36).substr(2, 12).toUpperCase();
-            appData.auth_database.unshift(user);
-            addLog(`নোড ডুপ্লিকেট করা হয়েছে: ${user.device_id}`, 'info');
-            sync();
-        }
-
-        // ===== CONFIG MODAL =====
-        function openConfig() {
-            const config = appData.app_config;
-            const global = appData.global_config;
-            
-            document.getElementById('c_title').value = config.title;
-            document.getElementById('c_logo').value = config.logo_url;
-            document.getElementById('c_buy').value = config.buy_url;
-            document.getElementById('c_gl_on').checked = global.global_key_enabled;
-            document.getElementById('c_gl_key').value = global.global_key;
-            document.getElementById('c_gl_msg').value = global.global_instruction;
-            
-            document.getElementById('configModal').classList.remove('hidden');
-        }
-
-        async function saveSystem() {
-            appData.app_config.title = document.getElementById('c_title').value;
-            appData.app_config.logo_url = document.getElementById('c_logo').value;
-            appData.app_config.buy_url = document.getElementById('c_buy').value;
-            appData.global_config.global_key_enabled = document.getElementById('c_gl_on').checked;
-            appData.global_config.global_key = document.getElementById('c_gl_key').value;
-            appData.global_config.global_instruction = document.getElementById('c_gl_msg').value;
-            
-            addLog('সিস্টেম কনফিগারেশন আপডেট করা হয়েছে', 'success');
-            await sync();
-            document.getElementById('configModal').classList.add('hidden');
-        }
-
-        // ===== SYNC =====
-        async function sync() {
-            try {
-                const res = await fetch(DB_ENDPOINT, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(appData)
-                });
-
-                if(res.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'সফল!',
-                        text: 'ডেটা সংরক্ষিত হয়েছে',
-                        timer: 1500,
-                        showConfirmButton: false,
-                        background: '#0f172a',
-                        color: '#fff'
-                    });
-                    renderCards();
-                    updateLastSync();
-                }
-            } catch(e) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'ত্রুটি!',
-                    text: 'সিঙ্ক ব্যর্থ হয়েছে',
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-                addLog('সিঙ্ক ব্যর্থ: ' + e.message, 'error');
-            }
-        }
-
-        // ===== SEARCH & FILTER =====
-        function liveSearch() {
-            const val = document.getElementById('searchBar').value.toLowerCase();
-            const cards = document.querySelectorAll('#userContainer > div');
-            
-            cards.forEach(card => {
-                const text = card.innerText.toLowerCase();
-                card.style.display = text.includes(val) ? 'block' : 'none';
-            });
-        }
-
-        function applyFilters() {
-            renderCards();
-        }
-
-        // ===== BULK OPERATIONS =====
-        function toggleSelectAll() {
-            const checked = document.getElementById('selectAll').checked;
-            document.querySelectorAll('.user-select').forEach(cb => {
-                cb.checked = checked;
-            });
-        }
-
-        function bulkOperation(newStatus) {
-            const selected = Array.from(document.querySelectorAll('.user-select:checked'));
-            if(selected.length === 0) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'কোনো নির্বাচন নেই',
-                    text: 'প্রথমে আইটেম নির্বাচন করুন',
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-                return;
-            }
-
-            selected.forEach(cb => {
-                const idx = parseInt(cb.dataset.index);
-                appData.auth_database[idx].status = newStatus;
-            });
-
-            addLog(`${selected.length}টি নোড ${newStatus} করা হয়েছে`, 'success');
-            sync();
-        }
-
-        function bulkDelete() {
-            const selected = Array.from(document.querySelectorAll('.user-select:checked'));
-            if(selected.length === 0) return;
-
-            Swal.fire({
-                title: 'নিশ্চিত করুন',
-                text: `${selected.length}টি নোড মুছে ফেলবেন?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                background: '#0f172a',
-                color: '#fff'
-            }).then(result => {
-                if(result.isConfirmed) {
-                    const indices = selected.map(cb => parseInt(cb.dataset.index)).sort((a,b) => b-a);
-                    indices.forEach(idx => appData.auth_database.splice(idx, 1));
-                    addLog(`${selected.length}টি নোড মুছে ফেলা হয়েছে`, 'warning');
-                    sync();
-                }
-            });
-        }
-
-        // ===== IMPORT/EXPORT =====
-        function exportData() {
-            const dataStr = JSON.stringify(appData, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `psxd-backup-${Date.now()}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            addLog('ডেটা এক্সপোর্ট করা হয়েছে', 'success');
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'এক্সপোর্ট সফল!',
-                text: 'ব্যাকআপ ফাইল ডাউনলোড হয়েছে',
-                background: '#0f172a',
-                color: '#fff',
-                timer: 2000
-            });
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            if(!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    
-                    Swal.fire({
-                        title: 'ইম্পোর্ট করবেন?',
-                        text: 'বর্তমান ডেটা প্রতিস্থাপিত হবে!',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        background: '#0f172a',
-                        color: '#fff'
-                    }).then(result => {
-                        if(result.isConfirmed) {
-                            appData = imported;
-                            addLog('ডেটা ইম্পোর্ট করা হয়েছে', 'info');
-                            sync();
-                        }
-                    });
-                } catch(err) {
+            function handleLogin() {
+                const e = $('#l_email').value.trim();
+                const p = $('#l_pass').value.trim();
+                const remember = $('#rememberMe').checked;
+                if (e === ADM_USER && p === ADM_PASS) {
+                    localStorage.setItem(SESSION_KEY, 'true');
+                    if (remember) {
+                        localStorage.setItem(REMEMBER_KEY, 'true');
+                        localStorage.setItem('psxd_remember_exp', String(Date.now() + 7 * 24 * 60 * 60 * 1000));
+                    }
+                    addLog('login', 'Admin authenticated');
+                    showToast('Access granted! Welcome back.', 'success', 2000);
+                    setTimeout(() => {
+                        $('#loginSection').classList.add('hidden');
+                        $('#dashboardSection').classList.remove('hidden');
+                        fetchData();
+                    }, 400);
+                } else {
+                    showToast('Access Denied! Unauthorized identity.', 'error', 3000);
                     Swal.fire({
                         icon: 'error',
-                        title: 'ত্রুটি!',
-                        text: 'অবৈধ JSON ফাইল',
-                        background: '#0f172a',
-                        color: '#fff'
+                        title: 'ACCESS DENIED',
+                        text: 'Invalid credentials detected!',
+                        background: '#020617',
+                        color: '#fff',
+                        confirmButtonColor: '#ef4444'
                     });
                 }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        // ===== ANALYTICS =====
-        function loadAnalytics() {
-            const users = appData.auth_database || [];
-            
-            // Status Distribution Chart
-            const statusCounts = {
-                active: users.filter(u => u.status === 'active').length,
-                lifetime: users.filter(u => u.status === 'lifetime').length,
-                blocked: users.filter(u => u.status === 'blocked').length
-            };
-
-            if(statusChart) statusChart.destroy();
-            const ctx1 = document.getElementById('statusChart').getContext('2d');
-            statusChart = new Chart(ctx1, {
-                type: 'doughnut',
-                data: {
-                    labels: ['সক্রিয়', 'লাইফটাইম', 'ব্লক'],
-                    datasets: [{
-                        data: [statusCounts.active, statusCounts.lifetime, statusCounts.blocked],
-                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { color: '#cbd5e1' }
-                        }
-                    }
-                }
-            });
-
-            // Trend Chart (Mock data)
-            if(trendChart) trendChart.destroy();
-            const ctx2 = document.getElementById('trendChart').getContext('2d');
-            trendChart = new Chart(ctx2, {
-                type: 'line',
-                data: {
-                    labels: ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন'],
-                    datasets: [{
-                        label: 'নতুন রেজিস্ট্রেশন',
-                        data: [12, 19, 8, 15, 22, users.length],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#cbd5e1' }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { color: '#cbd5e1' },
-                            grid: { color: 'rgba(255,255,255,0.05)' }
-                        },
-                        x: {
-                            ticks: { color: '#cbd5e1' },
-                            grid: { color: 'rgba(255,255,255,0.05)' }
-                        }
-                    }
-                }
-            });
-
-            // Detailed Stats (Mock)
-            document.getElementById('stat_today').innerText = Math.floor(Math.random() * 5);
-            document.getElementById('stat_week').innerText = Math.floor(Math.random() * 20);
-            document.getElementById('stat_month').innerText = Math.floor(Math.random() * 50);
-            document.getElementById('stat_expiring').innerText = Math.floor(Math.random() * 10);
-        }
-
-        // ===== ACTIVITY LOG =====
-        function addLog(message, type = 'info') {
-            const log = {
-                message,
-                type,
-                timestamp: new Date().toLocaleString('bn-BD')
-            };
-            activityLogs.unshift(log);
-            activityLogs = activityLogs.slice(0, 100); // Keep last 100
-            localStorage.setItem('activity_logs', JSON.stringify(activityLogs));
-        }
-
-        function loadActivityLog() {
-            const container = document.getElementById('activityLog');
-            container.innerHTML = '';
-
-            if(activityLogs.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center text-slate-500 py-12">
-                        <i class="fas fa-clipboard-list text-5xl mb-4 opacity-20"></i>
-                        <p>কোনো কার্যক্রম লগ নেই</p>
-                    </div>
-                `;
-                return;
             }
 
-            activityLogs.forEach(log => {
-                const icon = log.type === 'success' ? 'fa-check-circle text-emerald-400' :
-                            log.type === 'error' ? 'fa-exclamation-circle text-red-400' :
-                            log.type === 'warning' ? 'fa-exclamation-triangle text-amber-400' :
-                            'fa-info-circle text-blue-400';
+            function logout() {
+                addLog('login', 'Admin logged out');
+                localStorage.removeItem(SESSION_KEY);
+                localStorage.removeItem(REMEMBER_KEY);
+                localStorage.removeItem('psxd_remember_exp');
+                showToast('Logged out successfully.', 'info', 1500);
+                setTimeout(() => location.reload(), 500);
+            }
 
-                container.innerHTML += `
-                    <div class="glass-card p-4 flex items-start gap-4">
-                        <i class="fas ${icon} text-xl mt-1"></i>
-                        <div class="flex-1">
-                            <p class="text-sm font-medium">${log.message}</p>
-                            <p class="text-xs text-slate-500 mt-1">${log.timestamp}</p>
+            // ============ DATABASE OPS ============
+            async function fetchData() {
+                const container = $('#userContainer');
+                if (container) {
+                    container.innerHTML = Array(6).fill(`
+                    <div class="user-card p-6 sm:p-8">
+                        <div class="skeleton h-4 w-24 mb-4"></div>
+                        <div class="skeleton h-8 w-full mb-3"></div>
+                        <div class="skeleton h-6 w-3/4 mb-4"></div>
+                        <div class="skeleton h-12 w-full mb-3"></div>
+                        <div class="skeleton h-4 w-20"></div>
+                    </div>
+                `).join('');
+                }
+                try {
+                    const res = await fetch(DB_ENDPOINT);
+                    if (!res.ok) throw new Error('Network error');
+                    appData = await res.json();
+                    if (!appData.auth_database) appData.auth_database = [];
+                    if (!appData.app_config) appData.app_config = { title: 'PSXD ADMIN', logo_url: '',
+                        buy_url: '' };
+                    if (!appData.global_config) appData.global_config = { global_key_enabled: false, global_key: '',
+                        global_instruction: '' };
+                    if (!appData.activity_log) appData.activity_log = [];
+                    activityLog = appData.activity_log || [];
+                    renderAll();
+                    showToast('Data synced successfully', 'success', 1800);
+                } catch (e) {
+                    showToast('Database offline! Check connection.', 'error', 3500);
+                    Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Unable to reach database.',
+                        background: '#020617', color: '#fff' });
+                    if (container) container.innerHTML = '';
+                }
+            }
+
+            function renderAll() {
+                renderCards();
+                renderStats();
+                renderAnalytics();
+                renderActivityLog();
+                renderRecentActivity();
+                updateBranding();
+                updateGlobalStatus();
+            }
+
+            function renderCards() {
+                const grid = $('#userContainer');
+                const emptyState = $('#emptyState');
+                const users = appData.auth_database || [];
+                if (!grid) return;
+
+                if (users.length === 0) {
+                    grid.innerHTML = '';
+                    if (emptyState) emptyState.classList.remove('hidden');
+                } else {
+                    if (emptyState) emptyState.classList.add('hidden');
+                }
+
+                const searchVal = ($('#searchBar')?.value || '').toLowerCase();
+                const statusFilter = $('#statusFilter')?.value || 'all';
+
+                let filtered = users;
+                if (searchVal) {
+                    filtered = filtered.filter(u =>
+                        (u.device_id || '').toLowerCase().includes(searchVal) ||
+                        (u.key || '').toLowerCase().includes(searchVal) ||
+                        (u.status || '').toLowerCase().includes(searchVal)
+                    );
+                }
+                if (statusFilter !== 'all') {
+                    filtered = filtered.filter(u => u.status === statusFilter);
+                }
+
+                grid.innerHTML = filtered.map((user, i) => {
+                    const origIdx = users.indexOf(user);
+                    const isLife = user.status === 'lifetime';
+                    const isBlocked = user.status === 'blocked';
+                    const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (isBlocked ?
+                        'text-red-400 bg-red-400/10' : 'text-emerald-400 bg-emerald-400/10');
+                    const cardClass = isLife ? 'lifetime-card' : (isBlocked ? 'blocked-card' : '');
+                    const isSelected = selectedNodes.has(origIdx);
+
+                    return `
+                <div class="user-card p-5 sm:p-7 group ${cardClass} ${isSelected ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-slate-900' : ''}" data-orig-idx="${origIdx}">
+                    <div class="flex justify-between items-start mb-5 sm:mb-7">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-3 h-3 rounded-full ${isBlocked ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'} shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${sColor} px-2.5 py-1 rounded-lg">${user.status}</span>
+                            <input type="checkbox" class="node-checkbox w-4 h-4 accent-blue-500 rounded cursor-pointer" data-idx="${origIdx}" ${isSelected?'checked':''} onclick="event.stopPropagation();toggleSelect(${origIdx},this.checked)" title="Select node">
+                        </div>
+                        <div class="flex gap-3 sm:gap-4 opacity-30 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="openEditor(${origIdx})" class="text-blue-400 hover:text-white transition" title="Edit"><i class="fas fa-pen-nib text-base sm:text-lg"></i></button>
+                            <button onclick="copy('${(user.device_id||'').replace(/'/g,"\\'")}', this)" class="text-slate-400 hover:text-emerald-400 transition" title="Copy ID"><i class="fas fa-copy text-sm sm:text-base"></i></button>
+                            <button onclick="removeNode(${origIdx})" class="text-red-400 hover:text-white transition" title="Delete"><i class="fas fa-trash-alt text-base sm:text-lg"></i></button>
                         </div>
                     </div>
-                `;
-            });
-        }
+                    <div class="space-y-4 sm:space-y-5">
+                        <div>
+                            <p class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-tighter mb-1.5">NODE IDENTITY</p>
+                            <p class="font-mono text-white text-sm sm:text-base font-bold truncate tracking-wider">${user.device_id||'—'}</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-tighter mb-1.5">ACCESS KEY</p>
+                            <div class="bg-slate-950/80 p-3 rounded-xl border border-white/5 font-mono text-[10px] sm:text-[11px] text-blue-300 truncate tracking-wider flex items-center justify-between gap-2">
+                                <span class="truncate">${user.key||'—'}</span>
+                                <button onclick="copy('${(user.key||'').replace(/'/g,"\\'")}', this)" class="text-slate-500 hover:text-emerald-400 transition flex-shrink-0" title="Copy Key"><i class="fas fa-link text-xs"></i></button>
+                            </div>
+                        </div>
+                        <div class="pt-3 sm:pt-4 border-t border-white/5 flex justify-between items-center">
+                            <div>
+                                <p class="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase mb-0.5">VALID UNTIL</p>
+                                <p class="text-xs font-black ${isLife ? 'text-amber-400' : 'text-slate-200'}">${isLife ? '<i class="fas fa-infinity mr-1"></i> ELITE LIFETIME' : (user.expiry||'—')}</p>
+                            </div>
+                            ${isLife ? '<i class="fas fa-crown text-amber-400 text-lg sm:text-xl drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]"></i>' : ''}
+                        </div>
+                    </div>
+                </div>`;
+                }).join('');
 
-        function clearLogs() {
-            Swal.fire({
-                title: 'সব লগ মুছবেন?',
-                icon: 'warning',
-                showCancelButton: true,
-                background: '#0f172a',
-                color: '#fff'
-            }).then(result => {
-                if(result.isConfirmed) {
-                    activityLogs = [];
-                    localStorage.setItem('activity_logs', '[]');
-                    loadActivityLog();
+                if (filtered.length === 0 && users.length > 0) {
+                    grid.innerHTML =
+                        `<div class="col-span-full text-center py-12"><i class="fas fa-search text-4xl text-slate-700 mb-3"></i><p class="text-slate-500 font-semibold">No matching nodes found.</p></div>`;
+                }
+            }
+
+            function renderStats() {
+                const users = appData.auth_database || [];
+                const total = users.length;
+                const active = users.filter(u => u.status === 'active').length;
+                const lifetime = users.filter(u => u.status === 'lifetime').length;
+                const blocked = users.filter(u => u.status === 'blocked').length;
+                animateCounter($('#st_total'), total);
+                animateCounter($('#st_active'), active);
+                animateCounter($('#st_life'), lifetime);
+                animateCounter($('#st_block'), blocked);
+            }
+
+            function animateCounter(el, target) {
+                if (!el) return;
+                const current = parseInt(el.innerText) || 0;
+                if (current === target) return;
+                const diff = target - current;
+                const steps = Math.min(Math.abs(diff), 30);
+                const duration = 400;
+                const stepTime = duration / (steps || 1);
+                let step = 0;
+                const interval = setInterval(() => {
+                    step++;
+                    el.innerText = Math.round(current + (diff * step / steps));
+                    if (step >= steps) {
+                        el.innerText = target;
+                        clearInterval(interval);
+                    }
+                }, stepTime);
+            }
+
+            function renderAnalytics() {
+                const users = appData.auth_database || [];
+                const total = users.length || 1;
+                const active = users.filter(u => u.status === 'active').length;
+                const lifetime = users.filter(u => u.status === 'lifetime').length;
+                const blocked = users.filter(u => u.status === 'blocked').length;
+                if ($('#ana_active')) $('#ana_active').innerText = active;
+                if ($('#ana_life')) $('#ana_life').innerText = lifetime;
+                if ($('#ana_block')) $('#ana_block').innerText = blocked;
+                if ($('#bar_active')) $('#bar_active').style.width = (active / total * 100) + '%';
+                if ($('#bar_life')) $('#bar_life').style.width = (lifetime / total * 100) + '%';
+                if ($('#bar_block')) $('#bar_block').style.width = (blocked / total * 100) + '%';
+            }
+
+            function renderRecentActivity() {
+                const el = $('#recentActivity');
+                if (!el) return;
+                const recent = activityLog.slice(0, 5);
+                if (recent.length === 0) {
+                    el.innerHTML = '<p class="text-slate-500 text-xs sm:text-sm italic">No recent activity recorded.</p>';
+                    return;
+                }
+                el.innerHTML = recent.map(a => `
+                <div class="flex items-center gap-3 text-xs sm:text-sm py-1.5">
+                    <span class="w-2 h-2 rounded-full ${a.action==='delete'||a.action==='bulk_delete'?'bg-red-500':a.action==='create'?'bg-emerald-500':a.action==='config'?'bg-purple-500':'bg-blue-500'}"></span>
+                    <span class="text-slate-400 capitalize">${a.action.replace('_',' ')}</span>
+                    <span class="text-slate-600 truncate">${a.target||''}</span>
+                    <span class="text-slate-700 text-[10px] ml-auto">${a.timeFormatted}</span>
+                </div>
+            `).join('');
+            }
+
+            function updateBranding() {
+                const cfg = appData.app_config || {};
+                const logo = $('#navLogo');
+                const title = $('#navTitle');
+                if (logo && cfg.logo_url) logo.src = cfg.logo_url;
+                if (title && cfg.title) title.innerText = cfg.title;
+                document.title = (cfg.title || 'PSXD') + ' | Cyber Panel Pro';
+            }
+
+            function updateGlobalStatus() {
+                const gc = appData.global_config || {};
+                if ($('#gstatus_switch')) $('#gstatus_switch').innerHTML = gc.global_key_enabled ?
+                    '<span class="text-emerald-400">🟢 Enabled</span>' :
+                    '<span class="text-red-400">🔴 Disabled</span>';
+                if ($('#gstatus_key')) $('#gstatus_key').innerText = gc.global_key || 'Not set';
+                if ($('#gstatus_title')) $('#gstatus_title').innerText = (appData.app_config || {}).title ||
+                    'PSXD ADMIN';
+            }
+
+            // ============ CRUD OPERATIONS ============
+            function openEditor(idx = -1) {
+                activeIdx = idx;
+                $('#modalTitle').innerText = idx === -1 ? "🚀 DEPLOY NEW NODE" : "🔧 MODIFY PROTOCOL";
+                if (idx !== -1 && appData.auth_database[idx]) {
+                    const u = appData.auth_database[idx];
+                    $('#m_device').value = u.device_id || '';
+                    $('#m_status').value = u.status || 'active';
+                    $('#m_key').value = u.key || '';
+                    $('#m_expiry').value = (u.expiry && u.expiry !== 'unlimited') ? u.expiry : '';
+                } else {
+                    $('#m_device').value = '';
+                    $('#m_status').value = 'active';
+                    $('#m_key').value = '';
+                    $('#m_expiry').value = '';
+                }
+                toggleDate();
+                $('#editModal').classList.remove('hidden');
+                setTimeout(() => $('#m_device').focus(), 200);
+            }
+
+            function toggleDate() {
+                const isLife = $('#m_status').value === 'lifetime';
+                const exp = $('#m_expiry');
+                exp.disabled = isLife;
+                exp.style.opacity = isLife ? '0.3' : '1';
+                if (isLife) exp.value = '';
+            }
+
+            function generateKey() {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+                let key = 'KEY-';
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) key += chars[Math.floor(Math.random() * chars.length)];
+                    if (i < 3) key += '-';
+                }
+                $('#m_key').value = key;
+                showToast('Random key generated', 'info', 1500);
+            }
+
+            async function saveChanges() {
+                const s = $('#m_status').value;
+                const nodeObj = {
+                    device_id: $('#m_device').value.trim() || "DEVICE-" + Math.random().toString(36).substr(2, 8)
+                        .toUpperCase(),
+                    status: s,
+                    expiry: s === 'lifetime' ? 'unlimited' : ($('#m_expiry').value || new Date().toISOString()
+                        .split('T')[0]),
+                    key: $('#m_key').value.trim() || ("KEY-" + Math.random().toString(36).substr(2, 6).toUpperCase())
+                };
+
+                if (activeIdx === -1) {
+                    appData.auth_database.unshift(nodeObj);
+                    addLog('create', nodeObj.device_id, 'New node deployed');
+                } else {
+                    const old = appData.auth_database[activeIdx];
+                    appData.auth_database[activeIdx] = nodeObj;
+                    addLog('update', nodeObj.device_id, 'Node configuration modified');
+                }
+                await sync();
+                closeModal();
+                switchTab('tab-users');
+            }
+
+            async function removeNode(idx) {
+                const user = appData.auth_database[idx];
+                if (!user) return;
+                const confirm = await Swal.fire({
+                    title: '⚠️ TERMINATE NODE?',
+                    html: `<p class="text-sm">This will permanently revoke access for:</p><p class="font-mono text-blue-400 mt-2 text-xs">${user.device_id||'Unknown'}</p>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    confirmButtonText: 'Yes, terminate!',
+                    cancelButtonText: 'Cancel',
+                    background: '#020617',
+                    color: '#fff'
+                });
+                if (confirm.isConfirmed) {
+                    const removed = appData.auth_database.splice(idx, 1)[0];
+                    selectedNodes.delete(idx);
+                    addLog('delete', removed.device_id || 'Unknown', 'Node permanently removed');
+                    await sync();
+                    showToast('Node terminated permanently.', 'success', 2000);
+                }
+            }
+
+            async function bulkDelete() {
+                if (selectedNodes.size === 0) {
+                    showToast('No nodes selected!', 'error', 2000);
+                    return;
+                }
+                const confirm = await Swal.fire({
+                    title: '⚠️ BULK TERMINATION',
+                    html: `<p class="text-sm">Permanently delete <b class="text-red-400">${selectedNodes.size}</b> selected nodes?</p>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    confirmButtonText: 'Delete All Selected',
+                    background: '#020617',
+                    color: '#fff'
+                });
+                if (confirm.isConfirmed) {
+                    const indices = Array.from(selectedNodes).sort((a, b) => b - a);
+                    const removed = [];
+                    indices.forEach(i => {
+                        if (appData.auth_database[i]) {
+                            removed.push(appData.auth_database[i].device_id || 'Unknown');
+                            appData.auth_database.splice(i, 1);
+                        }
+                    });
+                    selectedNodes.clear();
+                    updateBulkBar();
+                    addLog('bulk_delete', `${removed.length} nodes`, removed.join(', '));
+                    await sync();
+                    showToast(`${removed.length} nodes terminated.`, 'success', 2500);
+                }
+            }
+
+            function toggleSelect(idx, checked) {
+                if (checked) selectedNodes.add(idx);
+                else selectedNodes.delete(idx);
+                updateBulkBar();
+                renderCards();
+            }
+
+            function clearSelection() {
+                selectedNodes.clear();
+                updateBulkBar();
+                renderCards();
+            }
+
+            function updateBulkBar() {
+                const bar = $('#bulkBar');
+                const count = $('#bulkCount');
+                if (!bar || !count) return;
+                if (selectedNodes.size > 0) {
+                    bar.classList.remove('hidden');
+                    bar.classList.add('flex');
+                    count.innerText = selectedNodes.size;
+                } else {
+                    bar.classList.add('hidden');
+                    bar.classList.remove('flex');
+                }
+            }
+
+            async function saveSystem() {
+                appData.app_config.title = $('#c_title').value.trim() || 'PSXD ADMIN';
+                appData.app_config.logo_url = $('#c_logo').value.trim();
+                appData.app_config.buy_url = $('#c_buy').value.trim();
+                appData.global_config.global_key_enabled = $('#c_gl_on').checked;
+                appData.global_config.global_key = $('#c_gl_key').value.trim();
+                appData.global_config.global_instruction = $('#c_gl_msg').value.trim();
+                addLog('config', 'System settings', 'Global configuration updated');
+                await sync();
+                $('#configModal').classList.add('hidden');
+                updateBranding();
+                updateGlobalStatus();
+                showToast('System protocol applied!', 'success', 2000);
+            }
+
+            async function sync() {
+                Swal.fire({
+                    title: '🔄 Syncing...',
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading(),
+                    background: '#020617',
+                    color: '#fff'
+                });
+                try {
+                    appData.activity_log = activityLog;
+                    const res = await fetch(DB_ENDPOINT, { method: 'PUT', body: JSON.stringify(appData),
+                        headers: { 'Content-Type': 'application/json' } });
+                    if (res.ok) {
+                        Swal.close();
+                        renderAll();
+                    } else throw new Error('Sync failed');
+                } catch (e) {
+                    Swal.fire({ icon: 'error', title: 'Sync Failure!', text: 'Check your connection.',
+                        background: '#020617', color: '#fff' });
+                }
+            }
+
+            // ============ SEARCH & FILTER ============
+            function liveSearch() {
+                renderCards();
+                renderStats();
+            }
+
+            // ============ TAB SYSTEM ============
+            function switchTab(tabId) {
+                $$('.tab-panel').forEach(p => p.classList.remove('active'));
+                $$('.tab-btn').forEach(b => b.classList.remove('active'));
+                $$('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+                const panel = $('#' + tabId);
+                if (panel) panel.classList.add('active');
+                const desktopBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                if (desktopBtn) desktopBtn.classList.add('active');
+                const mobileBtn = document.querySelector(`.bottom-nav-item[data-tab="${tabId}"]`);
+                if (mobileBtn) mobileBtn.classList.add('active');
+                if (tabId === 'tab-analytics') renderAnalytics();
+                if (tabId === 'tab-logs') renderActivityLog();
+            }
+
+            // Tab click handlers
+            document.addEventListener('click', function(e) {
+                const tabBtn = e.target.closest('.tab-btn');
+                const bottomNavItem = e.target.closest('.bottom-nav-item');
+                if (tabBtn) {
+                    const tabId = tabBtn.getAttribute('data-tab');
+                    if (tabId) switchTab(tabId);
+                }
+                if (bottomNavItem) {
+                    const tabId = bottomNavItem.getAttribute('data-tab');
+                    if (tabId) switchTab(tabId);
                 }
             });
-        }
 
-        // ===== UTILITIES =====
-        function copy(text, btn) {
-            navigator.clipboard.writeText(text);
-            const icon = btn.querySelector('i');
-            const originalClass = icon.className;
-            icon.className = 'fas fa-check';
-            
-            setTimeout(() => {
-                icon.className = originalClass;
-            }, 1500);
+            // ============ UTILS ============
+            function copy(text, btn) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const icon = btn.querySelector('i');
+                    if (!icon) return;
+                    const origClass = icon.className;
+                    icon.className = 'fas fa-check text-emerald-400';
+                    showToast('Copied to clipboard!', 'success', 1200);
+                    setTimeout(() => { icon.className = origClass; }, 1500);
+                }).catch(() => {
+                    showToast('Copy failed!', 'error', 1500);
+                });
+            }
 
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                title: 'কপি হয়েছে!',
-                showConfirmButton: false,
-                timer: 1000,
-                background: '#0f172a',
-                color: '#fff'
+            function closeModal() { $('#editModal').classList.add('hidden');
+                activeIdx = -1; }
+
+            function openConfig() {
+                if (!appData) { showToast('Please wait for data to load.', 'info', 2000);
+                    fetchData(); return; }
+                $('#c_title').value = (appData.app_config || {}).title || '';
+                $('#c_logo').value = (appData.app_config || {}).logo_url || '';
+                $('#c_buy').value = (appData.app_config || {}).buy_url || '';
+                $('#c_gl_on').checked = (appData.global_config || {}).global_key_enabled || false;
+                $('#c_gl_key').value = (appData.global_config || {}).global_key || '';
+                $('#c_gl_msg').value = (appData.global_config || {}).global_instruction || '';
+                $('#configModal').classList.remove('hidden');
+            }
+
+            function exportData() {
+                if (!appData || !appData.auth_database) {
+                    showToast('No data to export!', 'error', 2000);
+                    return;
+                }
+                const users = appData.auth_database;
+                let csv = 'Device ID,Status,Expiry,License Key\n';
+                users.forEach(u => {
+                    csv +=
+                        `"${u.device_id||''}","${u.status||''}","${u.expiry||''}","${u.key||''}"\n`;
+                });
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `psxd_nodes_export_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+                addLog('export', `${users.length} nodes`, 'CSV exported');
+                renderActivityLog();
+                showToast('Data exported as CSV!', 'success', 2000);
+            }
+
+            // ============ KEYBOARD SHORTCUTS ============
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (!$('#editModal').classList.contains('hidden')) closeModal();
+                    if (!$('#configModal').classList.contains('hidden')) $('#configModal').classList.add(
+                        'hidden');
+                }
+                if (e.ctrlKey && e.key === 'n') {
+                    e.preventDefault();
+                    openEditor(-1);
+                }
+                if (e.ctrlKey && e.key === 'r') {
+                    e.preventDefault();
+                    fetchData();
+                }
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    switchTab('tab-users');
+                    setTimeout(() => $('#searchBar')?.focus(), 300);
+                }
             });
-        }
+
+            // ============ INITIALIZATION ============
+            window.onload = function() {
+                if (checkSession()) {
+                    $('#loginSection').classList.add('hidden');
+                    $('#dashboardSection').classList.remove('hidden');
+                    fetchData();
+                } else {
+                    $('#loginSection').classList.remove('hidden');
+                    $('#dashboardSection').classList.add('hidden');
+                }
+                // Check for saved email
+                const savedEmail = localStorage.getItem('psxd_saved_email');
+                if (savedEmail && $('#l_email')) $('#l_email').value = savedEmail;
+            };
+
+            // Save email on login attempt
+            const origHandleLogin = handleLogin;
+            handleLogin = function() {
+                const email = $('#l_email').value.trim();
+                if (email) localStorage.setItem('psxd_saved_email', email);
+                origHandleLogin();
+            };
+
+            // ============ EXPOSE TO GLOBAL SCOPE ============
+            window.handleLogin = handleLogin;
+            window.logout = logout;
+            window.fetchData = fetchData;
+            window.openEditor = openEditor;
+            window.closeModal = closeModal;
+            window.saveChanges = saveChanges;
+            window.removeNode = removeNode;
+            window.saveSystem = saveSystem;
+            window.openConfig = openConfig;
+            window.toggleDate = toggleDate;
+            window.liveSearch = liveSearch;
+            window.copy = copy;
+            window.switchTab = switchTab;
+            window.generateKey = generateKey;
+            window.exportData = exportData;
+            window.toggleSelect = toggleSelect;
+            window.clearSelection = clearSelection;
+            window.bulkDelete = bulkDelete;
+            window.clearLogs = clearLogs;
+        })();
     </script>
 </body>
 </html>
