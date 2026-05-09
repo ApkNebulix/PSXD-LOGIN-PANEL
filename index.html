@@ -1,677 +1,1520 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>PSXD CYBER PANEL PRO | v2.0</title>
-  <!-- Tailwind + Icons + SweetAlert2 + Animate.css -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSXD CYBER PANEL PRO V2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Hind+Siliguri:wght@400;600;700&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(30, 41, 59, 0.4);
+        }
 
-    :root {
-      --accent: #3b82f6;
-      --glass: rgba(15, 23, 42, 0.75);
-      --border: rgba(255, 255, 255, 0.08);
-      --blur-amount: 30px;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+        body {
+            font-family: 'Outfit', 'Hind Siliguri', sans-serif;
+            background: #020617;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
 
-    body {
-      font-family: 'Outfit', 'Hind Siliguri', sans-serif;
-      background: #020617;
-      color: #e2e8f0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      margin: 0;
-      position: relative;
-    }
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #312e81, #020617);
+            background-size: 400% 400%;
+            animation: gradientFlow 20s ease infinite;
+            z-index: -2;
+        }
 
-    /* motion blur background layers */
-    .ambient-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-    }
+        .particles {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(59, 130, 246, 0.3), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(139, 92, 246, 0.3), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(6, 182, 212, 0.2), transparent),
+                radial-gradient(1px 1px at 80% 10%, rgba(59, 130, 246, 0.2), transparent);
+            background-size: 200% 200%;
+            animation: particleFloat 15s ease infinite;
+            z-index: -1;
+        }
 
-    .bg-layer-1 {
-      background: radial-gradient(ellipse at 30% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
-      animation: floatBlur1 18s infinite alternate ease-in-out;
-      filter: blur(80px);
-    }
-    .bg-layer-2 {
-      background: radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.18) 0%, transparent 60%);
-      animation: floatBlur2 20s infinite alternate ease-in-out;
-      filter: blur(90px);
-    }
-    .bg-layer-3 {
-      background: radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
-      animation: floatBlur3 22s infinite alternate ease-in-out;
-      filter: blur(100px);
-    }
-    @keyframes floatBlur1 {
-      0% {
-        transform: translate(0%, 0%) scale(1);
-      }
-      100% {
-        transform: translate(5%, -5%) scale(1.2);
-      }
-    }
-    @keyframes floatBlur2 {
-      0% {
-        transform: translate(0%, 0%) scale(1.1);
-      }
-      100% {
-        transform: translate(-4%, 6%) scale(0.9);
-      }
-    }
-    @keyframes floatBlur3 {
-      0% {
-        transform: translate(0%, 0%) scale(1);
-      }
-      100% {
-        transform: translate(3%, 3%) scale(1.15);
-      }
-    }
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-    /* glass morphism card base */
-    .glass-morphism {
-      background: var(--glass);
-      backdrop-filter: blur(var(--blur-amount));
-      -webkit-backdrop-filter: blur(var(--blur-amount));
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    .glass-morphism:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
+        @keyframes particleFloat {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+        }
 
-    /* user card special */
-    .user-card {
-      background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      border-radius: 32px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.6);
-    }
-    .user-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: rgba(59, 130, 246, 0.5);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(59, 130, 246, 0.3);
-    }
-    .user-card::after {
-      content: '';
-      position: absolute;
-      top: -40%;
-      right: -40%;
-      width: 80%;
-      height: 80%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
-      pointer-events: none;
-    }
+        /* Glass Morphism */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+        }
 
-    .lifetime-glow {
-      border-color: rgba(245, 158, 11, 0.4);
-      background: linear-gradient(145deg, rgba(245, 158, 11, 0.08), rgba(15, 23, 42, 0.5));
-    }
-    .lifetime-glow:hover {
-      border-color: rgba(245, 158, 11, 0.7);
-      box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.3);
-    }
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* custom input */
-    .custom-input {
-      background: rgba(15, 23, 42, 0.7) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      color: white !important;
-      transition: 0.3s;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    .custom-input:focus {
-      border-color: var(--accent) !important;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
-      outline: none;
-    }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.5s;
+        }
 
-    /* tab bar */
-    .tab-btn {
-      transition: all 0.3s ease;
-      position: relative;
-      border-radius: 28px;
-      padding: 0.6rem 1.4rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      color: #94a3b8;
-      background: transparent;
-      backdrop-filter: blur(4px);
-    }
-    .tab-btn.active {
-      background: rgba(59, 130, 246, 0.25);
-      color: white;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
+        .glass-card:hover::before {
+            left: 100%;
+        }
 
-    /* FAB */
-    .fab-btn {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      width: 62px;
-      height: 62px;
-      border-radius: 30px;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
-      z-index: 60;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .fab-btn:hover {
-      transform: scale(1.08) rotate(90deg);
-      box-shadow: 0 20px 40px rgba(139, 92, 246, 0.7);
-    }
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 
+                0 20px 60px -15px rgba(59, 130, 246, 0.3),
+                0 0 0 1px rgba(59, 130, 246, 0.2);
+        }
 
-    /* scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f172a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 20px;
-    }
-  </style>
+        /* Motion Blur Effect */
+        .motion-blur {
+            filter: blur(0px);
+            transition: filter 0.3s ease;
+        }
+
+        .motion-blur:active {
+            filter: blur(2px);
+        }
+
+        /* Lifetime Glow */
+        .lifetime-card {
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.1), var(--card-bg));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.2);
+        }
+
+        .lifetime-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, transparent, rgba(245, 158, 11, 0.1), transparent);
+            border-radius: 24px;
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Custom Input */
+        .custom-input {
+            background: rgba(15, 23, 42, 0.7) !important;
+            border: 1px solid var(--glass-border) !important;
+            color: white !important;
+            transition: all 0.3s ease;
+        }
+
+        .custom-input:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            background: rgba(15, 23, 42, 0.9) !important;
+        }
+
+        /* Tab System */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tab-btn.active::before {
+            transform: scaleX(1);
+        }
+
+        .tab-btn.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+        }
+
+        /* Stats Animation */
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+            animation: countUp 1s ease-out;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Pulse Animation */
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Loading Shimmer */
+        .shimmer {
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.08), 
+                transparent
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.7);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 40;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Status Colors */
+        .status-active { 
+            background: rgba(16, 185, 129, 0.15); 
+            color: #10b981; 
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-lifetime { 
+            background: rgba(245, 158, 11, 0.15); 
+            color: #f59e0b; 
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .status-blocked { 
+            background: rgba(239, 68, 68, 0.15); 
+            color: #ef4444; 
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .fab {
+                bottom: 1rem;
+                right: 1rem;
+                width: 56px;
+                height: 56px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Ambient motion blur layers -->
-  <div class="ambient-bg bg-layer-1"></div>
-  <div class="ambient-bg bg-layer-2"></div>
-  <div class="ambient-bg bg-layer-3"></div>
+    <div class="animated-bg"></div>
+    <div class="particles"></div>
 
-  <!-- LOGIN SHIELD (Advanced Security) -->
-  <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl">
-    <div class="glass-morphism p-10 rounded-[40px] w-full max-w-md animate__animated animate__zoomIn border-white/10">
-      <div class="text-center mb-10">
-        <div class="w-24 h-24 bg-blue-600/20 rounded-[30px] flex items-center justify-center mx-auto mb-6 relative shadow-2xl">
-          <i class="fas fa-shield-haltered text-5xl text-blue-400"></i>
-          <div class="absolute inset-0 border-2 border-blue-500/40 rounded-[30px] animate-pulse"></div>
-        </div>
-        <h1 class="text-3xl font-black text-white tracking-tight">PSXD SECURE ACCESS</h1>
-        <p class="text-slate-400 mt-2 text-sm font-medium">Biometric-style identity verification</p>
-      </div>
-      <div class="space-y-6">
-        <input type="email" id="l_email" class="w-full custom-input p-5 rounded-2xl outline-none text-white placeholder-slate-500" placeholder="Admin Identifier">
-        <input type="password" id="l_pass" class="w-full custom-input p-5 rounded-2xl outline-none text-white placeholder-slate-500" placeholder="Cipher Key">
-        <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl shadow-2xl shadow-blue-600/30 transition active:scale-95 flex items-center justify-center gap-2">
-          <i class="fas fa-fingerprint"></i> Authenticate
-        </button>
-      </div>
-      <p class="text-xs text-slate-600 mt-6 text-center">Protected by PSXD Cyber Vault</p>
-    </div>
-  </div>
+    <!-- LOGIN SECTION -->
+    <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="glass p-12 rounded-[48px] w-full max-w-md animate__animated animate__zoomIn">
+            <div class="text-center mb-12">
+                <div class="relative w-28 h-28 bg-gradient-to-br from-blue-600 to-purple-600 rounded-[32px] flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-shield-halved text-6xl text-white"></i>
+                    <div class="absolute inset-0 border-4 border-blue-500/30 rounded-[32px] animate-ping"></div>
+                    <div class="absolute -top-2 -right-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check text-white text-sm"></i>
+                    </div>
+                </div>
+                <h1 class="text-4xl font-black bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    SECURE ACCESS
+                </h1>
+                <p class="text-slate-400 mt-3 text-sm font-medium">প্রবেশাধিকার যাচাইকরণ প্রয়োজন</p>
+            </div>
 
-  <!-- MAIN DASHBOARD (hidden initially) -->
-  <div id="dashboardSection" class="hidden min-h-screen flex flex-col">
-
-    <!-- Header -->
-    <header class="sticky top-0 z-40 p-5 flex justify-between items-center glass-morphism border-b border-white/5 shadow-2xl">
-      <div class="flex items-center gap-4">
-        <div class="relative">
-          <img id="navLogo" class="w-12 h-12 rounded-2xl object-cover border border-white/10 shadow-lg" alt="logo">
-          <div class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-slate-900 rounded-full"></div>
-        </div>
-        <div>
-          <h2 id="navTitle" class="text-xl font-black text-white leading-none">PSXD PANEL</h2>
-          <span class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Admin Root</span>
-        </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <button onclick="logout()" class="p-3 bg-red-500/10 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition">
-          <i class="fas fa-power-off text-lg"></i>
-        </button>
-      </div>
-    </header>
-
-    <!-- Tab Navigation -->
-    <div class="flex justify-center mt-6 px-4">
-      <div class="glass-morphism p-2 rounded-[35px] flex gap-1 flex-wrap justify-center shadow-2xl">
-        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active flex items-center gap-2"><i class="fas fa-chart-pie"></i><span class="hidden sm:inline">Overview</span></button>
-        <button onclick="switchTab('users')" id="tab-users" class="tab-btn flex items-center gap-2"><i class="fas fa-users"></i><span class="hidden sm:inline">Nodes</span></button>
-        <button onclick="switchTab('settings')" id="tab-settings" class="tab-btn flex items-center gap-2"><i class="fas fa-sliders"></i><span class="hidden sm:inline">Config</span></button>
-        <button onclick="switchTab('activity')" id="tab-activity" class="tab-btn flex items-center gap-2"><i class="fas fa-clock"></i><span class="hidden sm:inline">Logs</span></button>
-      </div>
-    </div>
-
-    <!-- Tab Panels -->
-    <div class="flex-1 max-w-7xl mx-auto w-full px-5 pb-24 mt-6">
-
-      <!-- DASHBOARD TAB -->
-      <div id="panel-dashboard" class="tab-panel animate__animated animate__fadeIn">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-blue-500">
-            <p class="text-[10px] font-bold text-slate-500 uppercase">Total Nodes</p>
-            <h3 id="st_total" class="text-3xl font-black mt-1">0</h3>
-          </div>
-          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-emerald-500">
-            <p class="text-[10px] font-bold text-emerald-500 uppercase">Verified</p>
-            <h3 id="st_active" class="text-3xl font-black mt-1">0</h3>
-          </div>
-          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-amber-500">
-            <p class="text-[10px] font-bold text-amber-500 uppercase">Elite Status</p>
-            <h3 id="st_life" class="text-3xl font-black mt-1">0</h3>
-          </div>
-          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-red-500">
-            <p class="text-[10px] font-bold text-red-500 uppercase">Terminated</p>
-            <h3 id="st_block" class="text-3xl font-black mt-1">0</h3>
-          </div>
-        </div>
-        <div class="glass-morphism p-8 rounded-3xl flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <p class="text-slate-400 text-sm">System Status</p>
-            <h3 class="text-2xl font-bold text-emerald-400">All Systems Operational</h3>
-          </div>
-          <i class="fas fa-server text-4xl text-blue-400 opacity-70"></i>
-        </div>
-      </div>
-
-      <!-- USERS TAB -->
-      <div id="panel-users" class="tab-panel hidden animate__animated animate__fadeIn">
-        <div class="flex flex-col md:flex-row gap-5 mb-10 items-center justify-between">
-          <div class="relative w-full md:w-[400px] group">
-            <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition"></i>
-            <input type="text" id="searchBar" oninput="liveSearch()" class="w-full glass-morphism py-4 pl-14 pr-6 rounded-[28px] outline-none text-sm tracking-wide" placeholder="Search Device ID, License...">
-          </div>
-          <button onclick="openEditor()" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/20 flex items-center gap-3 transition active:scale-95">
-            <i class="fas fa-plus-circle"></i> New Node
-          </button>
-        </div>
-        <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- injected cards -->
-        </div>
-      </div>
-
-      <!-- SETTINGS TAB -->
-      <div id="panel-settings" class="tab-panel hidden animate__animated animate__fadeIn">
-        <div class="glass-morphism p-8 rounded-[35px] max-w-4xl mx-auto">
-          <h2 class="text-2xl font-black mb-8 flex items-center gap-3"><i class="fas fa-terminal text-blue-400"></i> Core Configuration</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="space-y-5">
-              <h4 class="font-bold text-blue-400 uppercase text-xs tracking-widest">Branding</h4>
-              <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl">
-              <input id="c_logo" placeholder="Logo URL" class="w-full custom-input p-4 rounded-xl">
-              <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl">
-            </div>
-            <div class="space-y-5">
-              <h4 class="font-bold text-emerald-400 uppercase text-xs tracking-widest">Global Key</h4>
-              <div class="flex items-center justify-between p-4 glass-morphism rounded-xl">
-                <span class="text-sm font-bold">Enable Global Key</span>
-                <input type="checkbox" id="c_gl_on" class="w-5 h-5 accent-blue-500">
-              </div>
-              <input id="c_gl_key" placeholder="Global Access Key" class="w-full custom-input p-4 rounded-xl">
-              <textarea id="c_gl_msg" placeholder="Global message..." rows="3" class="w-full custom-input p-4 rounded-xl"></textarea>
-            </div>
-          </div>
-          <button onclick="saveSystem()" class="mt-10 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl shadow-xl transition">Apply Protocol</button>
-        </div>
-      </div>
+                <div class="relative">
+                    <i class="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input 
+                        type="email" 
+                        id="l_email" 
+                        class="w-full custom-input p-5 pl-14 rounded-2xl outline-none" 
+                        placeholder="অ্যাডমিন ইমেইল"
+                        onkeypress="if(event.key==='Enter') handleLogin()"
+                    >
+                </div>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input 
+                        type="password" 
+                        id="l_pass" 
+                        class="w-full custom-input p-5 pl-14 pr-14 rounded-2xl outline-none" 
+                        placeholder="সুরক্ষিত পাসওয়ার্ড"
+                        onkeypress="if(event.key==='Enter') handleLogin()"
+                    >
+                    <button 
+                        onclick="togglePassword()" 
+                        class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition"
+                    >
+                        <i id="passIcon" class="fas fa-eye"></i>
+                    </button>
+                </div>
 
-      <!-- ACTIVITY LOG TAB -->
-      <div id="panel-activity" class="tab-panel hidden animate__animated animate__fadeIn">
-        <div class="glass-morphism p-8 rounded-[35px] max-w-4xl mx-auto">
-          <h2 class="text-xl font-black mb-6 flex items-center gap-3"><i class="fas fa-history text-blue-300"></i> Admin Activity Log</h2>
-          <div id="logContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-            <p class="text-slate-500 text-sm">No recent activity.</p>
-          </div>
-          <button onclick="clearLogs()" class="mt-6 text-red-400 text-sm hover:underline">Clear logs</button>
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-blue-500">
+                        <span class="text-slate-400">মনে রাখুন</span>
+                    </label>
+                    <a href="#" class="text-blue-400 hover:text-blue-300 transition">পাসওয়ার্ড ভুলে গেছেন?</a>
+                </div>
+
+                <button 
+                    onclick="handleLogin()" 
+                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-5 rounded-2xl shadow-2xl shadow-blue-600/30 transition-all active:scale-95 motion-blur"
+                >
+                    <i class="fas fa-fingerprint mr-2"></i>
+                    প্রবেশ করুন
+                </button>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-white/10 text-center text-xs text-slate-500">
+                <p>PSXD Cyber Panel Pro v2.0 © 2024</p>
+                <p class="mt-1">Secured by Advanced Authentication</p>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- FAB (add node quick) -->
-  <div class="fab-btn hidden" id="fabButton" onclick="openEditor()">
-    <i class="fas fa-plus text-2xl text-white"></i>
-  </div>
+    <!-- MAIN DASHBOARD -->
+    <div id="dashboardSection" class="hidden min-h-screen">
+        
+        <!-- Header -->
+        <header class="sticky top-0 z-40 glass border-b border-white/10 no-print">
+            <div class="max-w-7xl mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-5">
+                        <div class="relative">
+                            <img id="navLogo" class="w-16 h-16 rounded-2xl object-cover border-2 border-white/20 shadow-xl" alt="Logo">
+                            <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 border-2 border-[#020617] rounded-full pulse-dot"></div>
+                        </div>
+                        <div>
+                            <h2 id="navTitle" class="text-2xl font-black text-white">PSXD ADMIN</h2>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Authorized Access</span>
+                                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                                <span id="lastSync" class="text-[10px] text-slate-500">সর্বশেষ সিঙ্ক: কখনো নয়</span>
+                            </div>
+                        </div>
+                    </div>
 
-  <!-- MODAL: EDITOR -->
-  <div id="editModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
-    <div class="glass-morphism w-full max-w-xl p-10 rounded-[40px] animate__animated animate__zoomIn">
-      <h2 id="modalTitle" class="text-3xl font-black mb-10 text-white">MANAGE NODE</h2>
-      <div class="space-y-6">
-        <div>
-          <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Device ID</label>
-          <input id="m_device" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono uppercase tracking-widest">
+                    <div class="flex items-center gap-3">
+                        <button onclick="exportData()" class="tooltip p-3 glass rounded-xl text-slate-400 hover:text-emerald-400 transition motion-blur" data-tooltip="ডেটা এক্সপোর্ট">
+                            <i class="fas fa-download text-lg"></i>
+                        </button>
+                        <button onclick="document.getElementById('importInput').click()" class="tooltip p-3 glass rounded-xl text-slate-400 hover:text-blue-400 transition motion-blur" data-tooltip="ডেটা ইম্পোর্ট">
+                            <i class="fas fa-upload text-lg"></i>
+                        </button>
+                        <input type="file" id="importInput" accept=".json" class="hidden" onchange="importData(event)">
+                        <button onclick="openConfig()" class="tooltip p-3 glass rounded-xl text-slate-400 hover:text-purple-400 transition motion-blur" data-tooltip="সেটিংস">
+                            <i class="fas fa-sliders text-lg"></i>
+                        </button>
+                        <button onclick="logout()" class="tooltip p-3 bg-red-500/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition motion-blur" data-tooltip="লগআউট">
+                            <i class="fas fa-power-off text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="max-w-7xl mx-auto px-6 py-6 no-print">
+            <div class="glass p-2 rounded-2xl inline-flex gap-2">
+                <button onclick="switchTab('dashboard')" class="tab-btn active" id="tab-dashboard">
+                    <i class="fas fa-chart-line mr-2"></i> ড্যাশবোর্ড
+                </button>
+                <button onclick="switchTab('users')" class="tab-btn" id="tab-users">
+                    <i class="fas fa-users mr-2"></i> ব্যবহারকারী
+                </button>
+                <button onclick="switchTab('analytics')" class="tab-btn" id="tab-analytics">
+                    <i class="fas fa-chart-pie mr-2"></i> বিশ্লেষণ
+                </button>
+                <button onclick="switchTab('activity')" class="tab-btn" id="tab-activity">
+                    <i class="fas fa-history mr-2"></i> কার্যক্রম লগ
+                </button>
+            </div>
         </div>
-        <div class="grid grid-cols-2 gap-6">
-          <div>
-            <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Status</label>
-            <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-5 rounded-2xl mt-2">
-              <option value="active">Active</option>
-              <option value="lifetime">Lifetime</option>
-              <option value="blocked">Blocked</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Expiry</label>
-            <input type="date" id="m_expiry" class="w-full custom-input p-5 rounded-2xl mt-2">
-          </div>
+
+        <!-- Dashboard Tab -->
+        <div id="content-dashboard" class="max-w-7xl mx-auto px-6 pb-24">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+                <div class="glass-card p-6 border-l-4 border-blue-500">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">মোট নোড</p>
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-network-wired text-blue-400"></i>
+                        </div>
+                    </div>
+                    <h3 id="st_total" class="text-4xl font-black stat-number">0</h3>
+                    <p class="text-xs text-slate-500 mt-2">সর্বমোট রেজিস্ট্রেশন</p>
+                </div>
+
+                <div class="glass-card p-6 border-l-4 border-emerald-500">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-wider">সক্রিয়</p>
+                        <div class="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-check-circle text-emerald-400"></i>
+                        </div>
+                    </div>
+                    <h3 id="st_active" class="text-4xl font-black stat-number text-emerald-400">0</h3>
+                    <p class="text-xs text-slate-500 mt-2">যাচাইকৃত অ্যাকাউন্ট</p>
+                </div>
+
+                <div class="glass-card p-6 border-l-4 border-amber-500">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-[10px] font-bold text-amber-500 uppercase tracking-wider">লাইফটাইম</p>
+                        <div class="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-crown text-amber-400"></i>
+                        </div>
+                    </div>
+                    <h3 id="st_life" class="text-4xl font-black stat-number text-amber-400">0</h3>
+                    <p class="text-xs text-slate-500 mt-2">এলিট সদস্য</p>
+                </div>
+
+                <div class="glass-card p-6 border-l-4 border-red-500">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-[10px] font-bold text-red-500 uppercase tracking-wider">ব্লক করা</p>
+                        <div class="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-ban text-red-400"></i>
+                        </div>
+                    </div>
+                    <h3 id="st_block" class="text-4xl font-black stat-number text-red-400">0</h3>
+                    <p class="text-xs text-slate-500 mt-2">নিষ্ক্রিয় অ্যাকাউন্ট</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="glass-card p-6 mb-10">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                    <i class="fas fa-bolt text-yellow-400"></i>
+                    দ্রুত কার্যক্রম
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="openEditor()" class="glass-card p-5 hover:bg-blue-600/20 transition text-center motion-blur">
+                        <i class="fas fa-plus-circle text-3xl text-blue-400 mb-2"></i>
+                        <p class="text-sm font-bold">নতুন নোড</p>
+                    </button>
+                    <button onclick="bulkOperation('active')" class="glass-card p-5 hover:bg-emerald-600/20 transition text-center motion-blur">
+                        <i class="fas fa-check-double text-3xl text-emerald-400 mb-2"></i>
+                        <p class="text-sm font-bold">সব সক্রিয় করুন</p>
+                    </button>
+                    <button onclick="exportData()" class="glass-card p-5 hover:bg-purple-600/20 transition text-center motion-blur">
+                        <i class="fas fa-file-export text-3xl text-purple-400 mb-2"></i>
+                        <p class="text-sm font-bold">এক্সপোর্ট ডেটা</p>
+                    </button>
+                    <button onclick="fetchData()" class="glass-card p-5 hover:bg-amber-600/20 transition text-center motion-blur">
+                        <i class="fas fa-sync-alt text-3xl text-amber-400 mb-2"></i>
+                        <p class="text-sm font-bold">রিফ্রেশ</p>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div>
-          <label class="text-xs font-bold text-slate-500 ml-2 uppercase">License Key</label>
-          <input id="m_key" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono text-blue-400">
+
+        <!-- Users Tab -->
+        <div id="content-users" class="hidden max-w-7xl mx-auto px-6 pb-24">
+            <!-- Search & Filter Bar -->
+            <div class="glass-card p-6 mb-8">
+                <div class="flex flex-col lg:flex-row gap-5">
+                    <div class="flex-1 relative">
+                        <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                        <input 
+                            type="text" 
+                            id="searchBar" 
+                            oninput="liveSearch()" 
+                            class="w-full glass py-4 pl-14 pr-6 rounded-2xl outline-none custom-input" 
+                            placeholder="নোড আইডি, লাইসেন্স বা স্ট্যাটাস অনুসন্ধান করুন..."
+                        >
+                    </div>
+                    <div class="flex gap-3">
+                        <select id="filterStatus" onchange="applyFilters()" class="glass px-6 py-4 rounded-2xl outline-none custom-input cursor-pointer">
+                            <option value="all">সব স্ট্যাটাস</option>
+                            <option value="active">শুধু সক্রিয়</option>
+                            <option value="lifetime">শুধু লাইফটাইম</option>
+                            <option value="blocked">শুধু ব্লক করা</option>
+                        </select>
+                        <select id="sortBy" onchange="applyFilters()" class="glass px-6 py-4 rounded-2xl outline-none custom-input cursor-pointer">
+                            <option value="newest">নতুন প্রথম</option>
+                            <option value="oldest">পুরাতন প্রথম</option>
+                            <option value="status">স্ট্যাটাস অনুযায়ী</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Bulk Actions -->
+                <div class="flex items-center gap-3 mt-5 pt-5 border-t border-white/10">
+                    <label class="flex items-center gap-2 text-sm font-medium">
+                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" class="w-4 h-4 accent-blue-500">
+                        সব নির্বাচন করুন
+                    </label>
+                    <span class="text-slate-500">|</span>
+                    <button onclick="bulkDelete()" class="text-sm text-red-400 hover:text-red-300 transition">
+                        <i class="fas fa-trash mr-1"></i> মুছে ফেলুন
+                    </button>
+                    <button onclick="bulkOperation('active')" class="text-sm text-emerald-400 hover:text-emerald-300 transition">
+                        <i class="fas fa-check mr-1"></i> সক্রিয় করুন
+                    </button>
+                    <button onclick="bulkOperation('blocked')" class="text-sm text-amber-400 hover:text-amber-300 transition">
+                        <i class="fas fa-ban mr-1"></i> ব্লক করুন
+                    </button>
+                </div>
+            </div>
+
+            <!-- User Cards Grid -->
+            <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate__animated animate__fadeInUp">
+                <!-- Cards will be loaded here -->
+            </div>
         </div>
-      </div>
-      <div class="flex gap-5 mt-12">
-        <button onclick="closeModal()" class="flex-1 p-5 rounded-2xl font-bold bg-slate-800 text-slate-400">Discard</button>
-        <button onclick="saveChanges()" class="flex-[2] p-5 rounded-2xl font-bold bg-blue-600 text-white shadow-xl active:scale-95">Authorize</button>
-      </div>
+
+        <!-- Analytics Tab -->
+        <div id="content-analytics" class="hidden max-w-7xl mx-auto px-6 pb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-card p-8">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                        <i class="fas fa-chart-pie text-blue-400"></i>
+                        স্ট্যাটাস বন্টন
+                    </h3>
+                    <canvas id="statusChart" class="max-h-[300px]"></canvas>
+                </div>
+
+                <div class="glass-card p-8">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                        <i class="fas fa-chart-line text-emerald-400"></i>
+                        মাসিক প্রবণতা
+                    </h3>
+                    <canvas id="trendChart" class="max-h-[300px]"></canvas>
+                </div>
+            </div>
+
+            <!-- Detailed Stats -->
+            <div class="glass-card p-8 mt-8">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                    <i class="fas fa-database text-purple-400"></i>
+                    বিস্তারিত পরিসংখ্যান
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <p class="text-slate-500 text-sm mb-2">আজকের নতুন</p>
+                        <p id="stat_today" class="text-3xl font-black text-blue-400">0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-slate-500 text-sm mb-2">এই সপ্তাহে</p>
+                        <p id="stat_week" class="text-3xl font-black text-emerald-400">0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-slate-500 text-sm mb-2">এই মাসে</p>
+                        <p id="stat_month" class="text-3xl font-black text-amber-400">0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-slate-500 text-sm mb-2">শীঘ্রই মেয়াদোত্তীর্ণ</p>
+                        <p id="stat_expiring" class="text-3xl font-black text-red-400">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log Tab -->
+        <div id="content-activity" class="hidden max-w-7xl mx-auto px-6 pb-24">
+            <div class="glass-card p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold flex items-center gap-3">
+                        <i class="fas fa-history text-blue-400"></i>
+                        সাম্প্রতিক কার্যক্রম
+                    </h3>
+                    <button onclick="clearLogs()" class="text-sm text-red-400 hover:text-red-300 transition">
+                        <i class="fas fa-trash mr-1"></i> লগ সাফ করুন
+                    </button>
+                </div>
+                <div id="activityLog" class="space-y-3 max-h-[600px] overflow-y-auto">
+                    <div class="text-center text-slate-500 py-12">
+                        <i class="fas fa-clipboard-list text-5xl mb-4 opacity-20"></i>
+                        <p>কোনো কার্যক্রম লগ নেই</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
 
-  <script>
-    (function() {
-      // --- CONSTANTS ---
-      const DB_ENDPOINT = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
-      const ADM_USER = "admin@psxd.com";
-      const ADM_PASS = "shimulxd";
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
+        <div class="glass w-full max-w-2xl p-10 rounded-[40px] animate__animated animate__zoomIn">
+            <h2 id="modalTitle" class="text-3xl font-black mb-8 flex items-center gap-3">
+                <i class="fas fa-edit text-blue-400"></i>
+                <span>নোড ম্যানেজমেন্ট</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">ডিভাইস আইডেন্টিটি</label>
+                    <input id="m_device" class="w-full custom-input p-5 rounded-2xl font-mono uppercase" placeholder="DEVICE-ID-HERE">
+                </div>
 
-      let appData = null;
-      let activeIdx = -1;
+                <div>
+                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">স্ট্যাটাস</label>
+                    <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-5 rounded-2xl cursor-pointer">
+                        <option value="active">সক্রিয়</option>
+                        <option value="lifetime">লাইফটাইম</option>
+                        <option value="blocked">ব্লক করা</option>
+                    </select>
+                </div>
 
-      // Utility: add activity log
-      function addLog(message) {
-        const logs = JSON.parse(localStorage.getItem('psxd_activity_logs') || '[]');
-        logs.unshift({ time: new Date().toLocaleString(), msg: message });
-        if (logs.length > 20) logs.pop();
-        localStorage.setItem('psxd_activity_logs', JSON.stringify(logs));
-        renderLogs();
-      }
+                <div>
+                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">মেয়াদ উত্তীর্ণ</label>
+                    <input type="date" id="m_expiry" class="w-full custom-input p-5 rounded-2xl">
+                </div>
 
-      function renderLogs() {
-        const container = document.getElementById('logContainer');
-        if (!container) return;
-        const logs = JSON.parse(localStorage.getItem('psxd_activity_logs') || '[]');
-        if (logs.length === 0) {
-          container.innerHTML = '<p class="text-slate-500 text-sm">No recent activity.</p>';
-          return;
-        }
-        container.innerHTML = logs.map(l => `
-          <div class="flex justify-between items-center p-3 glass-morphism rounded-xl text-sm">
-            <span class="text-slate-300">${l.msg}</span>
-            <span class="text-xs text-slate-500">${l.time}</span>
-          </div>
-        `).join('');
-      }
-
-      function clearLogs() {
-        localStorage.removeItem('psxd_activity_logs');
-        renderLogs();
-        Swal.fire({ icon: 'success', title: 'Cleared', timer: 1000, showConfirmButton: false });
-      }
-
-      // AUTH
-      window.onload = () => {
-        if (localStorage.getItem('session_active') === 'true') {
-          document.getElementById('loginSection').classList.add('hidden');
-          document.getElementById('dashboardSection').classList.remove('hidden');
-          document.getElementById('fabButton').classList.remove('hidden');
-          fetchData();
-          switchTab('dashboard');
-          renderLogs();
-        } else {
-          document.getElementById('loginSection').classList.remove('hidden');
-          document.getElementById('dashboardSection').classList.add('hidden');
-        }
-      };
-
-      window.handleLogin = function() {
-        const e = document.getElementById('l_email').value.trim();
-        const p = document.getElementById('l_pass').value.trim();
-        if (e === ADM_USER && p === ADM_PASS) {
-          localStorage.setItem('session_active', 'true');
-          addLog('Secure login successful');
-          location.reload();
-        } else {
-          Swal.fire({ icon: 'error', title: 'ACCESS DENIED', text: 'Invalid credentials', background: '#020617', color: '#fff' });
-        }
-      };
-
-      window.logout = function() {
-        addLog('Admin logged out');
-        localStorage.removeItem('session_active');
-        location.reload();
-      };
-
-      // TABS
-      window.switchTab = function(tabName) {
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        const panel = document.getElementById('panel-' + tabName);
-        if (panel) panel.classList.remove('hidden');
-        const btn = document.getElementById('tab-' + tabName);
-        if (btn) btn.classList.add('active');
-        if (tabName === 'activity') renderLogs();
-      };
-
-      // DATA FETCH
-      async function fetchData() {
-        try {
-          const res = await fetch(DB_ENDPOINT);
-          appData = await res.json();
-          renderCards();
-          updateStats();
-          addLog('Database synced successfully');
-        } catch (e) {
-          Swal.fire('Error', 'Database Offline', 'error');
-        }
-      }
-      window.fetchData = fetchData;
-
-      function updateStats() {
-        const users = appData?.auth_database || [];
-        document.getElementById('st_total').innerText = users.length;
-        document.getElementById('st_active').innerText = users.filter(u => u.status === 'active').length;
-        document.getElementById('st_life').innerText = users.filter(u => u.status === 'lifetime').length;
-        document.getElementById('st_block').innerText = users.filter(u => u.status === 'blocked').length;
-        if (appData?.app_config) {
-          document.getElementById('navLogo').src = appData.app_config.logo_url || '';
-          document.getElementById('navTitle').innerText = appData.app_config.title || 'PSXD';
-        }
-      }
-
-      function renderCards() {
-        const grid = document.getElementById('userContainer');
-        if (!grid) return;
-        const users = [...(appData?.auth_database || [])];
-        grid.innerHTML = '';
-        users.forEach((user, i) => {
-          const isLife = user.status === 'lifetime';
-          const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (user.status === 'blocked' ? 'text-red-500 bg-red-500/10' : 'text-emerald-400 bg-emerald-400/10');
-          const card = document.createElement('div');
-          card.className = `user-card p-8 group ${isLife ? 'lifetime-glow' : ''}`;
-          card.innerHTML = `
-            <div class="flex justify-between items-start mb-8">
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full ${user.status === 'blocked' ? 'bg-red-500' : 'bg-emerald-500'} shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-                <span class="text-[11px] font-black uppercase tracking-widest ${sColor} px-3 py-1 rounded-lg">${user.status}</span>
-              </div>
-              <div class="flex gap-4 opacity-40 group-hover:opacity-100 transition-opacity">
-                <button class="text-blue-400 hover:text-white edit-btn"><i class="fas fa-pen-nib text-lg"></i></button>
-                <button class="text-red-500 hover:text-white delete-btn"><i class="fas fa-trash-alt text-lg"></i></button>
-              </div>
+                <div class="md:col-span-2">
+                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">লাইসেন্স কী</label>
+                    <div class="relative">
+                        <input id="m_key" class="w-full custom-input p-5 pr-32 rounded-2xl font-mono text-blue-400" placeholder="LICENSE-KEY-HERE">
+                        <button onclick="generateKey()" class="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl text-sm font-bold transition">
+                            <i class="fas fa-key mr-1"></i> জেনারেট
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="space-y-6">
-              <div>
-                <div class="flex justify-between items-end mb-2"><p class="text-[10px] font-bold text-slate-500 uppercase">Node ID</p><button class="copy-btn text-[10px] text-slate-600 hover:text-blue-400"><i class="fas fa-copy"></i></button></div>
-                <p class="font-mono text-white text-lg font-bold truncate tracking-widest">${user.device_id}</p>
-              </div>
-              <div>
-                <div class="flex justify-between items-end mb-2"><p class="text-[10px] font-bold text-slate-500 uppercase">Key</p><button class="copy-key text-[10px] text-slate-600 hover:text-emerald-400"><i class="fas fa-link"></i></button></div>
-                <div class="bg-slate-950/80 p-3 rounded-xl border border-white/5 font-mono text-[11px] text-blue-300 truncate">${user.key}</div>
-              </div>
-              <div class="pt-4 border-t border-white/5 flex justify-between items-center">
-                <div><p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Valid Until</p><p class="text-xs font-black ${isLife ? 'text-amber-500' : 'text-slate-200'}">${isLife ? '<i class="fas fa-infinity mr-1"></i> ELITE LIFETIME' : user.expiry}</p></div>
-                ${isLife ? '<i class="fas fa-crown text-amber-500 text-xl"></i>' : ''}
-              </div>
+
+            <div class="flex gap-4 mt-10">
+                <button onclick="closeModal()" class="flex-1 p-5 rounded-2xl font-bold bg-slate-800/50 hover:bg-slate-700 transition motion-blur">
+                    বাতিল করুন
+                </button>
+                <button onclick="saveChanges()" class="flex-[2] p-5 rounded-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl shadow-blue-600/30 transition motion-blur">
+                    <i class="fas fa-save mr-2"></i>
+                    সংরক্ষণ করুন
+                </button>
             </div>
-          `;
-          card.querySelector('.edit-btn').addEventListener('click', () => openEditor(i));
-          card.querySelector('.delete-btn').addEventListener('click', () => removeNode(i));
-          card.querySelector('.copy-btn').addEventListener('click', (e) => copy(user.device_id, e.currentTarget));
-          card.querySelector('.copy-key').addEventListener('click', (e) => copy(user.key, e.currentTarget));
-          grid.appendChild(card);
-        });
-      }
+        </div>
+    </div>
 
-      window.openEditor = function(idx = -1) {
-        activeIdx = idx;
-        document.getElementById('modalTitle').innerText = idx === -1 ? "DEPLOY NEW NODE" : "MODIFY PROTOCOL";
-        if (idx !== -1 && appData?.auth_database) {
-          const u = appData.auth_database[idx];
-          document.getElementById('m_device').value = u.device_id || '';
-          document.getElementById('m_status').value = u.status || 'active';
-          document.getElementById('m_key').value = u.key || '';
-          document.getElementById('m_expiry').value = u.expiry === 'unlimited' ? '' : (u.expiry || '');
-        } else {
-          document.querySelectorAll('#editModal input').forEach(i => i.value = '');
-          document.getElementById('m_status').value = 'active';
-        }
-        toggleDate();
-        document.getElementById('editModal').classList.remove('hidden');
-      };
+    <!-- Config Modal -->
+    <div id="configModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
+        <div class="glass w-full max-w-4xl p-10 rounded-[40px] max-h-[90vh] overflow-y-auto">
+            <h2 class="text-3xl font-black mb-8 flex items-center gap-3">
+                <i class="fas fa-cogs text-blue-400"></i>
+                সিস্টেম কনফিগারেশন
+            </h2>
 
-      window.toggleDate = function() {
-        const isLife = document.getElementById('m_status').value === 'lifetime';
-        const exp = document.getElementById('m_expiry');
-        exp.disabled = isLife;
-        exp.style.opacity = isLife ? '0.3' : '1';
-      };
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- App Config -->
+                <div class="glass-card p-6">
+                    <h4 class="font-bold text-blue-400 mb-5 flex items-center gap-2">
+                        <i class="fas fa-palette"></i>
+                        অ্যাপ্লিকেশন সেটিংস
+                    </h4>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">শিরোনাম</label>
+                            <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">লোগো URL</label>
+                            <input id="c_logo" placeholder="Logo URL" class="w-full custom-input p-4 rounded-xl">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">ক্রয় লিংক</label>
+                            <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl">
+                        </div>
+                    </div>
+                </div>
 
-      window.saveChanges = async function() {
-        const s = document.getElementById('m_status').value;
-        const nodeObj = {
-          device_id: document.getElementById('m_device').value || "ANY",
-          status: s,
-          expiry: s === 'lifetime' ? 'unlimited' : document.getElementById('m_expiry').value,
-          key: document.getElementById('m_key').value || ("KEY-" + Math.random().toString(36).substr(2, 8).toUpperCase())
+                <!-- Global Config -->
+                <div class="glass-card p-6">
+                    <h4 class="font-bold text-emerald-400 mb-5 flex items-center gap-2">
+                        <i class="fas fa-globe"></i>
+                        গ্লোবাল সেটিংস
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 glass rounded-xl">
+                            <span class="text-sm font-bold">গ্লোবাল কী সক্রিয়</span>
+                            <label class="relative inline-block w-12 h-6">
+                                <input type="checkbox" id="c_gl_on" class="sr-only peer">
+                                <div class="w-12 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">গ্লোবাল কী</label>
+                            <input id="c_gl_key" placeholder="Global Key" class="w-full custom-input p-4 rounded-xl">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 ml-2 uppercase mb-2 block">বার্তা</label>
+                            <textarea id="c_gl_msg" placeholder="Global Message..." rows="4" class="w-full custom-input p-4 rounded-xl resize-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-10">
+                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="flex-1 p-5 rounded-2xl bg-slate-800/50 hover:bg-slate-700 font-bold transition motion-blur">
+                    বন্ধ করুন
+                </button>
+                <button onclick="saveSystem()" class="flex-[2] p-5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold shadow-xl shadow-emerald-600/30 transition motion-blur">
+                    <i class="fas fa-check mr-2"></i>
+                    সংরক্ষণ করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab no-print" onclick="openEditor()">
+        <i class="fas fa-plus text-white text-2xl"></i>
+    </div>
+
+    <script>
+        // ===== CONFIGURATION =====
+        const DB_ENDPOINT = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
+        const ADM_USER = "admin@psxd.com";
+        const ADM_PASS = "shimulxd";
+
+        // ===== STATE MANAGEMENT =====
+        let appData = null;
+        let activeIdx = -1;
+        let activityLogs = JSON.parse(localStorage.getItem('activity_logs') || '[]');
+        let statusChart = null;
+        let trendChart = null;
+
+        // ===== INITIALIZATION =====
+        window.onload = () => {
+            if(localStorage.getItem('session_active') === 'true') {
+                showDashboard();
+            }
         };
-        if (!appData) appData = { auth_database: [], app_config: {}, global_config: {} };
-        if (!appData.auth_database) appData.auth_database = [];
-        if (activeIdx === -1) {
-          appData.auth_database.unshift(nodeObj);
-          addLog('New node deployed: ' + nodeObj.device_id);
-        } else {
-          appData.auth_database[activeIdx] = nodeObj;
-          addLog('Node updated: ' + nodeObj.device_id);
+
+        // ===== AUTHENTICATION =====
+        function togglePassword() {
+            const passInput = document.getElementById('l_pass');
+            const icon = document.getElementById('passIcon');
+            if(passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
         }
-        await sync();
-        closeModal();
-      };
 
-      window.removeNode = async function(idx) {
-        const confirm = await Swal.fire({
-          title: 'TERMINATE NODE?',
-          text: "Access will be permanently revoked!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#ef4444',
-          background: '#020617',
-          color: '#fff'
-        });
-        if (confirm.isConfirmed && appData?.auth_database) {
-          const removed = appData.auth_database[idx];
-          appData.auth_database.splice(idx, 1);
-          addLog('Node terminated: ' + (removed?.device_id || 'unknown'));
-          await sync();
+        function handleLogin() {
+            const email = document.getElementById('l_email').value.trim();
+            const pass = document.getElementById('l_pass').value;
+            const remember = document.getElementById('rememberMe').checked;
+
+            if(email === ADM_USER && pass === ADM_PASS) {
+                localStorage.setItem('session_active', 'true');
+                if(remember) {
+                    localStorage.setItem('remember_me', 'true');
+                }
+                addLog('সফল লগইন', 'success');
+                showDashboard();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'প্রবেশ ব্যর্থ!',
+                    text: 'ভুল ইমেইল বা পাসওয়ার্ড',
+                    background: '#0f172a',
+                    color: '#fff',
+                    confirmButtonColor: '#3b82f6'
+                });
+            }
         }
-      };
 
-      window.saveSystem = async function() {
-        if (!appData) appData = { auth_database: [], app_config: {}, global_config: {} };
-        appData.app_config = appData.app_config || {};
-        appData.global_config = appData.global_config || {};
-        appData.app_config.title = document.getElementById('c_title').value;
-        appData.app_config.logo_url = document.getElementById('c_logo').value;
-        appData.app_config.buy_url = document.getElementById('c_buy').value;
-        appData.global_config.global_key_enabled = document.getElementById('c_gl_on').checked;
-        appData.global_config.global_key = document.getElementById('c_gl_key').value;
-        appData.global_config.global_instruction = document.getElementById('c_gl_msg').value;
-        await sync();
-        addLog('System configuration updated');
-        document.getElementById('panel-settings')?.classList.add('hidden');
-        switchTab('dashboard');
-      };
+        function showDashboard() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+            fetchData();
+        }
 
-      async function sync() {
-        Swal.fire({ title: 'Syncing...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        try {
-          const res = await fetch(DB_ENDPOINT, { method: 'PUT', body: JSON.stringify(appData) });
-          if (res.ok) {
-            Swal.fire({ icon: 'success', title: 'SYNC SUCCESS', timer: 1200, showConfirmButton: false, background: '#020617' });
-            renderCards();
+        function logout() {
+            Swal.fire({
+                title: 'লগআউট করবেন?',
+                text: "আপনি কি নিশ্চিত?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'হ্যাঁ, লগআউট',
+                cancelButtonText: 'বাতিল',
+                background: '#0f172a',
+                color: '#fff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    addLog('লগআউট করা হয়েছে', 'info');
+                    if(!localStorage.getItem('remember_me')) {
+                        localStorage.clear();
+                    } else {
+                        localStorage.removeItem('session_active');
+                    }
+                    location.reload();
+                }
+            });
+        }
+
+        // ===== TAB MANAGEMENT =====
+        function switchTab(tabName) {
+            // Hide all content
+            ['dashboard', 'users', 'analytics', 'activity'].forEach(t => {
+                document.getElementById(`content-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('active');
+            });
+
+            // Show selected
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            // Load specific content
+            if(tabName === 'analytics') {
+                loadAnalytics();
+            } else if(tabName === 'activity') {
+                loadActivityLog();
+            }
+        }
+
+        // ===== DATABASE OPERATIONS =====
+        async function fetchData() {
+            try {
+                const loadingToast = Swal.fire({
+                    title: 'লোড হচ্ছে...',
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading()
+                });
+
+                const res = await fetch(DB_ENDPOINT);
+                appData = await res.json();
+                
+                loadingToast.close();
+                renderCards();
+                updateStats();
+                updateLastSync();
+                
+                addLog('ডেটা সফলভাবে লোড হয়েছে', 'success');
+            } catch(e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ত্রুটি!',
+                    text: 'ডেটাবেস লোড করতে ব্যর্থ',
+                    background: '#0f172a',
+                    color: '#fff'
+                });
+                addLog('ডেটা লোড ব্যর্থ: ' + e.message, 'error');
+            }
+        }
+
+        function renderCards() {
+            const grid = document.getElementById('userContainer');
+            let users = [...(appData.auth_database || [])];
+            
+            // Apply filters
+            const statusFilter = document.getElementById('filterStatus')?.value || 'all';
+            const sortBy = document.getElementById('sortBy')?.value || 'newest';
+
+            if(statusFilter !== 'all') {
+                users = users.filter(u => u.status === statusFilter);
+            }
+
+            // Sort
+            if(sortBy === 'oldest') {
+                users.reverse();
+            } else if(sortBy === 'status') {
+                users.sort((a, b) => a.status.localeCompare(b.status));
+            }
+
+            grid.innerHTML = "";
+
+            // Update stats
             updateStats();
-          }
-        } catch (e) {
-          Swal.fire('Error', 'Sync Failure', 'error');
+
+            // Update branding
+            if(appData.app_config) {
+                document.getElementById('navLogo').src = appData.app_config.logo_url;
+                document.getElementById('navTitle').innerText = appData.app_config.title;
+            }
+
+            // Render cards
+            users.forEach((user, i) => {
+                const isLife = user.status === 'lifetime';
+                const isBlocked = user.status === 'blocked';
+                const statusClass = isLife ? 'status-lifetime' : (isBlocked ? 'status-blocked' : 'status-active');
+                
+                const cardHtml = `
+                    <div class="glass-card ${isLife ? 'lifetime-card' : ''} p-8 group" data-device="${user.device_id}" data-status="${user.status}">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" class="user-select w-4 h-4 accent-blue-500" data-index="${i}">
+                                <div class="w-3 h-3 rounded-full ${isBlocked ? 'bg-red-500' : 'bg-emerald-500'} ${!isBlocked ? 'pulse-dot' : ''}"></div>
+                                <span class="badge ${statusClass}">${user.status === 'active' ? 'সক্রিয়' : user.status === 'lifetime' ? 'লাইফটাইম' : 'ব্লক'}</span>
+                            </div>
+                            <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="openEditor(${i})" class="tooltip p-2 hover:bg-blue-600/20 rounded-lg transition" data-tooltip="এডিট">
+                                    <i class="fas fa-edit text-blue-400"></i>
+                                </button>
+                                <button onclick="duplicateNode(${i})" class="tooltip p-2 hover:bg-purple-600/20 rounded-lg transition" data-tooltip="ডুপ্লিকেট">
+                                    <i class="fas fa-copy text-purple-400"></i>
+                                </button>
+                                <button onclick="removeNode(${i})" class="tooltip p-2 hover:bg-red-600/20 rounded-lg transition" data-tooltip="মুছুন">
+                                    <i class="fas fa-trash text-red-400"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase">নোড আইডি</p>
+                                    <button onclick="copy('${user.device_id}', this)" class="text-xs text-slate-600 hover:text-blue-400 transition">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <p class="font-mono text-white font-bold text-sm break-all">${user.device_id}</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase">লাইসেন্স কী</p>
+                                    <button onclick="copy('${user.key}', this)" class="text-xs text-slate-600 hover:text-emerald-400 transition">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                </div>
+                                <div class="glass p-3 rounded-xl font-mono text-xs text-blue-300 break-all">${user.key}</div>
+                            </div>
+
+                            <div class="pt-4 border-t border-white/10 flex justify-between items-center">
+                                <div>
+                                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">মেয়াদোত্তীর্ণ</p>
+                                    <p class="text-sm font-black ${isLife ? 'text-amber-400' : 'text-slate-300'}">
+                                        ${isLife ? '<i class="fas fa-infinity mr-1"></i> লাইফটাইম' : user.expiry}
+                                    </p>
+                                </div>
+                                ${isLife ? '<i class="fas fa-crown text-amber-400 text-2xl drop-shadow-[0_0_10px_rgba(245,158,11,0.6)]"></i>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+
+            if(users.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-20">
+                        <i class="fas fa-inbox text-6xl text-slate-700 mb-4"></i>
+                        <p class="text-slate-500 text-lg">কোনো ডেটা পাওয়া যায়নি</p>
+                    </div>
+                `;
+            }
         }
-      }
 
-      window.liveSearch = function() {
-        const val = document.getElementById('searchBar')?.value.toLowerCase() || '';
-        document.querySelectorAll('#userContainer > div').forEach(c => {
-          c.style.display = c.innerText.toLowerCase().includes(val) ? 'block' : 'none';
-        });
-      };
-
-      window.copy = function(text, btn) {
-        navigator.clipboard.writeText(text);
-        const icon = btn.querySelector('i');
-        if (icon) {
-          icon.classList.replace('fa-copy', 'fa-check');
-          icon.classList.replace('fa-link', 'fa-check');
-          setTimeout(() => {
-            icon.classList.replace('fa-check', 'fa-copy');
-            icon.classList.replace('fa-check', 'fa-link');
-          }, 1500);
+        function updateStats() {
+            const users = appData.auth_database || [];
+            document.getElementById('st_total').innerText = users.length;
+            document.getElementById('st_active').innerText = users.filter(u => u.status === 'active').length;
+            document.getElementById('st_life').innerText = users.filter(u => u.status === 'lifetime').length;
+            document.getElementById('st_block').innerText = users.filter(u => u.status === 'blocked').length;
         }
-      };
 
-      window.closeModal = function() { document.getElementById('editModal').classList.add('hidden'); };
+        function updateLastSync() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('lastSync').innerText = `সর্বশেষ সিঙ্ক: ${time}`;
+        }
 
-      window.openConfig = function() {
-        if (!appData) return;
-        document.getElementById('c_title').value = appData.app_config?.title || '';
-        document.getElementById('c_logo').value = appData.app_config?.logo_url || '';
-        document.getElementById('c_buy').value = appData.app_config?.buy_url || '';
-        document.getElementById('c_gl_on').checked = appData.global_config?.global_key_enabled || false;
-        document.getElementById('c_gl_key').value = appData.global_config?.global_key || '';
-        document.getElementById('c_gl_msg').value = appData.global_config?.global_instruction || '';
-        switchTab('settings');
-      };
-    })();
-  </script>
+        // ===== EDITOR MODAL =====
+        function openEditor(idx = -1) {
+            activeIdx = idx;
+            document.getElementById('modalTitle').innerHTML = idx === -1 
+                ? '<i class="fas fa-plus-circle text-blue-400"></i><span>নতুন নোড যোগ করুন</span>' 
+                : '<i class="fas fa-edit text-blue-400"></i><span>নোড সম্পাদনা করুন</span>';
+            
+            if(idx !== -1) {
+                const u = appData.auth_database[idx];
+                document.getElementById('m_device').value = u.device_id;
+                document.getElementById('m_status').value = u.status;
+                document.getElementById('m_key').value = u.key;
+                document.getElementById('m_expiry').value = u.expiry === 'unlimited' ? '' : u.expiry;
+            } else {
+                document.querySelectorAll('#editModal input:not([type="date"])').forEach(i => i.value = "");
+                document.getElementById('m_status').value = 'active';
+                document.getElementById('m_expiry').value = '';
+            }
+            
+            toggleDate();
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        function toggleDate() {
+            const isLife = document.getElementById('m_status').value === 'lifetime';
+            const exp = document.getElementById('m_expiry');
+            exp.disabled = isLife;
+            exp.style.opacity = isLife ? '0.3' : '1';
+        }
+
+        function generateKey() {
+            const key = 'KEY-' + Math.random().toString(36).substr(2, 12).toUpperCase();
+            document.getElementById('m_key').value = key;
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'কী জেনারেট হয়েছে!',
+                text: key,
+                background: '#0f172a',
+                color: '#fff',
+                timer: 2000
+            });
+        }
+
+        async function saveChanges() {
+            const device = document.getElementById('m_device').value.trim();
+            const status = document.getElementById('m_status').value;
+            const key = document.getElementById('m_key').value.trim();
+            const expiry = document.getElementById('m_expiry').value;
+
+            if(!device) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'সতর্কতা!',
+                    text: 'ডিভাইস আইডি প্রয়োজন',
+                    background: '#0f172a',
+                    color: '#fff'
+                });
+                return;
+            }
+
+            const nodeObj = {
+                device_id: device || "ANY",
+                status: status,
+                expiry: status === 'lifetime' ? 'unlimited' : (expiry || 'N/A'),
+                key: key || generateKey()
+            };
+
+            const action = activeIdx === -1 ? 'যোগ' : 'আপডেট';
+            
+            if(activeIdx === -1) {
+                appData.auth_database.unshift(nodeObj);
+                addLog(`নতুন নোড যোগ করা হয়েছে: ${device}`, 'success');
+            } else {
+                appData.auth_database[activeIdx] = nodeObj;
+                addLog(`নোড আপডেট করা হয়েছে: ${device}`, 'info');
+            }
+
+            await sync();
+            closeModal();
+        }
+
+        async function removeNode(idx) {
+            const user = appData.auth_database[idx];
+            const result = await Swal.fire({
+                title: 'নিশ্চিত করুন',
+                text: `"${user.device_id}" মুছে ফেলবেন?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'হ্যাঁ, মুছুন',
+                cancelButtonText: 'বাতিল',
+                background: '#0f172a',
+                color: '#fff'
+            });
+
+            if(result.isConfirmed) {
+                appData.auth_database.splice(idx, 1);
+                addLog(`নোড মুছে ফেলা হয়েছে: ${user.device_id}`, 'warning');
+                await sync();
+            }
+        }
+
+        function duplicateNode(idx) {
+            const user = {...appData.auth_database[idx]};
+            user.device_id = user.device_id + '-COPY';
+            user.key = 'KEY-' + Math.random().toString(36).substr(2, 12).toUpperCase();
+            appData.auth_database.unshift(user);
+            addLog(`নোড ডুপ্লিকেট করা হয়েছে: ${user.device_id}`, 'info');
+            sync();
+        }
+
+        // ===== CONFIG MODAL =====
+        function openConfig() {
+            const config = appData.app_config;
+            const global = appData.global_config;
+            
+            document.getElementById('c_title').value = config.title;
+            document.getElementById('c_logo').value = config.logo_url;
+            document.getElementById('c_buy').value = config.buy_url;
+            document.getElementById('c_gl_on').checked = global.global_key_enabled;
+            document.getElementById('c_gl_key').value = global.global_key;
+            document.getElementById('c_gl_msg').value = global.global_instruction;
+            
+            document.getElementById('configModal').classList.remove('hidden');
+        }
+
+        async function saveSystem() {
+            appData.app_config.title = document.getElementById('c_title').value;
+            appData.app_config.logo_url = document.getElementById('c_logo').value;
+            appData.app_config.buy_url = document.getElementById('c_buy').value;
+            appData.global_config.global_key_enabled = document.getElementById('c_gl_on').checked;
+            appData.global_config.global_key = document.getElementById('c_gl_key').value;
+            appData.global_config.global_instruction = document.getElementById('c_gl_msg').value;
+            
+            addLog('সিস্টেম কনফিগারেশন আপডেট করা হয়েছে', 'success');
+            await sync();
+            document.getElementById('configModal').classList.add('hidden');
+        }
+
+        // ===== SYNC =====
+        async function sync() {
+            try {
+                const res = await fetch(DB_ENDPOINT, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appData)
+                });
+
+                if(res.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'সফল!',
+                        text: 'ডেটা সংরক্ষিত হয়েছে',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        background: '#0f172a',
+                        color: '#fff'
+                    });
+                    renderCards();
+                    updateLastSync();
+                }
+            } catch(e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ত্রুটি!',
+                    text: 'সিঙ্ক ব্যর্থ হয়েছে',
+                    background: '#0f172a',
+                    color: '#fff'
+                });
+                addLog('সিঙ্ক ব্যর্থ: ' + e.message, 'error');
+            }
+        }
+
+        // ===== SEARCH & FILTER =====
+        function liveSearch() {
+            const val = document.getElementById('searchBar').value.toLowerCase();
+            const cards = document.querySelectorAll('#userContainer > div');
+            
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                card.style.display = text.includes(val) ? 'block' : 'none';
+            });
+        }
+
+        function applyFilters() {
+            renderCards();
+        }
+
+        // ===== BULK OPERATIONS =====
+        function toggleSelectAll() {
+            const checked = document.getElementById('selectAll').checked;
+            document.querySelectorAll('.user-select').forEach(cb => {
+                cb.checked = checked;
+            });
+        }
+
+        function bulkOperation(newStatus) {
+            const selected = Array.from(document.querySelectorAll('.user-select:checked'));
+            if(selected.length === 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'কোনো নির্বাচন নেই',
+                    text: 'প্রথমে আইটেম নির্বাচন করুন',
+                    background: '#0f172a',
+                    color: '#fff'
+                });
+                return;
+            }
+
+            selected.forEach(cb => {
+                const idx = parseInt(cb.dataset.index);
+                appData.auth_database[idx].status = newStatus;
+            });
+
+            addLog(`${selected.length}টি নোড ${newStatus} করা হয়েছে`, 'success');
+            sync();
+        }
+
+        function bulkDelete() {
+            const selected = Array.from(document.querySelectorAll('.user-select:checked'));
+            if(selected.length === 0) return;
+
+            Swal.fire({
+                title: 'নিশ্চিত করুন',
+                text: `${selected.length}টি নোড মুছে ফেলবেন?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                background: '#0f172a',
+                color: '#fff'
+            }).then(result => {
+                if(result.isConfirmed) {
+                    const indices = selected.map(cb => parseInt(cb.dataset.index)).sort((a,b) => b-a);
+                    indices.forEach(idx => appData.auth_database.splice(idx, 1));
+                    addLog(`${selected.length}টি নোড মুছে ফেলা হয়েছে`, 'warning');
+                    sync();
+                }
+            });
+        }
+
+        // ===== IMPORT/EXPORT =====
+        function exportData() {
+            const dataStr = JSON.stringify(appData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `psxd-backup-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            addLog('ডেটা এক্সপোর্ট করা হয়েছে', 'success');
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'এক্সপোর্ট সফল!',
+                text: 'ব্যাকআপ ফাইল ডাউনলোড হয়েছে',
+                background: '#0f172a',
+                color: '#fff',
+                timer: 2000
+            });
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    
+                    Swal.fire({
+                        title: 'ইম্পোর্ট করবেন?',
+                        text: 'বর্তমান ডেটা প্রতিস্থাপিত হবে!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        background: '#0f172a',
+                        color: '#fff'
+                    }).then(result => {
+                        if(result.isConfirmed) {
+                            appData = imported;
+                            addLog('ডেটা ইম্পোর্ট করা হয়েছে', 'info');
+                            sync();
+                        }
+                    });
+                } catch(err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ত্রুটি!',
+                        text: 'অবৈধ JSON ফাইল',
+                        background: '#0f172a',
+                        color: '#fff'
+                    });
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ===== ANALYTICS =====
+        function loadAnalytics() {
+            const users = appData.auth_database || [];
+            
+            // Status Distribution Chart
+            const statusCounts = {
+                active: users.filter(u => u.status === 'active').length,
+                lifetime: users.filter(u => u.status === 'lifetime').length,
+                blocked: users.filter(u => u.status === 'blocked').length
+            };
+
+            if(statusChart) statusChart.destroy();
+            const ctx1 = document.getElementById('statusChart').getContext('2d');
+            statusChart = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['সক্রিয়', 'লাইফটাইম', 'ব্লক'],
+                    datasets: [{
+                        data: [statusCounts.active, statusCounts.lifetime, statusCounts.blocked],
+                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#cbd5e1' }
+                        }
+                    }
+                }
+            });
+
+            // Trend Chart (Mock data)
+            if(trendChart) trendChart.destroy();
+            const ctx2 = document.getElementById('trendChart').getContext('2d');
+            trendChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন'],
+                    datasets: [{
+                        label: 'নতুন রেজিস্ট্রেশন',
+                        data: [12, 19, 8, 15, 22, users.length],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#cbd5e1' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#cbd5e1' },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        },
+                        x: {
+                            ticks: { color: '#cbd5e1' },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        }
+                    }
+                }
+            });
+
+            // Detailed Stats (Mock)
+            document.getElementById('stat_today').innerText = Math.floor(Math.random() * 5);
+            document.getElementById('stat_week').innerText = Math.floor(Math.random() * 20);
+            document.getElementById('stat_month').innerText = Math.floor(Math.random() * 50);
+            document.getElementById('stat_expiring').innerText = Math.floor(Math.random() * 10);
+        }
+
+        // ===== ACTIVITY LOG =====
+        function addLog(message, type = 'info') {
+            const log = {
+                message,
+                type,
+                timestamp: new Date().toLocaleString('bn-BD')
+            };
+            activityLogs.unshift(log);
+            activityLogs = activityLogs.slice(0, 100); // Keep last 100
+            localStorage.setItem('activity_logs', JSON.stringify(activityLogs));
+        }
+
+        function loadActivityLog() {
+            const container = document.getElementById('activityLog');
+            container.innerHTML = '';
+
+            if(activityLogs.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-slate-500 py-12">
+                        <i class="fas fa-clipboard-list text-5xl mb-4 opacity-20"></i>
+                        <p>কোনো কার্যক্রম লগ নেই</p>
+                    </div>
+                `;
+                return;
+            }
+
+            activityLogs.forEach(log => {
+                const icon = log.type === 'success' ? 'fa-check-circle text-emerald-400' :
+                            log.type === 'error' ? 'fa-exclamation-circle text-red-400' :
+                            log.type === 'warning' ? 'fa-exclamation-triangle text-amber-400' :
+                            'fa-info-circle text-blue-400';
+
+                container.innerHTML += `
+                    <div class="glass-card p-4 flex items-start gap-4">
+                        <i class="fas ${icon} text-xl mt-1"></i>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium">${log.message}</p>
+                            <p class="text-xs text-slate-500 mt-1">${log.timestamp}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function clearLogs() {
+            Swal.fire({
+                title: 'সব লগ মুছবেন?',
+                icon: 'warning',
+                showCancelButton: true,
+                background: '#0f172a',
+                color: '#fff'
+            }).then(result => {
+                if(result.isConfirmed) {
+                    activityLogs = [];
+                    localStorage.setItem('activity_logs', '[]');
+                    loadActivityLog();
+                }
+            });
+        }
+
+        // ===== UTILITIES =====
+        function copy(text, btn) {
+            navigator.clipboard.writeText(text);
+            const icon = btn.querySelector('i');
+            const originalClass = icon.className;
+            icon.className = 'fas fa-check';
+            
+            setTimeout(() => {
+                icon.className = originalClass;
+            }, 1500);
+
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'কপি হয়েছে!',
+                showConfirmButton: false,
+                timer: 1000,
+                background: '#0f172a',
+                color: '#fff'
+            });
+        }
+    </script>
 </body>
 </html>
