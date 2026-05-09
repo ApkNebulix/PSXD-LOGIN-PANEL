@@ -1,477 +1,677 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSXD CYBER PANEL PRO</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Hind+Siliguri:wght@400;600;700&display=swap');
-        
-        :root {
-            --accent: #3b82f6;
-            --glass: rgba(15, 23, 42, 0.8);
-            --border: rgba(255, 255, 255, 0.08);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>PSXD CYBER PANEL PRO | v2.0</title>
+  <!-- Tailwind + Icons + SweetAlert2 + Animate.css -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap');
 
-        body {
-            font-family: 'Outfit', 'Hind Siliguri', sans-serif;
-            background: #020617;
-            color: #f1f5f9;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+    :root {
+      --accent: #3b82f6;
+      --glass: rgba(15, 23, 42, 0.75);
+      --border: rgba(255, 255, 255, 0.08);
+      --blur-amount: 30px;
+    }
 
-        /* Background Animation */
-        .bg-animate {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #020617);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            z-index: -1;
-        }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        .glass-morphism {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-        }
+    body {
+      font-family: 'Outfit', 'Hind Siliguri', sans-serif;
+      background: #020617;
+      color: #e2e8f0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      margin: 0;
+      position: relative;
+    }
 
-        .user-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.3), rgba(15, 23, 42, 0.5));
-            border-radius: 28px;
-            border: 1px solid var(--border);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-        }
+    /* motion blur background layers */
+    .ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
 
-        .user-card:hover {
-            transform: scale(1.02) translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
-        }
+    .bg-layer-1 {
+      background: radial-gradient(ellipse at 30% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+      animation: floatBlur1 18s infinite alternate ease-in-out;
+      filter: blur(80px);
+    }
+    .bg-layer-2 {
+      background: radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.18) 0%, transparent 60%);
+      animation: floatBlur2 20s infinite alternate ease-in-out;
+      filter: blur(90px);
+    }
+    .bg-layer-3 {
+      background: radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
+      animation: floatBlur3 22s infinite alternate ease-in-out;
+      filter: blur(100px);
+    }
+    @keyframes floatBlur1 {
+      0% {
+        transform: translate(0%, 0%) scale(1);
+      }
+      100% {
+        transform: translate(5%, -5%) scale(1.2);
+      }
+    }
+    @keyframes floatBlur2 {
+      0% {
+        transform: translate(0%, 0%) scale(1.1);
+      }
+      100% {
+        transform: translate(-4%, 6%) scale(0.9);
+      }
+    }
+    @keyframes floatBlur3 {
+      0% {
+        transform: translate(0%, 0%) scale(1);
+      }
+      100% {
+        transform: translate(3%, 3%) scale(1.15);
+      }
+    }
 
-        .lifetime-glow {
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            background: linear-gradient(145deg, rgba(245, 158, 11, 0.05), rgba(15, 23, 42, 0.5));
-        }
+    /* glass morphism card base */
+    .glass-morphism {
+      background: var(--glass);
+      backdrop-filter: blur(var(--blur-amount));
+      -webkit-backdrop-filter: blur(var(--blur-amount));
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .glass-morphism:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
 
-        .lifetime-glow::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
+    /* user card special */
+    .user-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.6);
+    }
+    .user-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(59, 130, 246, 0.3);
+    }
+    .user-card::after {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -40%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-        .custom-input {
-            background: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid var(--border) !important;
-            color: white !important;
-            transition: 0.3s;
-        }
-        .custom-input:focus { border-color: var(--accent) !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+    .lifetime-glow {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.08), rgba(15, 23, 42, 0.5));
+    }
+    .lifetime-glow:hover {
+      border-color: rgba(245, 158, 11, 0.7);
+      box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.3);
+    }
 
-        .shimmer {
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite;
-        }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    /* custom input */
+    .custom-input {
+      background: rgba(15, 23, 42, 0.7) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      color: white !important;
+      transition: 0.3s;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .custom-input:focus {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+      outline: none;
+    }
 
-        /* Floating Button for Mobile */
-        .fab-btn {
-            position: fixed; bottom: 2rem; right: 2rem;
-            width: 65px; height: 65px; border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            display: flex; items-center; justify-center;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
-            z-index: 50; cursor: pointer; transition: 0.3s;
-        }
-        .fab-btn:hover { transform: scale(1.1) rotate(90deg); }
-    </style>
+    /* tab bar */
+    .tab-btn {
+      transition: all 0.3s ease;
+      position: relative;
+      border-radius: 28px;
+      padding: 0.6rem 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: #94a3b8;
+      background: transparent;
+      backdrop-filter: blur(4px);
+    }
+    .tab-btn.active {
+      background: rgba(59, 130, 246, 0.25);
+      color: white;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* FAB */
+    .fab-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 62px;
+      height: 62px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+      z-index: 60;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .fab-btn:hover {
+      transform: scale(1.08) rotate(90deg);
+      box-shadow: 0 20px 40px rgba(139, 92, 246, 0.7);
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 20px;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="bg-animate"></div>
+  <!-- Ambient motion blur layers -->
+  <div class="ambient-bg bg-layer-1"></div>
+  <div class="ambient-bg bg-layer-2"></div>
+  <div class="ambient-bg bg-layer-3"></div>
 
-    <!-- LOGIN SHIELD -->
-    <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div class="glass-morphism p-10 rounded-[40px] w-full max-w-md animate__animated animate__zoomIn">
-            <div class="text-center mb-10">
-                <div class="w-24 h-24 bg-blue-600/20 rounded-[30px] flex items-center justify-center mx-auto mb-6 relative">
-                    <i class="fas fa-fingerprint text-5xl text-blue-500"></i>
-                    <div class="absolute inset-0 border-2 border-blue-500/30 rounded-[30px] animate-pulse"></div>
-                </div>
-                <h1 class="text-3xl font-black text-white tracking-tight">SYSTEM ACCESS</h1>
-                <p class="text-slate-400 mt-2 text-sm">Please verify your admin identity</p>
+  <!-- LOGIN SHIELD (Advanced Security) -->
+  <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl">
+    <div class="glass-morphism p-10 rounded-[40px] w-full max-w-md animate__animated animate__zoomIn border-white/10">
+      <div class="text-center mb-10">
+        <div class="w-24 h-24 bg-blue-600/20 rounded-[30px] flex items-center justify-center mx-auto mb-6 relative shadow-2xl">
+          <i class="fas fa-shield-haltered text-5xl text-blue-400"></i>
+          <div class="absolute inset-0 border-2 border-blue-500/40 rounded-[30px] animate-pulse"></div>
+        </div>
+        <h1 class="text-3xl font-black text-white tracking-tight">PSXD SECURE ACCESS</h1>
+        <p class="text-slate-400 mt-2 text-sm font-medium">Biometric-style identity verification</p>
+      </div>
+      <div class="space-y-6">
+        <input type="email" id="l_email" class="w-full custom-input p-5 rounded-2xl outline-none text-white placeholder-slate-500" placeholder="Admin Identifier">
+        <input type="password" id="l_pass" class="w-full custom-input p-5 rounded-2xl outline-none text-white placeholder-slate-500" placeholder="Cipher Key">
+        <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl shadow-2xl shadow-blue-600/30 transition active:scale-95 flex items-center justify-center gap-2">
+          <i class="fas fa-fingerprint"></i> Authenticate
+        </button>
+      </div>
+      <p class="text-xs text-slate-600 mt-6 text-center">Protected by PSXD Cyber Vault</p>
+    </div>
+  </div>
+
+  <!-- MAIN DASHBOARD (hidden initially) -->
+  <div id="dashboardSection" class="hidden min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 p-5 flex justify-between items-center glass-morphism border-b border-white/5 shadow-2xl">
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <img id="navLogo" class="w-12 h-12 rounded-2xl object-cover border border-white/10 shadow-lg" alt="logo">
+          <div class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-slate-900 rounded-full"></div>
+        </div>
+        <div>
+          <h2 id="navTitle" class="text-xl font-black text-white leading-none">PSXD PANEL</h2>
+          <span class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Admin Root</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="logout()" class="p-3 bg-red-500/10 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition">
+          <i class="fas fa-power-off text-lg"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="flex justify-center mt-6 px-4">
+      <div class="glass-morphism p-2 rounded-[35px] flex gap-1 flex-wrap justify-center shadow-2xl">
+        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active flex items-center gap-2"><i class="fas fa-chart-pie"></i><span class="hidden sm:inline">Overview</span></button>
+        <button onclick="switchTab('users')" id="tab-users" class="tab-btn flex items-center gap-2"><i class="fas fa-users"></i><span class="hidden sm:inline">Nodes</span></button>
+        <button onclick="switchTab('settings')" id="tab-settings" class="tab-btn flex items-center gap-2"><i class="fas fa-sliders"></i><span class="hidden sm:inline">Config</span></button>
+        <button onclick="switchTab('activity')" id="tab-activity" class="tab-btn flex items-center gap-2"><i class="fas fa-clock"></i><span class="hidden sm:inline">Logs</span></button>
+      </div>
+    </div>
+
+    <!-- Tab Panels -->
+    <div class="flex-1 max-w-7xl mx-auto w-full px-5 pb-24 mt-6">
+
+      <!-- DASHBOARD TAB -->
+      <div id="panel-dashboard" class="tab-panel animate__animated animate__fadeIn">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-blue-500">
+            <p class="text-[10px] font-bold text-slate-500 uppercase">Total Nodes</p>
+            <h3 id="st_total" class="text-3xl font-black mt-1">0</h3>
+          </div>
+          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-emerald-500">
+            <p class="text-[10px] font-bold text-emerald-500 uppercase">Verified</p>
+            <h3 id="st_active" class="text-3xl font-black mt-1">0</h3>
+          </div>
+          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-amber-500">
+            <p class="text-[10px] font-bold text-amber-500 uppercase">Elite Status</p>
+            <h3 id="st_life" class="text-3xl font-black mt-1">0</h3>
+          </div>
+          <div class="glass-morphism p-6 rounded-3xl border-l-4 border-red-500">
+            <p class="text-[10px] font-bold text-red-500 uppercase">Terminated</p>
+            <h3 id="st_block" class="text-3xl font-black mt-1">0</h3>
+          </div>
+        </div>
+        <div class="glass-morphism p-8 rounded-3xl flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <p class="text-slate-400 text-sm">System Status</p>
+            <h3 class="text-2xl font-bold text-emerald-400">All Systems Operational</h3>
+          </div>
+          <i class="fas fa-server text-4xl text-blue-400 opacity-70"></i>
+        </div>
+      </div>
+
+      <!-- USERS TAB -->
+      <div id="panel-users" class="tab-panel hidden animate__animated animate__fadeIn">
+        <div class="flex flex-col md:flex-row gap-5 mb-10 items-center justify-between">
+          <div class="relative w-full md:w-[400px] group">
+            <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition"></i>
+            <input type="text" id="searchBar" oninput="liveSearch()" class="w-full glass-morphism py-4 pl-14 pr-6 rounded-[28px] outline-none text-sm tracking-wide" placeholder="Search Device ID, License...">
+          </div>
+          <button onclick="openEditor()" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/20 flex items-center gap-3 transition active:scale-95">
+            <i class="fas fa-plus-circle"></i> New Node
+          </button>
+        </div>
+        <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- injected cards -->
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div id="panel-settings" class="tab-panel hidden animate__animated animate__fadeIn">
+        <div class="glass-morphism p-8 rounded-[35px] max-w-4xl mx-auto">
+          <h2 class="text-2xl font-black mb-8 flex items-center gap-3"><i class="fas fa-terminal text-blue-400"></i> Core Configuration</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-5">
+              <h4 class="font-bold text-blue-400 uppercase text-xs tracking-widest">Branding</h4>
+              <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl">
+              <input id="c_logo" placeholder="Logo URL" class="w-full custom-input p-4 rounded-xl">
+              <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl">
+            </div>
+            <div class="space-y-5">
+              <h4 class="font-bold text-emerald-400 uppercase text-xs tracking-widest">Global Key</h4>
+              <div class="flex items-center justify-between p-4 glass-morphism rounded-xl">
+                <span class="text-sm font-bold">Enable Global Key</span>
+                <input type="checkbox" id="c_gl_on" class="w-5 h-5 accent-blue-500">
+              </div>
+              <input id="c_gl_key" placeholder="Global Access Key" class="w-full custom-input p-4 rounded-xl">
+              <textarea id="c_gl_msg" placeholder="Global message..." rows="3" class="w-full custom-input p-4 rounded-xl"></textarea>
+            </div>
+          </div>
+          <button onclick="saveSystem()" class="mt-10 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl shadow-xl transition">Apply Protocol</button>
+        </div>
+      </div>
+
+      <!-- ACTIVITY LOG TAB -->
+      <div id="panel-activity" class="tab-panel hidden animate__animated animate__fadeIn">
+        <div class="glass-morphism p-8 rounded-[35px] max-w-4xl mx-auto">
+          <h2 class="text-xl font-black mb-6 flex items-center gap-3"><i class="fas fa-history text-blue-300"></i> Admin Activity Log</h2>
+          <div id="logContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+            <p class="text-slate-500 text-sm">No recent activity.</p>
+          </div>
+          <button onclick="clearLogs()" class="mt-6 text-red-400 text-sm hover:underline">Clear logs</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAB (add node quick) -->
+  <div class="fab-btn hidden" id="fabButton" onclick="openEditor()">
+    <i class="fas fa-plus text-2xl text-white"></i>
+  </div>
+
+  <!-- MODAL: EDITOR -->
+  <div id="editModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
+    <div class="glass-morphism w-full max-w-xl p-10 rounded-[40px] animate__animated animate__zoomIn">
+      <h2 id="modalTitle" class="text-3xl font-black mb-10 text-white">MANAGE NODE</h2>
+      <div class="space-y-6">
+        <div>
+          <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Device ID</label>
+          <input id="m_device" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono uppercase tracking-widest">
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Status</label>
+            <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-5 rounded-2xl mt-2">
+              <option value="active">Active</option>
+              <option value="lifetime">Lifetime</option>
+              <option value="blocked">Blocked</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Expiry</label>
+            <input type="date" id="m_expiry" class="w-full custom-input p-5 rounded-2xl mt-2">
+          </div>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-500 ml-2 uppercase">License Key</label>
+          <input id="m_key" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono text-blue-400">
+        </div>
+      </div>
+      <div class="flex gap-5 mt-12">
+        <button onclick="closeModal()" class="flex-1 p-5 rounded-2xl font-bold bg-slate-800 text-slate-400">Discard</button>
+        <button onclick="saveChanges()" class="flex-[2] p-5 rounded-2xl font-bold bg-blue-600 text-white shadow-xl active:scale-95">Authorize</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // --- CONSTANTS ---
+      const DB_ENDPOINT = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
+      const ADM_USER = "admin@psxd.com";
+      const ADM_PASS = "shimulxd";
+
+      let appData = null;
+      let activeIdx = -1;
+
+      // Utility: add activity log
+      function addLog(message) {
+        const logs = JSON.parse(localStorage.getItem('psxd_activity_logs') || '[]');
+        logs.unshift({ time: new Date().toLocaleString(), msg: message });
+        if (logs.length > 20) logs.pop();
+        localStorage.setItem('psxd_activity_logs', JSON.stringify(logs));
+        renderLogs();
+      }
+
+      function renderLogs() {
+        const container = document.getElementById('logContainer');
+        if (!container) return;
+        const logs = JSON.parse(localStorage.getItem('psxd_activity_logs') || '[]');
+        if (logs.length === 0) {
+          container.innerHTML = '<p class="text-slate-500 text-sm">No recent activity.</p>';
+          return;
+        }
+        container.innerHTML = logs.map(l => `
+          <div class="flex justify-between items-center p-3 glass-morphism rounded-xl text-sm">
+            <span class="text-slate-300">${l.msg}</span>
+            <span class="text-xs text-slate-500">${l.time}</span>
+          </div>
+        `).join('');
+      }
+
+      function clearLogs() {
+        localStorage.removeItem('psxd_activity_logs');
+        renderLogs();
+        Swal.fire({ icon: 'success', title: 'Cleared', timer: 1000, showConfirmButton: false });
+      }
+
+      // AUTH
+      window.onload = () => {
+        if (localStorage.getItem('session_active') === 'true') {
+          document.getElementById('loginSection').classList.add('hidden');
+          document.getElementById('dashboardSection').classList.remove('hidden');
+          document.getElementById('fabButton').classList.remove('hidden');
+          fetchData();
+          switchTab('dashboard');
+          renderLogs();
+        } else {
+          document.getElementById('loginSection').classList.remove('hidden');
+          document.getElementById('dashboardSection').classList.add('hidden');
+        }
+      };
+
+      window.handleLogin = function() {
+        const e = document.getElementById('l_email').value.trim();
+        const p = document.getElementById('l_pass').value.trim();
+        if (e === ADM_USER && p === ADM_PASS) {
+          localStorage.setItem('session_active', 'true');
+          addLog('Secure login successful');
+          location.reload();
+        } else {
+          Swal.fire({ icon: 'error', title: 'ACCESS DENIED', text: 'Invalid credentials', background: '#020617', color: '#fff' });
+        }
+      };
+
+      window.logout = function() {
+        addLog('Admin logged out');
+        localStorage.removeItem('session_active');
+        location.reload();
+      };
+
+      // TABS
+      window.switchTab = function(tabName) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        const panel = document.getElementById('panel-' + tabName);
+        if (panel) panel.classList.remove('hidden');
+        const btn = document.getElementById('tab-' + tabName);
+        if (btn) btn.classList.add('active');
+        if (tabName === 'activity') renderLogs();
+      };
+
+      // DATA FETCH
+      async function fetchData() {
+        try {
+          const res = await fetch(DB_ENDPOINT);
+          appData = await res.json();
+          renderCards();
+          updateStats();
+          addLog('Database synced successfully');
+        } catch (e) {
+          Swal.fire('Error', 'Database Offline', 'error');
+        }
+      }
+      window.fetchData = fetchData;
+
+      function updateStats() {
+        const users = appData?.auth_database || [];
+        document.getElementById('st_total').innerText = users.length;
+        document.getElementById('st_active').innerText = users.filter(u => u.status === 'active').length;
+        document.getElementById('st_life').innerText = users.filter(u => u.status === 'lifetime').length;
+        document.getElementById('st_block').innerText = users.filter(u => u.status === 'blocked').length;
+        if (appData?.app_config) {
+          document.getElementById('navLogo').src = appData.app_config.logo_url || '';
+          document.getElementById('navTitle').innerText = appData.app_config.title || 'PSXD';
+        }
+      }
+
+      function renderCards() {
+        const grid = document.getElementById('userContainer');
+        if (!grid) return;
+        const users = [...(appData?.auth_database || [])];
+        grid.innerHTML = '';
+        users.forEach((user, i) => {
+          const isLife = user.status === 'lifetime';
+          const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (user.status === 'blocked' ? 'text-red-500 bg-red-500/10' : 'text-emerald-400 bg-emerald-400/10');
+          const card = document.createElement('div');
+          card.className = `user-card p-8 group ${isLife ? 'lifetime-glow' : ''}`;
+          card.innerHTML = `
+            <div class="flex justify-between items-start mb-8">
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full ${user.status === 'blocked' ? 'bg-red-500' : 'bg-emerald-500'} shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                <span class="text-[11px] font-black uppercase tracking-widest ${sColor} px-3 py-1 rounded-lg">${user.status}</span>
+              </div>
+              <div class="flex gap-4 opacity-40 group-hover:opacity-100 transition-opacity">
+                <button class="text-blue-400 hover:text-white edit-btn"><i class="fas fa-pen-nib text-lg"></i></button>
+                <button class="text-red-500 hover:text-white delete-btn"><i class="fas fa-trash-alt text-lg"></i></button>
+              </div>
             </div>
             <div class="space-y-6">
-                <input type="email" id="l_email" class="w-full custom-input p-5 rounded-2xl outline-none" placeholder="Admin Email">
-                <input type="password" id="l_pass" class="w-full custom-input p-5 rounded-2xl outline-none" placeholder="Secure Password">
-                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl shadow-2xl transition active:scale-95">Access Terminal</button>
+              <div>
+                <div class="flex justify-between items-end mb-2"><p class="text-[10px] font-bold text-slate-500 uppercase">Node ID</p><button class="copy-btn text-[10px] text-slate-600 hover:text-blue-400"><i class="fas fa-copy"></i></button></div>
+                <p class="font-mono text-white text-lg font-bold truncate tracking-widest">${user.device_id}</p>
+              </div>
+              <div>
+                <div class="flex justify-between items-end mb-2"><p class="text-[10px] font-bold text-slate-500 uppercase">Key</p><button class="copy-key text-[10px] text-slate-600 hover:text-emerald-400"><i class="fas fa-link"></i></button></div>
+                <div class="bg-slate-950/80 p-3 rounded-xl border border-white/5 font-mono text-[11px] text-blue-300 truncate">${user.key}</div>
+              </div>
+              <div class="pt-4 border-t border-white/5 flex justify-between items-center">
+                <div><p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Valid Until</p><p class="text-xs font-black ${isLife ? 'text-amber-500' : 'text-slate-200'}">${isLife ? '<i class="fas fa-infinity mr-1"></i> ELITE LIFETIME' : user.expiry}</p></div>
+                ${isLife ? '<i class="fas fa-crown text-amber-500 text-xl"></i>' : ''}
+              </div>
             </div>
-        </div>
-    </div>
+          `;
+          card.querySelector('.edit-btn').addEventListener('click', () => openEditor(i));
+          card.querySelector('.delete-btn').addEventListener('click', () => removeNode(i));
+          card.querySelector('.copy-btn').addEventListener('click', (e) => copy(user.device_id, e.currentTarget));
+          card.querySelector('.copy-key').addEventListener('click', (e) => copy(user.key, e.currentTarget));
+          grid.appendChild(card);
+        });
+      }
 
-    <!-- MAIN DASHBOARD -->
-    <div id="dashboardSection" class="hidden min-h-screen">
-        
-        <!-- Header -->
-        <header class="sticky top-0 z-40 p-6 flex justify-between items-center glass-morphism border-b border-white/5 mb-8">
-            <div class="flex items-center gap-5">
-                <div class="relative">
-                    <img id="navLogo" class="w-14 h-14 rounded-2xl object-cover border border-white/10 shadow-xl">
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-[#020617] rounded-full"></div>
-                </div>
-                <div>
-                    <h2 id="navTitle" class="text-2xl font-black text-white leading-none">PSXD ADMIN</h2>
-                    <span class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Authorized Access Only</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <button onclick="openConfig()" class="p-3 glass-morphism rounded-xl text-slate-400 hover:text-white transition">
-                    <i class="fas fa-sliders text-lg"></i>
-                </button>
-                <button onclick="logout()" class="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition">
-                    <i class="fas fa-power-off text-lg"></i>
-                </button>
-            </div>
-        </header>
+      window.openEditor = function(idx = -1) {
+        activeIdx = idx;
+        document.getElementById('modalTitle').innerText = idx === -1 ? "DEPLOY NEW NODE" : "MODIFY PROTOCOL";
+        if (idx !== -1 && appData?.auth_database) {
+          const u = appData.auth_database[idx];
+          document.getElementById('m_device').value = u.device_id || '';
+          document.getElementById('m_status').value = u.status || 'active';
+          document.getElementById('m_key').value = u.key || '';
+          document.getElementById('m_expiry').value = u.expiry === 'unlimited' ? '' : (u.expiry || '');
+        } else {
+          document.querySelectorAll('#editModal input').forEach(i => i.value = '');
+          document.getElementById('m_status').value = 'active';
+        }
+        toggleDate();
+        document.getElementById('editModal').classList.remove('hidden');
+      };
 
-        <div class="max-w-7xl mx-auto px-6">
-            <!-- Analytics Cards -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-blue-500">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase">Total Nodes</p>
-                    <h3 id="st_total" class="text-3xl font-black mt-1">0</h3>
-                </div>
-                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-emerald-500">
-                    <p class="text-[10px] font-bold text-emerald-500 uppercase">Verified</p>
-                    <h3 id="st_active" class="text-3xl font-black mt-1">0</h3>
-                </div>
-                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-amber-500">
-                    <p class="text-[10px] font-bold text-amber-500 uppercase">Elite Status</p>
-                    <h3 id="st_life" class="text-3xl font-black mt-1">0</h3>
-                </div>
-                <div class="glass-morphism p-6 rounded-3xl border-l-4 border-red-500">
-                    <p class="text-[10px] font-bold text-red-500 uppercase">Terminated</p>
-                    <h3 id="st_block" class="text-3xl font-black mt-1">0</h3>
-                </div>
-            </div>
+      window.toggleDate = function() {
+        const isLife = document.getElementById('m_status').value === 'lifetime';
+        const exp = document.getElementById('m_expiry');
+        exp.disabled = isLife;
+        exp.style.opacity = isLife ? '0.3' : '1';
+      };
 
-            <!-- Action Bar -->
-            <div class="flex flex-col md:flex-row gap-5 mb-10 items-center justify-between">
-                <div class="relative w-full md:w-[450px] group">
-                    <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition"></i>
-                    <input type="text" id="searchBar" oninput="liveSearch()" onpaste="liveSearch()" class="w-full glass-morphism py-5 pl-14 pr-6 rounded-[25px] outline-none text-sm tracking-wide" placeholder="Search by Node ID, License or Status...">
-                </div>
-                <div class="flex gap-4 w-full md:w-auto">
-                    <button onclick="fetchData()" class="p-5 glass-morphism rounded-2xl hover:bg-slate-800 transition"><i class="fas fa-sync-alt"></i></button>
-                    <button onclick="openEditor()" class="flex-1 md:flex-none px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/20 flex items-center justify-center gap-3"><i class="fas fa-plus"></i> NEW NODE</button>
-                </div>
-            </div>
-
-            <!-- User Grid -->
-            <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24 animate__animated animate__fadeInUp">
-                <!-- Data will load here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: EDITOR -->
-    <div id="editModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-xl p-4">
-        <div class="glass-morphism w-full max-w-xl p-10 rounded-[40px] animate__animated animate__zoomIn">
-            <h2 id="modalTitle" class="text-3xl font-black mb-10 text-white">MANAGE NODE</h2>
-            <div class="space-y-6">
-                <div>
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Target Identity (Device ID)</label>
-                    <input id="m_device" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono uppercase tracking-widest">
-                </div>
-                <div class="grid grid-cols-2 gap-6">
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Privilege Level</label>
-                        <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-5 rounded-2xl mt-2">
-                            <option value="active">Active</option>
-                            <option value="lifetime">Lifetime</option>
-                            <option value="blocked">Blocked</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Expiry Timeline</label>
-                        <input type="date" id="m_expiry" class="w-full custom-input p-5 rounded-2xl mt-2">
-                    </div>
-                </div>
-                <div>
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase">Cyber Key (License)</label>
-                    <input id="m_key" class="w-full custom-input p-5 rounded-2xl mt-2 font-mono text-blue-400">
-                </div>
-            </div>
-            <div class="flex gap-5 mt-12">
-                <button onclick="closeModal()" class="flex-1 p-5 rounded-2xl font-bold bg-slate-800 text-slate-400 hover:bg-slate-700 transition">Discard</button>
-                <button onclick="saveChanges()" class="flex-[2] p-5 rounded-2xl font-bold bg-blue-600 text-white shadow-xl shadow-blue-600/20 active:scale-95 transition">Authorize Update</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: APP CONFIG -->
-    <div id="configModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/90 backdrop-blur-2xl p-4">
-        <div class="glass-morphism w-full max-w-3xl p-10 rounded-[40px] max-h-[90vh] overflow-y-auto">
-            <h2 class="text-3xl font-black mb-10 flex items-center gap-4 text-white"><i class="fas fa-terminal text-blue-500"></i> SYSTEM CORE SETTINGS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <h4 class="font-bold text-blue-400 border-b border-white/5 pb-3 uppercase tracking-widest text-xs">Primary Config</h4>
-                    <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl">
-                    <input id="c_logo" placeholder="Logo Link" class="w-full custom-input p-4 rounded-xl">
-                    <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl">
-                </div>
-                <div class="space-y-6">
-                    <h4 class="font-bold text-emerald-400 border-b border-white/5 pb-3 uppercase tracking-widest text-xs">Broadcast Config</h4>
-                    <div class="flex items-center justify-between p-4 glass-morphism rounded-xl">
-                        <span class="text-sm font-bold text-slate-300">Global Switch</span>
-                        <input type="checkbox" id="c_gl_on" class="w-6 h-6 accent-blue-500">
-                    </div>
-                    <input id="c_gl_key" placeholder="Global Access Key" class="w-full custom-input p-4 rounded-xl">
-                    <textarea id="c_gl_msg" placeholder="Global Announcement Message..." rows="3" class="w-full custom-input p-4 rounded-xl"></textarea>
-                </div>
-            </div>
-            <div class="flex gap-5 mt-12">
-                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="flex-1 p-5 rounded-2xl bg-slate-800 font-bold">Back</button>
-                <button onclick="saveSystem()" class="flex-[2] p-5 rounded-2xl bg-emerald-600 text-white font-bold shadow-xl shadow-emerald-600/20">Apply Protocol</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- CONSTANTS ---
-        const DB_ENDPOINT = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
-        const ADM_USER = "admin@psxd.com"; // Edit this
-        const ADM_PASS = "shimulxd";      // Edit this
-
-        let appData = null;
-        let activeIdx = -1;
-
-        // AUTH GUARD
-        window.onload = () => {
-            if(localStorage.getItem('session_active') === 'true') {
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('dashboardSection').classList.remove('hidden');
-                fetchData();
-            }
+      window.saveChanges = async function() {
+        const s = document.getElementById('m_status').value;
+        const nodeObj = {
+          device_id: document.getElementById('m_device').value || "ANY",
+          status: s,
+          expiry: s === 'lifetime' ? 'unlimited' : document.getElementById('m_expiry').value,
+          key: document.getElementById('m_key').value || ("KEY-" + Math.random().toString(36).substr(2, 8).toUpperCase())
         };
-
-        function handleLogin() {
-            const e = document.getElementById('l_email').value;
-            const p = document.getElementById('l_pass').value;
-            if(e === ADM_USER && p === ADM_PASS) {
-                localStorage.setItem('session_active', 'true');
-                location.reload();
-            } else {
-                Swal.fire({ icon: 'error', title: 'ACCESS DENIED', text: 'Unauthorized identity detected!', background: '#020617', color: '#fff' });
-            }
+        if (!appData) appData = { auth_database: [], app_config: {}, global_config: {} };
+        if (!appData.auth_database) appData.auth_database = [];
+        if (activeIdx === -1) {
+          appData.auth_database.unshift(nodeObj);
+          addLog('New node deployed: ' + nodeObj.device_id);
+        } else {
+          appData.auth_database[activeIdx] = nodeObj;
+          addLog('Node updated: ' + nodeObj.device_id);
         }
+        await sync();
+        closeModal();
+      };
 
-        function logout() {
-            localStorage.clear();
-            location.reload();
+      window.removeNode = async function(idx) {
+        const confirm = await Swal.fire({
+          title: 'TERMINATE NODE?',
+          text: "Access will be permanently revoked!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef4444',
+          background: '#020617',
+          color: '#fff'
+        });
+        if (confirm.isConfirmed && appData?.auth_database) {
+          const removed = appData.auth_database[idx];
+          appData.auth_database.splice(idx, 1);
+          addLog('Node terminated: ' + (removed?.device_id || 'unknown'));
+          await sync();
         }
+      };
 
-        // DATABASE OPS
-        async function fetchData() {
-            try {
-                const res = await fetch(DB_ENDPOINT);
-                appData = await res.json();
-                renderCards();
-            } catch(e) { Swal.fire('Error', 'Database Offline', 'error'); }
+      window.saveSystem = async function() {
+        if (!appData) appData = { auth_database: [], app_config: {}, global_config: {} };
+        appData.app_config = appData.app_config || {};
+        appData.global_config = appData.global_config || {};
+        appData.app_config.title = document.getElementById('c_title').value;
+        appData.app_config.logo_url = document.getElementById('c_logo').value;
+        appData.app_config.buy_url = document.getElementById('c_buy').value;
+        appData.global_config.global_key_enabled = document.getElementById('c_gl_on').checked;
+        appData.global_config.global_key = document.getElementById('c_gl_key').value;
+        appData.global_config.global_instruction = document.getElementById('c_gl_msg').value;
+        await sync();
+        addLog('System configuration updated');
+        document.getElementById('panel-settings')?.classList.add('hidden');
+        switchTab('dashboard');
+      };
+
+      async function sync() {
+        Swal.fire({ title: 'Syncing...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try {
+          const res = await fetch(DB_ENDPOINT, { method: 'PUT', body: JSON.stringify(appData) });
+          if (res.ok) {
+            Swal.fire({ icon: 'success', title: 'SYNC SUCCESS', timer: 1200, showConfirmButton: false, background: '#020617' });
+            renderCards();
+            updateStats();
+          }
+        } catch (e) {
+          Swal.fire('Error', 'Sync Failure', 'error');
         }
+      }
 
-        function renderCards() {
-            const grid = document.getElementById('userContainer');
-            const users = [...(appData.auth_database || [])]; // Reverse copy for "Newest First" logic if needed
-            grid.innerHTML = "";
+      window.liveSearch = function() {
+        const val = document.getElementById('searchBar')?.value.toLowerCase() || '';
+        document.querySelectorAll('#userContainer > div').forEach(c => {
+          c.style.display = c.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+        });
+      };
 
-            // Statistics Update
-            document.getElementById('st_total').innerText = users.length;
-            document.getElementById('st_active').innerText = users.filter(u => u.status === 'active').length;
-            document.getElementById('st_life').innerText = users.filter(u => u.status === 'lifetime').length;
-            document.getElementById('st_block').innerText = users.filter(u => u.status === 'blocked').length;
-            
-            // Branding Update
-            document.getElementById('navLogo').src = appData.app_config.logo_url;
-            document.getElementById('navTitle').innerText = appData.app_config.title;
-
-            users.forEach((user, i) => {
-                const isLife = user.status === 'lifetime';
-                const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (user.status === 'blocked' ? 'text-red-500 bg-red-500/10' : 'text-emerald-400 bg-emerald-400/10');
-                
-                const cardHtml = `
-                    <div class="user-card p-8 group ${isLife ? 'lifetime-glow' : ''}">
-                        <div class="flex justify-between items-start mb-8">
-                            <div class="flex items-center gap-3">
-                                <div class="w-3 h-3 rounded-full ${user.status === 'blocked' ? 'bg-red-500' : 'bg-emerald-500'} shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-                                <span class="text-[11px] font-black uppercase tracking-widest ${sColor} px-3 py-1 rounded-lg">${user.status}</span>
-                            </div>
-                            <div class="flex gap-4 opacity-40 group-hover:opacity-100 transition-opacity">
-                                <button onclick="openEditor(${i})" class="text-blue-400 hover:text-white"><i class="fas fa-pen-nib text-lg"></i></button>
-                                <button onclick="removeNode(${i})" class="text-red-500 hover:text-white"><i class="fas fa-trash-alt text-lg"></i></button>
-                            </div>
-                        </div>
-
-                        <div class="space-y-6">
-                            <div>
-                                <div class="flex justify-between items-end mb-2">
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">NODE IDENTITY</p>
-                                    <button onclick="copy('${user.device_id}', this)" class="text-[10px] text-slate-600 hover:text-blue-400 transition"><i class="fas fa-copy"></i></button>
-                                </div>
-                                <p class="font-mono text-white text-lg font-bold truncate tracking-widest">${user.device_id}</p>
-                            </div>
-
-                            <div>
-                                <div class="flex justify-between items-end mb-2">
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase">ACCESS KEY</p>
-                                    <button onclick="copy('${user.key}', this)" class="text-[10px] text-slate-600 hover:text-emerald-400 transition"><i class="fas fa-link"></i></button>
-                                </div>
-                                <div class="bg-slate-950/80 p-3 rounded-xl border border-white/5 font-mono text-[11px] text-blue-300 truncate tracking-wider">${user.key}</div>
-                            </div>
-
-                            <div class="pt-4 border-t border-white/5 flex justify-between items-center">
-                                <div>
-                                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">VALID UNTIL</p>
-                                    <p class="text-xs font-black ${isLife ? 'text-amber-500' : 'text-slate-200'}">${isLife ? '<i class="fas fa-infinity mr-1"></i> ELITE LIFETIME' : user.expiry}</p>
-                                </div>
-                                ${isLife ? '<i class="fas fa-crown text-amber-500 text-xl drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]"></i>' : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                grid.innerHTML += cardHtml;
-            });
+      window.copy = function(text, btn) {
+        navigator.clipboard.writeText(text);
+        const icon = btn.querySelector('i');
+        if (icon) {
+          icon.classList.replace('fa-copy', 'fa-check');
+          icon.classList.replace('fa-link', 'fa-check');
+          setTimeout(() => {
+            icon.classList.replace('fa-check', 'fa-copy');
+            icon.classList.replace('fa-check', 'fa-link');
+          }, 1500);
         }
+      };
 
-        // ACTIONS
-        function openEditor(idx = -1) {
-            activeIdx = idx;
-            document.getElementById('modalTitle').innerText = idx === -1 ? "DEPLOY NEW NODE" : "MODIFY PROTOCOL";
-            if(idx !== -1) {
-                const u = appData.auth_database[idx];
-                document.getElementById('m_device').value = u.device_id;
-                document.getElementById('m_status').value = u.status;
-                document.getElementById('m_key').value = u.key;
-                document.getElementById('m_expiry').value = u.expiry === 'unlimited' ? '' : u.expiry;
-            } else {
-                document.querySelectorAll('#editModal input').forEach(i => i.value = "");
-                document.getElementById('m_status').value = 'active';
-            }
-            toggleDate();
-            document.getElementById('editModal').classList.remove('hidden');
-        }
+      window.closeModal = function() { document.getElementById('editModal').classList.add('hidden'); };
 
-        function toggleDate() {
-            const isLife = document.getElementById('m_status').value === 'lifetime';
-            const exp = document.getElementById('m_expiry');
-            exp.disabled = isLife;
-            exp.style.opacity = isLife ? '0.2' : '1';
-        }
-
-        async function saveChanges() {
-            const s = document.getElementById('m_status').value;
-            const nodeObj = {
-                device_id: document.getElementById('m_device').value || "ANY",
-                status: s,
-                expiry: s === 'lifetime' ? 'unlimited' : document.getElementById('m_expiry').value,
-                key: document.getElementById('m_key').value || ("KEY-" + Math.random().toString(36).substr(2, 6).toUpperCase())
-            };
-
-            if(activeIdx === -1) {
-                appData.auth_database.unshift(nodeObj); // Add to the TOP
-            } else {
-                appData.auth_database[activeIdx] = nodeObj;
-            }
-
-            await sync();
-            closeModal();
-        }
-
-        async function removeNode(idx) {
-            const confirm = await Swal.fire({
-                title: 'TERMINATE NODE?',
-                text: "Access will be permanently revoked!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                background: '#020617', color: '#fff'
-            });
-            if(confirm.isConfirmed) {
-                appData.auth_database.splice(idx, 1);
-                await sync();
-            }
-        }
-
-        async function saveSystem() {
-            appData.app_config.title = document.getElementById('c_title').value;
-            appData.app_config.logo_url = document.getElementById('c_logo').value;
-            appData.app_config.buy_url = document.getElementById('c_buy').value;
-            appData.global_config.global_key_enabled = document.getElementById('c_gl_on').checked;
-            appData.global_config.global_key = document.getElementById('c_gl_key').value;
-            appData.global_config.global_instruction = document.getElementById('c_gl_msg').value;
-            await sync();
-            document.getElementById('configModal').classList.add('hidden');
-        }
-
-        async function sync() {
-            Swal.fire({ title: 'Syncing Data...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            try {
-                const res = await fetch(DB_ENDPOINT, { method: 'PUT', body: JSON.stringify(appData) });
-                if(res.ok) {
-                    Swal.fire({ icon: 'success', title: 'SYNC SUCCESS', timer: 1000, showConfirmButton: false, background: '#020617' });
-                    renderCards();
-                }
-            } catch(e) { Swal.fire('Error', 'Sync Failure!', 'error'); }
-        }
-
-        // UTILS
-        function liveSearch() {
-            // Enhanced search that runs on input or paste instantly
-            setTimeout(() => {
-                const val = document.getElementById('searchBar').value.toLowerCase();
-                const cards = document.querySelectorAll('#userContainer > div');
-                cards.forEach(c => {
-                    c.style.display = c.innerText.toLowerCase().includes(val) ? 'block' : 'none';
-                });
-            }, 10);
-        }
-
-        function copy(text, btn) {
-            navigator.clipboard.writeText(text);
-            const icon = btn.querySelector('i');
-            icon.classList.replace('fa-copy', 'fa-check');
-            icon.classList.replace('fa-link', 'fa-check');
-            setTimeout(() => {
-                icon.classList.replace('fa-check', 'fa-copy');
-                icon.classList.replace('fa-check', 'fa-link');
-            }, 1500);
-        }
-
-        function closeModal() { document.getElementById('editModal').classList.add('hidden'); }
-        
-        function openConfig() {
-            document.getElementById('c_title').value = appData.app_config.title;
-            document.getElementById('c_logo').value = appData.app_config.logo_url;
-            document.getElementById('c_buy').value = appData.app_config.buy_url;
-            document.getElementById('c_gl_on').checked = appData.global_config.global_key_enabled;
-            document.getElementById('c_gl_key').value = appData.global_config.global_key;
-            document.getElementById('c_gl_msg').value = appData.global_config.global_instruction;
-            document.getElementById('configModal').classList.remove('hidden');
-        }
-    </script>
+      window.openConfig = function() {
+        if (!appData) return;
+        document.getElementById('c_title').value = appData.app_config?.title || '';
+        document.getElementById('c_logo').value = appData.app_config?.logo_url || '';
+        document.getElementById('c_buy').value = appData.app_config?.buy_url || '';
+        document.getElementById('c_gl_on').checked = appData.global_config?.global_key_enabled || false;
+        document.getElementById('c_gl_key').value = appData.global_config?.global_key || '';
+        document.getElementById('c_gl_msg').value = appData.global_config?.global_instruction || '';
+        switchTab('settings');
+      };
+    })();
+  </script>
 </body>
 </html>
