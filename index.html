@@ -2,1008 +2,498 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSXD CYBER PANEL PRO | v3.0</title>
-    <script src="https://cdn.tailwindcss.com">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CYBER GUARDIAN | NEXUS ADMIN</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;600;700&display=swap');
-
-        :root {
-            --accent: #3b82f6;
-            --accent2: #8b5cf6;
-            --glass: rgba(12, 16, 30, 0.75);
-            --glass2: rgba(20, 26, 45, 0.7);
-            --border: rgba(255, 255, 255, 0.06);
-            --border2: rgba(255, 255, 255, 0.1);
-            --text: #e2e8f0;
-            --text2: #94a3b8;
-            --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-            --blur-amount: 28px;
-            --motion-blur: 4px;
-        }
-
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
+
+        :root {
+            --bg-dark: #050b1a;
+            --glass-bg: rgba(10, 20, 35, 0.65);
+            --glass-border: rgba(66, 153, 225, 0.25);
+            --accent-blue: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --emerald: #10b981;
+            --amber: #f59e0b;
+            --rose: #ef4444;
+            --text-primary: #f0f4fa;
+            --text-secondary: #94a3b8;
+        }
+
         body {
-            font-family: 'Outfit', sans-serif;
-            background: #020617;
-            color: var(--text);
+            background: radial-gradient(circle at 10% 20%, #0a0f1e, #020617);
+            font-family: system-ui, 'Segoe UI', 'Outfit', 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
             margin: 0;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            scroll-behavior: smooth;
-        }
-
-        /* === BACKGROUND LAYERS === */
-        .bg-universe {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background: radial-gradient(ellipse at 20% 20%, #0f172a 0%, #020617 60%),
-                radial-gradient(ellipse at 80% 80%, #1e1b4b 0%, #020617 60%),
-                radial-gradient(ellipse at 50% 0%, #0c1929 0%, #020617 50%);
-            background-size: 100% 100%;
-        }
-        .bg-particles {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
-            animation: floatUp linear infinite;
-            filter: blur(2px);
-        }
-        @keyframes floatUp {
-            0% {
-                transform: translateY(110vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        /* === MOTION BLUR OVERLAY === */
-        .motion-blur-layer {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
+            overflow-x: hidden;
             backdrop-filter: blur(0px);
-            transition: backdrop-filter 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-            will-change: backdrop-filter;
-        }
-        body.scrolling .motion-blur-layer {
-            backdrop-filter: blur(var(--motion-blur));
         }
 
-        /* === GLASS MORPHISM BASE === */
-        .glass {
-            background: var(--glass);
-            backdrop-filter: blur(var(--blur-amount));
-            -webkit-backdrop-filter: blur(var(--blur-amount));
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            border-radius: 24px;
-        }
-        .glass-light {
-            background: var(--glass2);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border2);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-            border-radius: 20px;
-        }
-        .glass-input {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            color: #fff;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-        .glass-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 0 30px rgba(59, 130, 246, 0.1);
-            background: rgba(20, 30, 55, 0.7);
-        }
-
-        /* === SHIMMER === */
-        .shimmer {
-            position: relative;
-            overflow: hidden;
-        }
-        .shimmer::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(105deg,
-                    transparent 40%,
-                    rgba(255, 255, 255, 0.04) 45%,
-                    rgba(255, 255, 255, 0.08) 50%,
-                    rgba(255, 255, 255, 0.04) 55%,
-                    transparent 60%);
-            animation: shimmerMove 3s infinite;
-            pointer-events: none;
-        }
-        @keyframes shimmerMove {
-            0% {
-                transform: translateX(-100%) rotate(0deg);
-            }
-            100% {
-                transform: translateX(100%) rotate(0deg);
-            }
-        }
-
-        /* === CARD === */
-        .user-card {
-            background: linear-gradient(160deg, rgba(22, 30, 50, 0.55), rgba(10, 15, 28, 0.7));
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 26px;
-            transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
-        }
-        .user-card:hover {
-            transform: translateY(-8px) scale(1.015);
-            border-color: rgba(59, 130, 246, 0.35);
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(59, 130, 246, 0.2) inset;
-        }
-        .user-card.lifetime-card {
-            border: 1px solid rgba(245, 158, 11, 0.25);
-            background: linear-gradient(160deg, rgba(40, 30, 10, 0.4), rgba(15, 12, 5, 0.6));
-        }
-        .user-card.lifetime-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: 27px;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.4), transparent 60%, rgba(245, 158, 11, 0.2));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .user-card.blocked-card {
-            opacity: 0.7;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            background: linear-gradient(160deg, rgba(30, 15, 15, 0.5), rgba(10, 5, 5, 0.6));
-        }
-        .user-card>* {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* === PULSE RING === */
-        .pulse-ring {
-            position: absolute;
-            inset: -4px;
-            border-radius: 30px;
-            border: 2px solid transparent;
-            animation: pulseRing 2.5s ease-out infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-        @keyframes pulseRing {
-            0% {
-                border-color: rgba(59, 130, 246, 0.5);
-                transform: scale(1);
-                opacity: 0.7;
-            }
-            100% {
-                border-color: rgba(59, 130, 246, 0);
-                transform: scale(1.04);
-                opacity: 0;
-            }
-        }
-
-        /* === TAB BAR === */
-        .tab-btn {
-            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-        }
-        .tab-btn.active {
-            color: #fff;
-            background: rgba(59, 130, 246, 0.2);
-            border: 1px solid rgba(59, 130, 246, 0.4);
-        }
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 20%;
-            width: 60%;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
-        }
-
-        /* === SCROLLBAR === */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* === MOBILE BOTTOM NAV === */
-        .mobile-nav {
-            display: none;
-        }
-        @media (max-width: 768px) {
-            .desktop-sidebar {
-                display: none;
-            }
-            .mobile-nav {
-                display: flex;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                z-index: 60;
-                background: rgba(8, 12, 24, 0.85);
-                backdrop-filter: blur(30px);
-                -webkit-backdrop-filter: blur(30px);
-                border-top: 1px solid rgba(255, 255, 255, 0.06);
-                justify-content: space-around;
-                padding: 10px 8px 18px;
-                border-radius: 24px 24px 0 0;
-                box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7);
-            }
-            .mobile-nav .nav-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 4px;
-                font-size: 10px;
-                font-weight: 600;
-                color: #64748b;
-                transition: 0.3s;
-                padding: 6px 14px;
-                border-radius: 16px;
-                cursor: pointer;
-            }
-            .mobile-nav .nav-item.active {
-                color: #fff;
-                background: rgba(59, 130, 246, 0.25);
-            }
-            .mobile-nav .nav-item i {
-                font-size: 18px;
-            }
-            .fab-mobile {
-                display: flex !important;
-            }
-        }
-        @media (min-width: 769px) {
-            .fab-mobile {
-                display: none !important;
-            }
-        }
-
-        .fab-mobile {
-            display: none;
+        /* Animated background ORB */
+        .bg-orb {
             position: fixed;
-            bottom: 110px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.5);
-            z-index: 70;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-            color: #fff;
-            font-size: 22px;
-        }
-        .fab-mobile:active {
-            transform: scale(0.9);
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(2,6,23,0) 70%);
+            top: -30vh;
+            right: -20vw;
+            filter: blur(100px);
+            z-index: -1;
+            animation: floatOrb 20s infinite alternate;
         }
 
-        /* LOGIN GLOW */
-        .login-shield {
-            box-shadow: 0 0 80px rgba(59, 130, 246, 0.2), 0 30px 60px rgba(0, 0, 0, 0.8);
+        .bg-orb2 {
+            left: -30vw;
+            bottom: -20vh;
+            top: auto;
+            background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(0,0,0,0) 70%);
+            animation: floatOrb2 18s infinite alternate;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(5%, 8%) scale(1.1); opacity: 0.8; }
+        }
+        @keyframes floatOrb2 {
+            0% { transform: translate(0, 0) scale(0.9); opacity: 0.4; }
+            100% { transform: translate(-8%, -5%) scale(1.2); opacity: 0.7; }
+        }
+
+        /* Glassmorphism + Motion blur mix */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(18px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+            transition: all 0.25s ease;
+        }
+
+        .card-glass {
+            background: linear-gradient(145deg, rgba(15, 25, 45, 0.6), rgba(5, 12, 28, 0.7));
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(59,130,246,0.2);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.3s;
+        }
+
+        .card-glass:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59,130,246,0.5);
+            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.2);
+        }
+
+        /* custom inputs */
+        .input-neo {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.25rem;
+            padding: 0.9rem 1.2rem;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            outline: none;
+            width: 100%;
+        }
+
+        .input-neo:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        button {
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 600;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: linear-gradient(105deg, #2563eb, #1e40af);
+            border: none;
+            color: white;
+            padding: 0.9rem 1.8rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(105deg, #3b82f6, #2563eb);
+            box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+        }
+
+        /* tabs */
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 3rem;
+            color: var(--text-secondary);
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+
+        .tab-active {
+            background: rgba(59,130,246,0.2);
+            color: white;
+            border-bottom: 2px solid var(--accent-blue);
+            backdrop-filter: blur(12px);
+        }
+
+        /* custom toast */
+        .toast-msg {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #0f172ad9;
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            color: white;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            border-left: 4px solid var(--accent-blue);
+            font-weight: 500;
+        }
+
+        /* responsive grid */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .bg-glow-lifetime {
+            position: relative;
+            overflow: hidden;
+        }
+        .bg-glow-lifetime::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -30%;
+            width: 160%;
+            height: 160%;
+            background: radial-gradient(circle, rgba(245,158,11,0.12), transparent 70%);
+            pointer-events: none;
+        }
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 5px;
+        }
+        .modal-backdrop {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(16px);
         }
     </style>
 </head>
 <body>
 
-    <!-- BACKGROUND -->
-    <div class="bg-universe"></div>
-    <div class="bg-particles" id="particlesContainer"></div>
-    <div class="motion-blur-layer"></div>
+<div class="bg-orb"></div>
+<div class="bg-orb bg-orb2"></div>
 
-    <!-- ============ LOGIN SHIELD ============ -->
-    <div id="loginSection" class="fixed inset-0 z-[100] flex items-center justify-center p-4 animate__animated animate__fadeIn">
-        <div class="glass login-shield p-10 rounded-[40px] w-full max-w-md animate__animated animate__zoomIn relative shimmer">
-            <div class="text-center mb-10">
-                <div class="w-28 h-28 bg-blue-600/10 rounded-[35px] flex items-center justify-center mx-auto mb-6 relative">
-                    <i class="fas fa-shield-haltered text-6xl text-blue-400 drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]"></i>
-                    <div class="absolute inset-0 border-2 border-blue-400/20 rounded-[35px] animate-ping"></div>
-                </div>
-                <h1 class="text-4xl font-black text-white tracking-tight">PSXD TERMINAL</h1>
-                <p class="text-slate-400 mt-2 text-sm font-medium">Biometric-less Identity Verification</p>
+<!-- Login Overlay -->
+<div id="loginOverlay" class="fixed inset-0 z-[200] flex items-center justify-center p-4" style="background: rgba(0,0,0,0.75); backdrop-filter: blur(14px);">
+    <div class="glass-panel w-full max-w-md p-8 text-center animate-[fadeInUp_0.5s_ease]">
+        <div class="w-24 h-24 mx-auto bg-blue-500/20 rounded-3xl flex items-center justify-center mb-5 relative">
+            <span style="font-size: 3rem;">🔐</span>
+            <div class="absolute inset-0 rounded-3xl border-2 border-blue-500/40 animate-pulse"></div>
+        </div>
+        <h2 class="text-3xl font-black mb-2">TERMINAL ACCESS</h2>
+        <p class="text-slate-400 text-sm mb-8">authorized personnel only</p>
+        <div class="space-y-5">
+            <input type="email" id="loginEmail" class="input-neo" placeholder="Admin Email" value="admin@psxd.com">
+            <input type="password" id="loginPass" class="input-neo" placeholder="Secure Passcode">
+            <button id="doLoginBtn" class="btn-primary w-full">VERIFY & UNLOCK</button>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-6">🔒 military grade session</p>
+    </div>
+</div>
+
+<!-- MAIN DASHBOARD (hidden until login) -->
+<div id="dashboardMain" class="hidden min-h-screen pb-12">
+
+    <!-- sticky header glass -->
+    <div class="sticky top-0 z-40 glass-panel mx-4 mt-4 px-6 py-4 flex flex-wrap justify-between items-center gap-3 rounded-2xl">
+        <div class="flex items-center gap-4">
+            <div class="relative">
+                <img id="dashLogo" class="w-12 h-12 rounded-xl object-cover border border-white/20" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E" alt="logo">
+                <span class="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-black"></span>
             </div>
-            <div class="space-y-5">
-                <div class="relative">
-                    <i class="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 text-lg"></i>
-                    <input type="email" id="l_email" class="w-full glass-input py-5 pl-14 pr-5 text-base font-medium" placeholder="admin@psxd.com" autocomplete="off">
-                </div>
-                <div class="relative">
-                    <i class="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 text-lg"></i>
-                    <input type="password" id="l_pass" class="w-full glass-input py-5 pl-14 pr-5 text-base font-medium" placeholder="••••••••" autocomplete="off">
-                </div>
-                <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-5 rounded-2xl shadow-2xl shadow-blue-600/25 transition-all active:scale-[0.97] text-lg tracking-wide">
-                    <i class="fas fa-fingerprint mr-2"></i> Authenticate
-                </button>
+            <div>
+                <h3 id="dashTitle" class="text-xl font-black">PSXD NEXUS</h3>
+                <span class="text-[9px] text-blue-400 font-mono">ROOT ADMIN</span>
             </div>
-            <p class="text-center text-xs text-slate-600 mt-6">Protected by Quantum-Grade Encryption</p>
+        </div>
+        <div class="flex gap-3">
+            <button id="globalConfigBtn" class="p-3 glass-panel rounded-xl text-slate-300 hover:text-white transition"><span style="font-size:1.3rem;">⚙️</span></button>
+            <button id="logoutBtn" class="p-3 bg-red-500/20 rounded-xl text-red-400 hover:bg-red-600 hover:text-white transition"><span style="font-size:1.2rem;">⏻</span></button>
         </div>
     </div>
 
-    <!-- ============ MAIN DASHBOARD ============ -->
-    <div id="dashboardSection" class="hidden min-h-screen pb-28 md:pb-8">
+    <div class="max-w-7xl mx-auto px-5 mt-7">
+        <!-- TABS -->
+        <div class="flex flex-wrap gap-3 mb-8 border-b border-white/10 pb-2">
+            <button data-tab="nodes" class="tab-btn tab-active" id="tabNodesBtn">📡 NODE DATABASE</button>
+            <button data-tab="logs" class="tab-btn" id="tabLogsBtn">📜 SECURITY LOGS</button>
+            <button data-tab="backup" class="tab-btn" id="tabBackupBtn">💾 DISASTER RECOVERY</button>
+        </div>
 
-        <!-- DESKTOP SIDEBAR -->
-        <aside class="desktop-sidebar fixed left-0 top-0 h-full w-[280px] z-50 glass border-r border-white/5 flex flex-col p-6 gap-8 shadow-2xl">
-            <div class="flex items-center gap-4 pt-2">
-                <img id="navLogo" class="w-12 h-12 rounded-2xl object-cover border border-white/10 shadow-lg" src="https://via.placeholder.com/48/3b82f6/ffffff?text=P">
-                <div>
-                    <h2 id="navTitle" class="text-xl font-black text-white leading-tight">PSXD ADMIN</h2>
-                    <span class="text-[9px] text-blue-400 font-bold uppercase tracking-[0.25em]">v3.0 Cyber Core</span>
+        <!-- STATS CARDS (visible in all tabs) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-9">
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-blue-500"><p class="text-xs font-bold text-slate-400">TOTAL NODES</p><h2 id="statTotal" class="text-3xl font-black">0</h2></div>
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-emerald-500"><p class="text-xs font-bold text-emerald-400">ACTIVE</p><h2 id="statActive" class="text-3xl font-black">0</h2></div>
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-amber-500"><p class="text-xs font-bold text-amber-400">LIFETIME</p><h2 id="statLife" class="text-3xl font-black">0</h2></div>
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-rose-500"><p class="text-xs font-bold text-rose-400">TERMINATED</p><h2 id="statBlocked" class="text-3xl font-black">0</h2></div>
+        </div>
+
+        <!-- TAB CONTENT: NODES MANAGER -->
+        <div id="nodesTabContent">
+            <div class="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
+                <div class="relative w-full md:w-96">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">🔍</span>
+                    <input type="text" id="nodeSearch" class="input-neo pl-11" placeholder="Filter by device ID, license key...">
+                </div>
+                <div class="flex gap-3">
+                    <button id="refreshDataBtn" class="glass-panel px-6 py-3 rounded-2xl font-semibold"><span>🔄</span> SYNC</button>
+                    <button id="createNodeBtn" class="btn-primary px-8 py-3"><span>➕</span> DEPLOY NODE</button>
                 </div>
             </div>
-            <nav class="flex flex-col gap-2 flex-1">
-                <button class="tab-btn active flex items-center gap-4 p-4 rounded-2xl text-slate-300 font-semibold text-sm transition w-full text-left" data-tab="dashboard">
-                    <i class="fas fa-grid-2 text-lg w-6 text-center"></i> Dashboard
-                </button>
-                <button class="tab-btn flex items-center gap-4 p-4 rounded-2xl text-slate-300 font-semibold text-sm transition w-full text-left" data-tab="users">
-                    <i class="fas fa-users text-lg w-6 text-center"></i> User Nodes
-                </button>
-                <button class="tab-btn flex items-center gap-4 p-4 rounded-2xl text-slate-300 font-semibold text-sm transition w-full text-left" data-tab="broadcast">
-                    <i class="fas fa-satellite-dish text-lg w-6 text-center"></i> Broadcast
-                </button>
-                <button class="tab-btn flex items-center gap-4 p-4 rounded-2xl text-slate-300 font-semibold text-sm transition w-full text-left" data-tab="settings">
-                    <i class="fas fa-sliders text-lg w-6 text-center"></i> Settings
-                </button>
-            </nav>
-            <button onclick="logout()" class="flex items-center gap-3 p-4 rounded-2xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition font-semibold text-sm w-full">
-                <i class="fas fa-power-off text-lg"></i> Terminate Session
-            </button>
-        </aside>
+            <div id="nodesGrid" class="grid-cards transition-all"></div>
+        </div>
 
-        <!-- MOBILE NAV -->
-        <nav class="mobile-nav">
-            <div class="nav-item active" data-tab="dashboard"><i class="fas fa-grid-2"></i><span>Home</span></div>
-            <div class="nav-item" data-tab="users"><i class="fas fa-users"></i><span>Nodes</span></div>
-            <div class="nav-item" data-tab="broadcast"><i class="fas fa-satellite-dish"></i><span>Msg</span></div>
-            <div class="nav-item" data-tab="settings"><i class="fas fa-sliders"></i><span>Config</span></div>
-        </nav>
-        <button class="fab-mobile" onclick="openEditor(-1)" title="Add New Node"><i class="fas fa-plus"></i></button>
-
-        <!-- MAIN CONTENT AREA -->
-        <main class="md:ml-[300px] p-4 md:p-8 pt-6 md:pt-8 transition-all duration-500">
-
-            <!-- ===== TAB: DASHBOARD ===== -->
-            <section id="tab-dashboard" class="tab-content">
-                <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
-                    <div>
-                        <h1 class="text-3xl md:text-4xl font-black text-white">System Overview</h1>
-                        <p class="text-slate-500 text-sm mt-1">Real-time node analytics</p>
-                    </div>
-                    <button onclick="fetchData()" class="glass-light px-6 py-3 rounded-2xl text-slate-300 hover:text-white transition flex items-center gap-2 font-semibold text-sm">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
-                </div>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-                    <div class="glass-light p-6 rounded-3xl border-l-4 border-blue-500 relative shimmer">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Nodes</p>
-                        <h3 id="st_total" class="text-4xl font-black mt-2 text-white">0</h3>
-                    </div>
-                    <div class="glass-light p-6 rounded-3xl border-l-4 border-emerald-500 relative shimmer">
-                        <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Active</p>
-                        <h3 id="st_active" class="text-4xl font-black mt-2 text-white">0</h3>
-                    </div>
-                    <div class="glass-light p-6 rounded-3xl border-l-4 border-amber-500 relative shimmer">
-                        <p class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Elite Lifetime</p>
-                        <h3 id="st_life" class="text-4xl font-black mt-2 text-white">0</h3>
-                    </div>
-                    <div class="glass-light p-6 rounded-3xl border-l-4 border-red-500 relative shimmer">
-                        <p class="text-[10px] font-bold text-red-400 uppercase tracking-wider">Blocked</p>
-                        <h3 id="st_block" class="text-4xl font-black mt-2 text-white">0</h3>
-                    </div>
-                </div>
-                <div class="glass p-8 rounded-3xl">
-                    <h3 class="text-lg font-bold text-white mb-4">Quick Actions</h3>
-                    <div class="flex flex-wrap gap-4">
-                        <button onclick="switchTab('users'); openEditor(-1)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-7 rounded-2xl transition active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> Deploy Node</button>
-                        <button onclick="switchTab('broadcast')" class="glass-light py-3 px-7 rounded-2xl font-semibold text-slate-300 hover:text-white transition flex items-center gap-2"><i class="fas fa-bullhorn"></i> Send Broadcast</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===== TAB: USERS ===== -->
-            <section id="tab-users" class="tab-content hidden">
-                <div class="flex flex-col md:flex-row gap-5 mb-8 items-center justify-between">
-                    <div class="relative w-full md:w-[450px] group">
-                        <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition"></i>
-                        <input type="text" id="searchBar" oninput="liveSearch()" onpaste="liveSearch()" class="w-full glass-input py-5 pl-14 pr-6 text-sm tracking-wide" placeholder="Search by Node ID, License or Status...">
-                    </div>
-                    <div class="flex gap-3 w-full md:w-auto">
-                        <button onclick="fetchData()" class="glass-light p-4 rounded-2xl hover:bg-slate-700/50 transition"><i class="fas fa-sync-alt"></i></button>
-                        <button onclick="openEditor(-1)" class="flex-1 md:flex-none px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/20 flex items-center justify-center gap-2"><i class="fas fa-plus"></i> New Node</button>
-                    </div>
-                </div>
-                <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 animate__animated animate__fadeInUp">
-                </div>
-                <div id="noResults" class="hidden text-center py-20 text-slate-500 text-lg font-semibold">No nodes match your search.</div>
-            </section>
-
-            <!-- ===== TAB: BROADCAST ===== -->
-            <section id="tab-broadcast" class="tab-content hidden">
-                <div class="glass p-8 rounded-3xl max-w-2xl">
-                    <h3 class="text-2xl font-black text-white mb-6"><i class="fas fa-satellite-dish text-blue-400 mr-2"></i> Global Broadcast</h3>
-                    <div class="space-y-6">
-                        <div class="flex items-center justify-between glass-light p-5 rounded-2xl">
-                            <span class="font-semibold text-slate-300">Enable Global Key</span>
-                            <input type="checkbox" id="c_gl_on" class="w-6 h-6 accent-blue-500 rounded-lg">
-                        </div>
-                        <input id="c_gl_key" placeholder="Global Access Key" class="w-full glass-input p-5 rounded-2xl font-mono text-blue-300">
-                        <textarea id="c_gl_msg" placeholder="Announcement message to all nodes..." rows="4" class="w-full glass-input p-5 rounded-2xl"></textarea>
-                        <button onclick="saveBroadcastOnly()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 rounded-2xl shadow-xl shadow-emerald-600/20 transition active:scale-[0.98]">
-                            <i class="fas fa-paper-plane mr-2"></i> Transmit Announcement
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===== TAB: SETTINGS ===== -->
-            <section id="tab-settings" class="tab-content hidden">
-                <div class="glass p-8 rounded-3xl max-w-2xl">
-                    <h3 class="text-2xl font-black text-white mb-6"><i class="fas fa-cog text-blue-400 mr-2"></i> App Configuration</h3>
-                    <div class="space-y-5">
-                        <input id="c_title" placeholder="Application Title" class="w-full glass-input p-5 rounded-2xl">
-                        <input id="c_logo" placeholder="Logo URL" class="w-full glass-input p-5 rounded-2xl">
-                        <input id="c_buy" placeholder="Purchase Link" class="w-full glass-input p-5 rounded-2xl">
-                        <button onclick="saveAppConfigOnly()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl shadow-xl shadow-blue-600/20 transition active:scale-[0.98]">
-                            <i class="fas fa-save mr-2"></i> Save Configuration
-                        </button>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- ============ MODAL: NODE EDITOR ============ -->
-    <div id="editModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/85 backdrop-blur-2xl p-4">
-        <div class="glass w-full max-w-xl p-10 rounded-[40px] animate__animated animate__zoomIn shadow-2xl">
-            <h2 id="modalTitle" class="text-3xl font-black mb-8 text-white">Manage Node</h2>
-            <div class="space-y-6">
-                <div>
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Device ID</label>
-                    <input id="m_device" class="w-full glass-input p-5 rounded-2xl mt-2 font-mono uppercase tracking-widest text-sm">
-                </div>
-                <div class="grid grid-cols-2 gap-5">
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Status</label>
-                        <select id="m_status" onchange="toggleDate()" class="w-full glass-input p-5 rounded-2xl mt-2 font-semibold">
-                            <option value="active">Active</option>
-                            <option value="lifetime">Lifetime</option>
-                            <option value="blocked">Blocked</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Expiry Date</label>
-                        <input type="date" id="m_expiry" class="w-full glass-input p-5 rounded-2xl mt-2">
-                    </div>
-                </div>
-                <div>
-                    <label class="text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">License Key</label>
-                    <input id="m_key" class="w-full glass-input p-5 rounded-2xl mt-2 font-mono text-blue-400 text-sm">
-                </div>
+        <!-- TAB CONTENT: LOGS -->
+        <div id="logsTabContent" class="hidden">
+            <div class="glass-panel p-6 rounded-3xl">
+                <div class="flex justify-between items-center mb-4"><h3 class="font-bold text-xl">📋 ACTIVITY TRAIL</h3><button id="clearLogsBtn" class="text-xs text-red-400 bg-red-500/10 px-4 py-2 rounded-full">CLEAR LOGS</button></div>
+                <div id="logList" class="space-y-2 max-h-[400px] overflow-y-auto font-mono text-sm"></div>
             </div>
-            <div class="flex gap-5 mt-10">
-                <button onclick="closeModal()" class="flex-1 p-5 rounded-2xl font-bold bg-slate-700/50 text-slate-400 hover:bg-slate-700 transition">Cancel</button>
-                <button onclick="saveChanges()" class="flex-[2] p-5 rounded-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl shadow-blue-600/20 active:scale-[0.97] transition">Authorize Update</button>
+        </div>
+
+        <!-- TAB CONTENT: BACKUP / EXPORT -->
+        <div id="backupTabContent" class="hidden">
+            <div class="glass-panel p-8 rounded-3xl space-y-8">
+                <div><h3 class="text-2xl font-black">💽 FULL SYSTEM BACKUP</h3><p class="text-slate-400 text-sm">Export nodes, configs or restore previous snapshot</p></div>
+                <div class="flex flex-wrap gap-5">
+                    <button id="exportJSONBtn" class="bg-emerald-600/70 px-7 py-3 rounded-2xl font-bold">📎 EXPORT AS JSON</button>
+                    <button id="importBackupBtn" class="bg-amber-600/70 px-7 py-3 rounded-2xl font-bold">📂 IMPORT BACKUP</button>
+                    <input type="file" id="importFileInput" class="hidden" accept=".json">
+                    <button id="resetDemoDataBtn" class="bg-rose-600/60 px-7 py-3 rounded-2xl font-bold">⚠️ RESET DEFAULT</button>
+                </div>
+                <div class="border-t border-white/10 pt-4"><p class="text-xs text-slate-500">Last backup snapshot stored locally.</p></div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        (function() {
-            // === CONSTANTS ===
-            const DB_ENDPOINT = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
-            const ADM_USER = "admin@psxd.com";
-            const ADM_PASS = "shimulxd";
+<!-- MODAL: NODE EDITOR -->
+<div id="nodeModal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 modal-backdrop">
+    <div class="glass-panel w-full max-w-xl p-8 rounded-3xl animate-[zoomIn_0.2s_ease]">
+        <h3 id="modalNodeTitle" class="text-2xl font-black mb-6">MANAGE NODE</h3>
+        <div class="space-y-5">
+            <div><label class="text-xs font-bold text-slate-400">DEVICE ID (HARDWARE HASH)</label><input id="nodeDeviceId" class="input-neo mt-1" placeholder="DEVICE_UNIQUE_ID"></div>
+            <div class="grid grid-cols-2 gap-4">
+                <div><label class="text-xs font-bold text-slate-400">STATUS</label><select id="nodeStatus" class="input-neo"><option value="active">ACTIVE</option><option value="lifetime">LIFETIME ELITE</option><option value="blocked">BLOCKED</option></select></div>
+                <div><label class="text-xs font-bold text-slate-400">EXPIRY DATE</label><input type="date" id="nodeExpiry" class="input-neo"></div>
+            </div>
+            <div><label class="text-xs font-bold text-slate-400">CYBER KEY (LICENSE)</label><input id="nodeKey" class="input-neo" placeholder="XXXXXXXX-XXXX"></div>
+        </div>
+        <div class="flex gap-4 mt-8"><button id="closeModalBtn" class="flex-1 py-4 rounded-2xl bg-slate-700 font-bold">CANCEL</button><button id="confirmNodeBtn" class="flex-1 py-4 rounded-2xl bg-blue-600 font-bold shadow-xl">AUTHORIZE</button></div>
+    </div>
+</div>
 
-            let appData = null;
-            let activeIdx = -1;
+<!-- MODAL: GLOBAL CONFIG -->
+<div id="configModal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 modal-backdrop">
+    <div class="glass-panel w-full max-w-2xl p-8 rounded-3xl">
+        <h2 class="text-2xl font-black mb-6">🔧 CORE SETTINGS</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div><label class="text-xs">APP TITLE</label><input id="confTitle" class="input-neo mt-1"></div>
+            <div><label class="text-xs">LOGO URL</label><input id="confLogo" class="input-neo mt-1"></div>
+            <div><label class="text-xs">PURCHASE LINK</label><input id="confBuyLink" class="input-neo mt-1"></div>
+            <div class="flex items-center gap-3"><label class="text-xs">GLOBAL KEY SWITCH</label><input type="checkbox" id="confGlobalSwitch" class="w-5 h-5 accent-blue-500"></div>
+            <div class="md:col-span-2"><label class="text-xs">GLOBAL MASTER KEY</label><input id="confGlobalKey" class="input-neo"></div>
+            <div class="md:col-span-2"><label class="text-xs">GLOBAL ANNOUNCEMENT</label><textarea id="confGlobalMsg" rows="2" class="input-neo"></textarea></div>
+        </div>
+        <div class="flex gap-5 mt-8"><button id="closeConfigBtn" class="flex-1 py-4 rounded-2xl bg-slate-700">BACK</button><button id="saveConfigBtn" class="flex-1 py-4 rounded-2xl bg-emerald-600 font-bold">APPLY CHANGES</button></div>
+    </div>
+</div>
 
-            // === PARTICLES ===
-            const pc = document.getElementById('particlesContainer');
-            for (let i = 0; i < 50; i++) {
-                const p = document.createElement('div');
-                p.classList.add('particle');
-                const size = Math.random() * 120 + 40;
-                p.style.width = size + 'px';
-                p.style.height = size + 'px';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = Math.random() * 20 + 15 + 's';
-                p.style.animationDelay = Math.random() * 10 + 's';
-                pc.appendChild(p);
-            }
+<div id="toastMsg" class="toast-msg"></div>
 
-            // === MOTION BLUR ON SCROLL ===
-            let scrollTimer;
-            window.addEventListener('scroll', () => {
-                document.body.classList.add('scrolling');
-                clearTimeout(scrollTimer);
-                scrollTimer = setTimeout(() => {
-                    document.body.classList.remove('scrolling');
-                }, 300);
-            }, { passive: true });
+<script>
+    // ---------- NO EXTERNAL DEPENDENCIES ----------
+    const DB_URL = "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
+    const ADMIN_EMAIL = "admin@psxd.com";
+    const ADMIN_PASS = "shimulxd";
 
-            // === AUTH GUARD ===
-            window.onload = () => {
-                if (localStorage.getItem('psxd_session_v3') === 'active') {
-                    document.getElementById('loginSection').classList.add('hidden');
-                    document.getElementById('dashboardSection').classList.remove('hidden');
-                    fetchData();
-                    initTabNavigation();
-                }
-            };
+    let appData = { auth_database: [], app_config: { title: "PSXD NEXUS", logo_url: "", buy_url: "#" }, global_config: { global_key_enabled: false, global_key: "", global_instruction: "" } };
+    let activityLogs = []; // store in localStorage
+    let currentEditIndex = -1;
 
-            function handleLogin() {
-                const e = document.getElementById('l_email').value.trim();
-                const p = document.getElementById('l_pass').value.trim();
-                if (e === ADM_USER && p === ADM_PASS) {
-                    localStorage.setItem('psxd_session_v3', 'active');
-                    document.getElementById('loginSection').classList.add('hidden');
-                    document.getElementById('dashboardSection').classList.remove('hidden');
-                    fetchData();
-                    initTabNavigation();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Access Granted',
-                        text: 'Welcome back, Admin.',
-                        timer: 1500,
-                        showConfirmButton: false,
-                        background: '#0f172a',
-                        color: '#fff',
-                        backdrop: 'rgba(0,0,0,0.8)'
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Access Denied',
-                        text: 'Invalid credentials. Intrusion logged.',
-                        background: '#0f172a',
-                        color: '#fff',
-                        confirmButtonColor: '#ef4444'
-                    });
-                }
-            }
+    // helpers
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0px)';
+        toast.style.borderLeftColor = isError ? '#ef4444' : '#3b82f6';
+        setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(-50%) translateY(20px)'; }, 2800);
+    }
 
-            function logout() {
-                Swal.fire({
-                    title: 'Terminate Session?',
-                    text: 'You will be logged out.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ef4444',
-                    cancelButtonColor: '#64748b',
-                    background: '#0f172a',
-                    color: '#fff'
-                }).then((res) => {
-                    if (res.isConfirmed) {
-                        localStorage.removeItem('psxd_session_v3');
-                        location.reload();
-                    }
-                });
-            }
+    function addLog(action, details) {
+        const logEntry = { timestamp: new Date().toISOString(), action, details };
+        activityLogs.unshift(logEntry);
+        if(activityLogs.length > 50) activityLogs.pop();
+        localStorage.setItem('nexus_activity_logs', JSON.stringify(activityLogs));
+        renderLogs();
+    }
 
-            // === TAB NAVIGATION ===
-            function initTabNavigation() {
-                const allTabBtns = document.querySelectorAll('.tab-btn, .nav-item');
-                const allTabs = document.querySelectorAll('.tab-content');
+    async function syncToFirebase() {
+        if(!appData) return false;
+        try {
+            const res = await fetch(DB_URL, { method: 'PUT', body: JSON.stringify(appData) });
+            if(res.ok) { showToast("✔️ Data synchronized"); addLog("SYNC", "Full database sync"); return true; }
+            else throw new Error();
+        } catch(e) { showToast("❌ Sync failed", true); return false; }
+    }
 
-                function activateTab(tabName) {
-                    allTabs.forEach(t => t.classList.add('hidden'));
-                    const target = document.getElementById('tab-' + tabName);
-                    if (target) target.classList.remove('hidden');
-
-                    allTabBtns.forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll(`[data-tab="${tabName}"]`).forEach(b => b.classList.add('active'));
-
-                    if (tabName === 'users') renderCards();
-                    if (tabName === 'broadcast') populateBroadcastTab();
-                    if (tabName === 'settings') populateSettingsTab();
-                }
-
-                allTabBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const tab = btn.getAttribute('data-tab');
-                        if (tab) activateTab(tab);
-                    });
-                });
-
-                activateTab('dashboard');
-            }
-
-            window.switchTab = function(tabName) {
-                const allTabBtns = document.querySelectorAll('.tab-btn, .nav-item');
-                const allTabs = document.querySelectorAll('.tab-content');
-                allTabs.forEach(t => t.classList.add('hidden'));
-                const target = document.getElementById('tab-' + tabName);
-                if (target) target.classList.remove('hidden');
-                allTabBtns.forEach(b => b.classList.remove('active'));
-                document.querySelectorAll(`[data-tab="${tabName}"]`).forEach(b => b.classList.add('active'));
-                if (tabName === 'users') renderCards();
-                if (tabName === 'broadcast') populateBroadcastTab();
-                if (tabName === 'settings') populateSettingsTab();
-            };
-
-            function populateBroadcastTab() {
-                if (!appData || !appData.global_config) return;
-                document.getElementById('c_gl_on').checked = !!appData.global_config.global_key_enabled;
-                document.getElementById('c_gl_key').value = appData.global_config.global_key || '';
-                document.getElementById('c_gl_msg').value = appData.global_config.global_instruction || '';
-            }
-
-            function populateSettingsTab() {
-                if (!appData || !appData.app_config) return;
-                document.getElementById('c_title').value = appData.app_config.title || '';
-                document.getElementById('c_logo').value = appData.app_config.logo_url || '';
-                document.getElementById('c_buy').value = appData.app_config.buy_url || '';
-            }
-
-            // === DATABASE OPS ===
-            async function fetchData() {
-                try {
-                    const res = await fetch(DB_ENDPOINT);
-                    if (!res.ok) throw new Error('Network error');
-                    appData = await res.json();
-                    if (!appData.auth_database) appData.auth_database = [];
-                    if (!appData.app_config) appData.app_config = { title: 'PSXD', logo_url: '',
-                        buy_url: '' };
-                    if (!appData.global_config) appData.global_config = { global_key_enabled: false, global_key: '',
-                        global_instruction: '' };
-                    updateStats();
-                    renderCards();
-                    populateBroadcastTab();
-                    populateSettingsTab();
-                    document.getElementById('navLogo').src = appData.app_config.logo_url ||
-                        'https://via.placeholder.com/48/3b82f6/ffffff?text=P';
-                    document.getElementById('navTitle').innerText = appData.app_config.title || 'PSXD ADMIN';
-                } catch (e) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Connection Failed',
-                        text: 'Unable to reach database.',
-                        background: '#0f172a',
-                        color: '#fff'
-                    });
-                }
-            }
-
-            function updateStats() {
-                const users = appData.auth_database || [];
-                document.getElementById('st_total').innerText = users.length;
-                document.getElementById('st_active').innerText = users.filter(u => u.status === 'active').length;
-                document.getElementById('st_life').innerText = users.filter(u => u.status === 'lifetime').length;
-                document.getElementById('st_block').innerText = users.filter(u => u.status === 'blocked').length;
-            }
-
-            function renderCards() {
-                const grid = document.getElementById('userContainer');
-                const noRes = document.getElementById('noResults');
-                if (!grid) return;
-                const users = appData.auth_database || [];
-                grid.innerHTML = '';
-
-                if (users.length === 0) {
-                    grid.innerHTML =
-                        '<div class="col-span-full text-center py-20 text-slate-500 text-lg font-semibold">No nodes deployed yet.</div>';
-                    if (noRes) noRes.classList.add('hidden');
-                    return;
-                }
-
-                users.forEach((user, i) => {
-                    const isLife = user.status === 'lifetime';
-                    const isBlocked = user.status === 'blocked';
-                    let extraClass = '';
-                    if (isLife) extraClass = 'lifetime-card';
-                    if (isBlocked) extraClass = 'blocked-card';
-                    const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (isBlocked ?
-                        'text-red-400 bg-red-400/10' : 'text-emerald-400 bg-emerald-400/10');
-                    const dotColor = isBlocked ? 'bg-red-500' : 'bg-emerald-500';
-                    const expiryDisplay = isLife ?
-                        '<i class="fas fa-infinity mr-1"></i> ELITE LIFETIME' : (user.expiry || 'N/A');
-
-                    const card = document.createElement('div');
-                    card.className = `user-card p-7 group ${extraClass} relative`;
-                    card.innerHTML = `
-                        <div class="pulse-ring" style="animation-delay:${i*0.15}s"></div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="w-3 h-3 rounded-full ${dotColor} shadow-[0_0_12px_rgba(16,185,129,0.6)]"></div>
-                                <span class="text-[10px] font-black uppercase tracking-widest ${sColor} px-3 py-1 rounded-lg">${user.status}</span>
-                            </div>
-                            <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <button onclick="event.stopPropagation(); openEditor(${i})" class="text-blue-400 hover:text-white p-2 glass-light rounded-xl transition"><i class="fas fa-pen-nib"></i></button>
-                                <button onclick="event.stopPropagation(); removeNode(${i})" class="text-red-400 hover:text-white p-2 glass-light rounded-xl transition"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </div>
-                        <div class="space-y-5">
-                            <div>
-                                <div class="flex justify-between items-end mb-2">
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Node Identity</p>
-                                    <button onclick="event.stopPropagation(); copyText('${user.device_id}', this)" class="text-[10px] text-slate-600 hover:text-blue-400 transition"><i class="fas fa-copy"></i></button>
-                                </div>
-                                <p class="font-mono text-white text-sm font-bold truncate tracking-wider">${user.device_id}</p>
-                            </div>
-                            <div>
-                                <div class="flex justify-between items-end mb-2">
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">License Key</p>
-                                    <button onclick="event.stopPropagation(); copyText('${user.key}', this)" class="text-[10px] text-slate-600 hover:text-emerald-400 transition"><i class="fas fa-copy"></i></button>
-                                </div>
-                                <div class="bg-slate-950/80 p-3 rounded-xl border border-white/5 font-mono text-[11px] text-blue-300 truncate">${user.key}</div>
-                            </div>
-                            <div class="pt-4 border-t border-white/5 flex justify-between items-center">
-                                <div>
-                                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Valid Until</p>
-                                    <p class="text-xs font-black ${isLife ? 'text-amber-400' : 'text-slate-200'}">${expiryDisplay}</p>
-                                </div>
-                                ${isLife ? '<i class="fas fa-crown text-amber-400 text-xl drop-shadow-[0_0_10px_rgba(245,158,11,0.6)]"></i>' : ''}
-                            </div>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-                if (noRes) noRes.classList.add('hidden');
-                liveSearch();
-            }
-
-            function liveSearch() {
-                const val = (document.getElementById('searchBar')?.value || '').toLowerCase();
-                const cards = document.querySelectorAll('#userContainer .user-card');
-                let anyVisible = false;
-                cards.forEach(c => {
-                    const text = c.innerText.toLowerCase();
-                    if (text.includes(val)) {
-                        c.style.display = '';
-                        anyVisible = true;
-                    } else {
-                        c.style.display = 'none';
-                    }
-                });
-                const noRes = document.getElementById('noResults');
-                if (noRes) {
-                    noRes.classList.toggle('hidden', anyVisible || cards.length === 0 || !val);
-                }
-            }
-
-            window.copyText = function(text, btn) {
-                navigator.clipboard.writeText(text).then(() => {
-                    const icon = btn.querySelector('i');
-                    if (!icon) return;
-                    const orig = icon.className;
-                    icon.className = 'fas fa-check text-green-400';
-                    setTimeout(() => { icon.className = orig; }, 1500);
-                });
-            };
-
-            // === EDITOR ===
-            window.openEditor = function(idx = -1) {
-                activeIdx = idx;
-                document.getElementById('modalTitle').innerText = idx === -1 ? 'Deploy New Node' :
-                    'Modify Node Protocol';
-                if (idx !== -1 && appData && appData.auth_database) {
-                    const u = appData.auth_database[idx];
-                    document.getElementById('m_device').value = u.device_id || '';
-                    document.getElementById('m_status').value = u.status || 'active';
-                    document.getElementById('m_key').value = u.key || '';
-                    document.getElementById('m_expiry').value = (u.expiry && u.expiry !== 'unlimited') ? u.expiry :
-                        '';
-                } else {
-                    document.getElementById('m_device').value = '';
-                    document.getElementById('m_status').value = 'active';
-                    document.getElementById('m_key').value = 'KEY-' + Math.random().toString(36).substr(2, 8)
-                        .toUpperCase();
-                    document.getElementById('m_expiry').value = '';
-                }
-                toggleDate();
-                document.getElementById('editModal').classList.remove('hidden');
-            };
-
-            window.toggleDate = function() {
-                const isLife = document.getElementById('m_status').value === 'lifetime';
-                const exp = document.getElementById('m_expiry');
-                exp.disabled = isLife;
-                exp.style.opacity = isLife ? '0.3' : '1';
-                if (isLife) exp.value = '';
-            };
-
-            window.saveChanges = async function() {
-                const s = document.getElementById('m_status').value;
-                const nodeObj = {
-                    device_id: document.getElementById('m_device').value || 'UNKNOWN',
-                    status: s,
-                    expiry: s === 'lifetime' ? 'unlimited' : (document.getElementById('m_expiry').value || 'N/A'),
-                    key: document.getElementById('m_key').value || ('KEY-' + Math.random().toString(36).substr(2, 6)
-                        .toUpperCase())
+    async function fetchRemoteData() {
+        try {
+            const res = await fetch(DB_URL);
+            const data = await res.json();
+            if(data && typeof data === 'object') {
+                appData = {
+                    auth_database: data.auth_database || [],
+                    app_config: data.app_config || { title: "PSXD NEXUS", logo_url: "", buy_url: "#" },
+                    global_config: data.global_config || { global_key_enabled: false, global_key: "", global_instruction: "" }
                 };
+            } else appData.auth_database = [];
+            updateUI();
+            addLog("FETCH", "Database loaded");
+        } catch(e) { showToast("⚠️ FireBase connection issue, using cached", true); if(!appData.auth_database) appData.auth_database = []; updateUI(); }
+    }
 
-                if (!appData) appData = { auth_database: [], app_config: {}, global_config: {} };
-                if (!appData.auth_database) appData.auth_database = [];
+    function updateUI() {
+        const users = appData.auth_database || [];
+        document.getElementById('statTotal').innerText = users.length;
+        document.getElementById('statActive').innerText = users.filter(u => u.status === 'active').length;
+        document.getElementById('statLife').innerText = users.filter(u => u.status === 'lifetime').length;
+        document.getElementById('statBlocked').innerText = users.filter(u => u.status === 'blocked').length;
+        document.getElementById('dashTitle').innerText = appData.app_config.title || "PSXD NEXUS";
+        const logoVal = appData.app_config.logo_url;
+        if(logoVal && logoVal.trim() !== "") document.getElementById('dashLogo').src = logoVal;
+        renderNodes();
+    }
 
-                if (activeIdx === -1) {
-                    appData.auth_database.unshift(nodeObj);
-                } else {
-                    appData.auth_database[activeIdx] = nodeObj;
-                }
+    function renderNodes() {
+        const container = document.getElementById('nodesGrid');
+        const search = document.getElementById('nodeSearch')?.value.toLowerCase() || "";
+        let data = [...(appData.auth_database || [])];
+        if(search) data = data.filter(u => u.device_id?.toLowerCase().includes(search) || u.key?.toLowerCase().includes(search));
+        if(data.length === 0) { container.innerHTML = `<div class="glass-panel p-12 text-center col-span-full"><span>📭 No nodes found</span></div>`; return; }
+        container.innerHTML = data.map((u, idx) => {
+            const isLife = u.status === 'lifetime';
+            const statusClass = u.status === 'active' ? 'text-emerald-400 bg-emerald-500/20' : (u.status === 'lifetime' ? 'text-amber-400 bg-amber-500/20' : 'text-rose-400 bg-rose-500/20');
+            const glowClass = isLife ? 'bg-glow-lifetime' : '';
+            return `<div class="card-glass p-6 relative ${glowClass} transition-all">
+                        <div class="flex justify-between items-start mb-5">
+                            <div class="flex gap-2 items-center"><span class="w-2 h-2 rounded-full ${u.status === 'blocked' ? 'bg-rose-500' : 'bg-emerald-500'}"></span><span class="badge ${statusClass}">${u.status.toUpperCase()}</span></div>
+                            <div class="flex gap-4"><button onclick="window.openNodeEditor(${appData.auth_database.indexOf(u)})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 3l4 4-7 7H10v-4l7-7z"/><path d="M4 20h16"/></svg></button><button onclick="window.deleteNodeConfirm(${appData.auth_database.indexOf(u)})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 14h12l1-14"/></svg></button></div>
+                        </div>
+                        <div class="space-y-4"><div><p class="text-[10px] font-bold text-slate-500">DEVICE ID</p><p class="font-mono text-sm break-all">${escapeHtml(u.device_id || 'UNKNOWN')}</p></div>
+                        <div><p class="text-[10px] font-bold text-slate-500">LICENSE KEY</p><div class="bg-black/40 p-2 rounded-xl font-mono text-xs text-blue-300 flex justify-between items-center"><span>${escapeHtml(u.key || 'N/A')}</span><button onclick="window.copyText('${escapeHtml(u.key || '')}', this)">📋</button></div></div>
+                        <div class="flex justify-between items-center border-t border-white/10 pt-3"><div><p class="text-[10px] text-slate-500">VALIDITY</p><p class="font-bold ${isLife ? 'text-amber-400' : 'text-slate-200'}">${isLife ? '♾️ LIFETIME' : (u.expiry || 'N/A')}</p></div>${isLife ? '<span class="text-amber-500 text-xl">👑</span>' : ''}</div></div>
+                    </div>`;
+        }).join('');
+    }
 
-                await sync();
-                closeModal();
-            };
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 
-            window.removeNode = async function(idx) {
-                const confirm = await Swal.fire({
-                    title: 'Terminate Node?',
-                    text: "This action cannot be undone.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ef4444',
-                    cancelButtonColor: '#64748b',
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-                if (confirm.isConfirmed && appData && appData.auth_database) {
-                    appData.auth_database.splice(idx, 1);
-                    await sync();
-                }
-            };
+    window.copyText = (text, btn) => { navigator.clipboard.writeText(text); showToast("Copied!"); };
+    window.openNodeEditor = (idx) => { currentEditIndex = idx; const node = appData.auth_database[idx]; document.getElementById('nodeDeviceId').value = node.device_id || ''; document.getElementById('nodeStatus').value = node.status; document.getElementById('nodeKey').value = node.key || ''; document.getElementById('nodeExpiry').value = (node.expiry && node.expiry !== 'unlimited') ? node.expiry : ''; toggleExpiryState(); document.getElementById('modalNodeTitle').innerText = "EDIT NODE"; document.getElementById('nodeModal').classList.remove('hidden'); };
+    window.deleteNodeConfirm = async (idx) => { if(confirm("⚠️ PERMANENT TERMINATION?")) { appData.auth_database.splice(idx,1); await syncToFirebase(); addLog("DELETE", `Node removed`); updateUI(); } };
+    function toggleExpiryState() { const isLife = document.getElementById('nodeStatus').value === 'lifetime'; document.getElementById('nodeExpiry').disabled = isLife; if(isLife) document.getElementById('nodeExpiry').style.opacity = '0.5'; else document.getElementById('nodeExpiry').style.opacity = '1'; }
 
-            window.saveBroadcastOnly = async function() {
-                if (!appData) return;
-                if (!appData.global_config) appData.global_config = {};
-                appData.global_config.global_key_enabled = document.getElementById('c_gl_on').checked;
-                appData.global_config.global_key = document.getElementById('c_gl_key').value;
-                appData.global_config.global_instruction = document.getElementById('c_gl_msg').value;
-                await sync();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Broadcast Updated',
-                    timer: 1500,
-                    showConfirmButton: false,
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-            };
+    async function saveNodeFromModal() {
+        const status = document.getElementById('nodeStatus').value;
+        const newNode = {
+            device_id: document.getElementById('nodeDeviceId').value.trim() || "DEVICE_" + Math.random().toString(36).substr(2,5),
+            status: status,
+            expiry: status === 'lifetime' ? 'unlimited' : (document.getElementById('nodeExpiry').value || '2099-12-31'),
+            key: document.getElementById('nodeKey').value.trim() || ("KEY-" + Math.random().toString(36).substr(2,8).toUpperCase())
+        };
+        if(currentEditIndex === -1) appData.auth_database.unshift(newNode);
+        else appData.auth_database[currentEditIndex] = newNode;
+        await syncToFirebase();
+        addLog(currentEditIndex === -1 ? "CREATE" : "EDIT", `Node ${newNode.device_id}`);
+        updateUI();
+        document.getElementById('nodeModal').classList.add('hidden');
+        currentEditIndex = -1;
+    }
 
-            window.saveAppConfigOnly = async function() {
-                if (!appData) return;
-                if (!appData.app_config) appData.app_config = {};
-                appData.app_config.title = document.getElementById('c_title').value;
-                appData.app_config.logo_url = document.getElementById('c_logo').value;
-                appData.app_config.buy_url = document.getElementById('c_buy').value;
-                await sync();
-                document.getElementById('navLogo').src = appData.app_config.logo_url ||
-                    'https://via.placeholder.com/48/3b82f6/ffffff?text=P';
-                document.getElementById('navTitle').innerText = appData.app_config.title || 'PSXD ADMIN';
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Settings Saved',
-                    timer: 1500,
-                    showConfirmButton: false,
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-            };
+    function renderLogs() { const logsDiv = document.getElementById('logList'); const logs = activityLogs.slice(0,30); if(logs.length===0) { logsDiv.innerHTML = '<div class="text-slate-500 text-center py-8">No activity logs</div>'; return; } logsDiv.innerHTML = logs.map(l=>`<div class="border-b border-white/5 py-2 text-xs flex justify-between"><span class="text-blue-300">${new Date(l.timestamp).toLocaleString()}</span><span class="font-mono">[${l.action}] ${l.details}</span></div>`).join(''); }
 
-            async function sync() {
-                Swal.fire({
-                    title: 'Syncing...',
-                    allowOutsideClick: false,
-                    didOpen: () => Swal.showLoading(),
-                    background: '#0f172a',
-                    color: '#fff'
-                });
-                try {
-                    const res = await fetch(DB_ENDPOINT, { method: 'PUT', body: JSON.stringify(appData) });
-                    if (res.ok) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Sync Complete',
-                            timer: 1200,
-                            showConfirmButton: false,
-                            background: '#0f172a',
-                            color: '#fff'
-                        });
-                        updateStats();
-                        renderCards();
-                        populateBroadcastTab();
-                        populateSettingsTab();
-                    } else throw new Error('Sync failed');
-                } catch (e) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Sync Failure',
-                        text: 'Please try again.',
-                        background: '#0f172a',
-                        color: '#fff'
-                    });
-                }
-            }
+    function exportBackup() { const dataStr = JSON.stringify(appData, null, 2); const blob = new Blob([dataStr], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `psxd_backup_${Date.now()}.json`; a.click(); URL.revokeObjectURL(url); showToast("Backup exported"); }
+    function importBackup(file) { const reader = new FileReader(); reader.onload = async (e) => { try { const imported = JSON.parse(e.target.result); if(imported.auth_database && imported.app_config) { appData = imported; await syncToFirebase(); updateUI(); addLog("IMPORT", "Full restore from file"); showToast("Import success!"); } else throw new Error(); } catch(e2) { showToast("Invalid backup file", true); } }; if(file) reader.readAsText(file); }
 
-            window.closeModal = function() {
-                document.getElementById('editModal').classList.add('hidden');
-            };
+    // TABS
+    function switchTab(tabId) { document.getElementById('nodesTabContent').classList.toggle('hidden', tabId !== 'nodes'); document.getElementById('logsTabContent').classList.toggle('hidden', tabId !== 'logs'); document.getElementById('backupTabContent').classList.toggle('hidden', tabId !== 'backup'); document.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.remove('tab-active')); if(tabId==='nodes') document.getElementById('tabNodesBtn').classList.add('tab-active'); if(tabId==='logs') document.getElementById('tabLogsBtn').classList.add('tab-active'); if(tabId==='backup') document.getElementById('tabBackupBtn').classList.add('tab-active'); if(tabId==='logs') renderLogs(); }
 
-            // Close modal on background click
-            document.getElementById('editModal')?.addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
+    // Global config modal ops
+    function openConfigModal() { document.getElementById('confTitle').value = appData.app_config.title || ''; document.getElementById('confLogo').value = appData.app_config.logo_url || ''; document.getElementById('confBuyLink').value = appData.app_config.buy_url || ''; document.getElementById('confGlobalSwitch').checked = appData.global_config.global_key_enabled || false; document.getElementById('confGlobalKey').value = appData.global_config.global_key || ''; document.getElementById('confGlobalMsg').value = appData.global_config.global_instruction || ''; document.getElementById('configModal').classList.remove('hidden'); }
+    async function saveGlobalConfig() { appData.app_config.title = document.getElementById('confTitle').value; appData.app_config.logo_url = document.getElementById('confLogo').value; appData.app_config.buy_url = document.getElementById('confBuyLink').value; appData.global_config.global_key_enabled = document.getElementById('confGlobalSwitch').checked; appData.global_config.global_key = document.getElementById('confGlobalKey').value; appData.global_config.global_instruction = document.getElementById('confGlobalMsg').value; await syncToFirebase(); updateUI(); addLog("CONFIG", "Global settings updated"); document.getElementById('configModal').classList.add('hidden'); showToast("Configuration saved"); }
 
-            // Enter key for login
-            document.getElementById('l_pass')?.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') handleLogin();
-            });
-            document.getElementById('l_email')?.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') document.getElementById('l_pass')?.focus();
-            });
+    // Login guard & session
+    function handleLogin() { const email = document.getElementById('loginEmail').value; const pwd = document.getElementById('loginPass').value; if(email === ADMIN_EMAIL && pwd === ADMIN_PASS) { localStorage.setItem('nexus_session', 'true'); addLog("LOGIN", "Admin authenticated"); document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('dashboardMain').classList.remove('hidden'); fetchRemoteData(); } else { showToast("Access Denied: Invalid credentials", true); addLog("LOGIN_FAIL", "Failed attempt"); } }
 
-            // Expose for inline onclick
-            window.handleLogin = handleLogin;
-            window.logout = logout;
-            window.fetchData = fetchData;
-            window.liveSearch = liveSearch;
-            window.openConfig = function() { switchTab('settings'); };
-        })();
-    </script>
+    // reset default demo (minimal)
+    async function resetDefault() { if(confirm("RESET ALL DATA? This will erase nodes!")) { appData = { auth_database: [{ device_id: "DEMO_NODE_001", status: "active", expiry: "2025-12-31", key: "PSXD-DEMO-2025" },{ device_id: "ELITE_LIFETIME_01", status: "lifetime", expiry: "unlimited", key: "LIFE-GOLD-999" }], app_config: { title: "PSXD NEXUS", logo_url: "", buy_url: "#" }, global_config: { global_key_enabled: false, global_key: "", global_instruction: "Welcome to secure panel" } }; await syncToFirebase(); updateUI(); addLog("RESET", "Factory reset performed"); } }
+
+    // event binding
+    window.onload = () => {
+        const storedLogs = localStorage.getItem('nexus_activity_logs'); if(storedLogs) activityLogs = JSON.parse(storedLogs); else activityLogs = [{ timestamp: new Date().toISOString(), action: "BOOT", details: "System initialized" }];
+        if(localStorage.getItem('nexus_session') === 'true') { document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('dashboardMain').classList.remove('hidden'); fetchRemoteData(); } else { document.getElementById('loginOverlay').style.display = 'flex'; }
+        document.getElementById('doLoginBtn').onclick = handleLogin; document.getElementById('logoutBtn').onclick = () => { localStorage.removeItem('nexus_session'); location.reload(); };
+        document.getElementById('refreshDataBtn').onclick = fetchRemoteData; document.getElementById('createNodeBtn').onclick = () => { currentEditIndex = -1; document.getElementById('nodeDeviceId').value = ''; document.getElementById('nodeKey').value = ''; document.getElementById('nodeExpiry').value = ''; document.getElementById('nodeStatus').value = 'active'; toggleExpiryState(); document.getElementById('modalNodeTitle').innerText = "DEPLOY NEW NODE"; document.getElementById('nodeModal').classList.remove('hidden'); };
+        document.getElementById('closeModalBtn').onclick = () => document.getElementById('nodeModal').classList.add('hidden');
+        document.getElementById('confirmNodeBtn').onclick = saveNodeFromModal;
+        document.getElementById('globalConfigBtn').onclick = openConfigModal;
+        document.getElementById('closeConfigBtn').onclick = () => document.getElementById('configModal').classList.add('hidden');
+        document.getElementById('saveConfigBtn').onclick = saveGlobalConfig;
+        document.getElementById('exportJSONBtn').onclick = exportBackup;
+        document.getElementById('importBackupBtn').onclick = () => document.getElementById('importFileInput').click();
+        document.getElementById('importFileInput').onchange = (e) => { if(e.target.files[0]) importBackup(e.target.files[0]); e.target.value=''; };
+        document.getElementById('resetDemoDataBtn').onclick = resetDefault;
+        document.getElementById('clearLogsBtn').onclick = () => { activityLogs = []; localStorage.setItem('nexus_activity_logs', '[]'); renderLogs(); addLog("CLEAR", "Log history cleared"); };
+        document.getElementById('nodeSearch').addEventListener('input', () => renderNodes());
+        document.getElementById('tabNodesBtn').onclick = () => switchTab('nodes');
+        document.getElementById('tabLogsBtn').onclick = () => switchTab('logs');
+        document.getElementById('tabBackupBtn').onclick = () => switchTab('backup');
+        document.getElementById('nodeStatus').addEventListener('change', toggleExpiryState);
+        window.switchTab = switchTab;
+        renderLogs();
+    };
+</script>
 </body>
 </html>
