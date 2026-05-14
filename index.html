@@ -2,64 +2,71 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSXD CYBER PANEL PRO</title>
-    <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.tailwindcss.com">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PSXD CYBER PANEL PRO v2.0</title>
+    <meta name="description" content="Advanced Admin Panel with Multi-Admin Support">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUFNYRCBDeWJlciBQYW5lbCIsInNob3J0X25hbWUiOiJQU1hEIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwMjA2MTciLCJ0aGVtZV9jb2xvciI6IiMwZjE3MmEifQ==">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    
-    
-    <!-- Favicon Icon (তোমার দেওয়া লিংক অনুযায়ী) -->
-<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/ApkNebulix/Daroid-AN/refs/heads/main/Img/PixellabShimulXD/pixellab_shimulxd_logo.jpeg">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ApkNebulix/Daroid-AN/refs/heads/main/Img/PixellabShimulXD/pixellab_shimulxd_logo.jpeg">
-
+    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/ApkNebulix/Daroid-AN/refs/heads/main/Img/PixellabShimulXD/pixellab_shimulxd_logo.jpeg">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ApkNebulix/Daroid-AN/refs/heads/main/Img/PixellabShimulXD/pixellab_shimulxd_logo.jpeg">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
         :root {
             --accent: #3b82f6;
             --accent2: #8b5cf6;
             --accent3: #06b6d4;
+            --accent4: #10b981;
+            --accent5: #f59e0b;
             --glass: rgba(15, 23, 42, 0.75);
-            --glass-strong: rgba(15, 23, 42, 0.9);
+            --glass-strong: rgba(15, 23, 42, 0.92);
+            --glass-light: rgba(15, 23, 42, 0.5);
             --border: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.14);
-            --glow-blue: rgba(59, 130, 246, 0.3);
-            --glow-purple: rgba(139, 92, 246, 0.25);
-            --glow-amber: rgba(245, 158, 11, 0.3);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --glow-blue: rgba(59, 130, 246, 0.4);
+            --glow-purple: rgba(139, 92, 246, 0.35);
+            --glow-cyan: rgba(6, 182, 212, 0.35);
+            --glow-green: rgba(16, 185, 129, 0.35);
+            --glow-amber: rgba(245, 158, 11, 0.35);
             --radius-xl: 24px;
             --radius-2xl: 32px;
             --radius-3xl: 40px;
-            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
-            --shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.65);
+            --shadow-card: 0 10px 50px rgba(0, 0, 0, 0.6);
+            --shadow-hover: 0 25px 60px rgba(0, 0, 0, 0.75);
+            --shadow-glow: 0 0 40px var(--glow-blue);
             --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+            --transition-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
         html {
             scroll-behavior: smooth;
             -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Outfit', 'Hind Siliguri', sans-serif;
+            font-family: 'Outfit', 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #020617;
             color: #f1f5f9;
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
         }
 
-        /* ============ MOTION BLUR BACKGROUND ORBS ============ */
+        /* ============ PREMIUM BACKGROUND SYSTEM ============ */
         .bg-orbs-layer {
             position: fixed;
             top: 0;
@@ -68,115 +75,98 @@
             height: 100%;
             pointer-events: none;
             z-index: -2;
+            overflow: hidden;
         }
+
         .bg-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.45;
+            filter: blur(140px);
+            opacity: 0.5;
             will-change: transform;
             animation-timing-function: ease-in-out;
             animation-iteration-count: infinite;
+            transition: all 0.8s var(--transition-smooth);
         }
+
         .bg-orb-1 {
-            width: 55vw;
-            height: 55vw;
-            max-width: 700px;
-            max-height: 700px;
-            background: #3b82f6;
-            top: -15%;
-            left: -10%;
-            animation-name: orbFloat1;
-            animation-duration: 18s;
+            width: min(60vw, 750px);
+            height: min(60vw, 750px);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            top: -20%;
+            left: -15%;
+            animation: orbFloat1 20s infinite;
         }
+
         .bg-orb-2 {
-            width: 45vw;
-            height: 45vw;
-            max-width: 550px;
-            max-height: 550px;
-            background: #8b5cf6;
-            top: 40%;
-            right: -12%;
-            animation-name: orbFloat2;
-            animation-duration: 22s;
+            width: min(50vw, 600px);
+            height: min(50vw, 600px);
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            top: 35%;
+            right: -15%;
+            animation: orbFloat2 24s infinite;
         }
+
         .bg-orb-3 {
-            width: 38vw;
-            height: 38vw;
-            max-width: 480px;
-            max-height: 480px;
-            background: #06b6d4;
-            bottom: -18%;
-            left: 25%;
-            animation-name: orbFloat3;
-            animation-duration: 20s;
+            width: min(45vw, 550px);
+            height: min(45vw, 550px);
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            bottom: -22%;
+            left: 20%;
+            animation: orbFloat3 22s infinite;
         }
+
         .bg-orb-4 {
-            width: 30vw;
-            height: 30vw;
-            max-width: 350px;
-            max-height: 350px;
-            background: #f59e0b;
-            top: 55%;
-            left: 55%;
-            animation-name: orbFloat4;
-            animation-duration: 24s;
+            width: min(35vw, 400px);
+            height: min(35vw, 400px);
+            background: linear-gradient(135deg, #10b981, #059669);
+            top: 50%;
+            left: 50%;
+            animation: orbFloat4 26s infinite;
+            opacity: 0.3;
+        }
+
+        .bg-orb-5 {
+            width: min(28vw, 350px);
+            height: min(28vw, 350px);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            bottom: 15%;
+            right: 25%;
+            animation: orbFloat5 28s infinite;
             opacity: 0.25;
         }
 
         @keyframes orbFloat1 {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(8vw, 6vh) scale(1.15);
-            }
-            50% {
-                transform: translate(-3vw, 12vh) scale(0.9);
-            }
-            75% {
-                transform: translate(5vw, -4vh) scale(1.08);
-            }
-        }
-        @keyframes orbFloat2 {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(-7vw, -8vh) scale(1.12);
-            }
-            66% {
-                transform: translate(4vw, 10vh) scale(0.88);
-            }
-        }
-        @keyframes orbFloat3 {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            30% {
-                transform: translate(6vw, -7vh) scale(1.1);
-            }
-            60% {
-                transform: translate(-5vw, 5vh) scale(0.92);
-            }
-        }
-        @keyframes orbFloat4 {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            40% {
-                transform: translate(-6vw, -5vh) scale(1.18);
-            }
-            80% {
-                transform: translate(3vw, 8vh) scale(0.85);
-            }
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(10vw, 8vh) scale(1.2) rotate(90deg); }
+            50% { transform: translate(-5vw, 15vh) scale(0.85) rotate(180deg); }
+            75% { transform: translate(7vw, -6vh) scale(1.1) rotate(270deg); }
         }
 
-        /* Grid pattern overlay */
+        @keyframes orbFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(-10vw, -10vh) scale(1.15) rotate(120deg); }
+            66% { transform: translate(6vw, 12vh) scale(0.9) rotate(240deg); }
+        }
+
+        @keyframes orbFloat3 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            30% { transform: translate(8vw, -9vh) scale(1.12) rotate(108deg); }
+            60% { transform: translate(-7vw, 7vh) scale(0.93) rotate(216deg); }
+        }
+
+        @keyframes orbFloat4 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            40% { transform: translate(-60%, -40%) scale(1.2) rotate(144deg); }
+            80% { transform: translate(-40%, -60%) scale(0.88) rotate(288deg); }
+        }
+
+        @keyframes orbFloat5 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(-8vw, -8vh) scale(1.15) rotate(180deg); }
+        }
+
+        /* Grid Pattern Overlay */
         .grid-overlay {
             position: fixed;
             top: 0;
@@ -185,1020 +175,1744 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            opacity: 0.03;
+            opacity: 0.04;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
-            background-size: 60px 60px;
+                linear-gradient(rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 30s linear infinite;
         }
 
-        /* ============ GLASS MORPHISM ============ */
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        /* ============ GLASS MORPHISM PREMIUM ============ */
         .glass {
             background: var(--glass);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
+            backdrop-filter: blur(32px) saturate(180%);
+            -webkit-backdrop-filter: blur(32px) saturate(180%);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-card);
+            transition: all 0.4s var(--transition-smooth);
         }
+
+        .glass:hover {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
         .glass-strong {
             background: var(--glass-strong);
-            backdrop-filter: blur(35px);
-            -webkit-backdrop-filter: blur(35px);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
             border: 1px solid var(--border-strong);
-            box-shadow: var(--shadow-card);
         }
-        .glass-subtle {
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+
+        .glass-light {
+            background: var(--glass-light);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border);
         }
 
-        /* ============ CARDS ============ */
-        .user-card {
-            background: linear-gradient(150deg, rgba(30, 41, 59, 0.55), rgba(15, 23, 42, 0.7));
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border-radius: var(--radius-xl);
-            border: 1px solid var(--border);
-            transition: all 0.5s var(--transition-smooth);
+        /* ============ GRADIENT TEXT ============ */
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ============ BUTTONS PREMIUM ============ */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 12px 28px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.35s var(--transition-smooth);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
             position: relative;
             overflow: hidden;
-            cursor: default;
         }
-        .user-card::before {
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .btn-secondary {
+            background: rgba(100, 116, 139, 0.15);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 28px;
+            font-weight: 600;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.35s var(--transition-smooth);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(100, 116, 139, 0.25);
+            border-color: var(--border-strong);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-icon:hover::after {
+            opacity: 1;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-strong);
+            transform: scale(1.08) rotate(5deg);
+        }
+
+        /* ============ INPUT FIELDS PREMIUM ============ */
+        .input-field {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s var(--transition-smooth);
+            width: 100%;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--accent);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .input-field::placeholder {
+            color: rgba(203, 213, 225, 0.5);
+        }
+
+        /* ============ CARDS PREMIUM ============ */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.4s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
             pointer-events: none;
-            border-radius: inherit;
-        }
-        .user-card:hover {
-            transform: translateY(-6px) scale(1.015);
-            border-color: rgba(59, 130, 246, 0.45);
-            box-shadow: var(--shadow-hover), 0 0 60px rgba(59, 130, 246, 0.08);
-        }
-        .user-card:active {
-            transform: scale(0.985);
-            transition: all 0.15s var(--transition-smooth);
-        }
-        .user-card.lifetime-card {
-            border: 1px solid rgba(245, 158, 11, 0.35);
-            background: linear-gradient(150deg, rgba(245, 158, 11, 0.08), rgba(30, 41, 59, 0.5));
-        }
-        .user-card.lifetime-card::after {
-            content: '';
-            position: absolute;
-            top: -60%;
-            left: -60%;
-            width: 220%;
-            height: 220%;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.07) 0%, transparent 65%);
-            pointer-events: none;
-            border-radius: inherit;
-            animation: lifetimeShimmer 4s ease-in-out infinite;
-        }
-        @keyframes lifetimeShimmer {
-            0%,
-            100% {
-                transform: rotate(0deg);
-            }
-            50% {
-                transform: rotate(180deg);
-            }
-        }
-        .user-card.blocked-card {
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            opacity: 0.85;
-        }
-        .user-card.blocked-card:hover {
-            border-color: rgba(239, 68, 68, 0.5);
-            box-shadow: var(--shadow-hover), 0 0 40px rgba(239, 68, 68, 0.06);
         }
 
-        /* ============ INPUTS ============ */
-        .custom-input {
-            background: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid var(--border) !important;
-            color: #f1f5f9 !important;
-            transition: all 0.3s var(--transition-smooth);
-            font-family: 'Outfit', sans-serif;
-            outline: none !important;
-        }
-        .custom-input:focus {
-            border-color: var(--accent) !important;
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2), 0 0 0 4px rgba(59, 130, 246, 0.06) !important;
-            background: rgba(15, 23, 42, 0.8) !important;
-        }
-        .custom-input::placeholder {
-            color: #64748b;
-            font-weight: 400;
-        }
-        select.custom-input {
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E") !important;
-            background-repeat: no-repeat !important;
-            background-position: right 16px center !important;
-            padding-right: 40px !important;
+        .card:hover::before {
+            opacity: 1;
         }
 
-        /* ============ BUTTONS ============ */
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: #fff;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: all 0.35s var(--transition-smooth);
+        .card:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--glass), var(--glass-strong));
+            backdrop-filter: blur(35px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 14px 40px rgba(37, 99, 235, 0.5);
-            transform: translateY(-2px);
-        }
-        .btn-primary:active {
-            transform: scale(0.96);
-            transition: all 0.1s var(--transition-smooth);
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: #fff;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: all 0.35s var(--transition-smooth);
-            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.3);
-        }
-        .btn-danger:hover {
-            box-shadow: 0 14px 40px rgba(220, 38, 38, 0.45);
-            transform: translateY(-2px);
-        }
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: #94a3b8;
-            cursor: pointer;
-            transition: all 0.3s var(--transition-smooth);
-            font-weight: 600;
-        }
-        .btn-ghost:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: var(--border-strong);
-            color: #f1f5f9;
+            transition: all 0.4s var(--transition-smooth);
         }
 
-        /* ============ TAB SYSTEM ============ */
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .stat-card:hover::after {
+            opacity: 1;
+            animation: ripple 1.5s ease-out;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        /* ============ BADGES & TAGS ============ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .badge-active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-expired {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .badge-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        /* ============ MODAL SYSTEM ============ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--glass-strong);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--border-strong);
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s var(--transition-spring);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ============ TABS SYSTEM ============ */
         .tab-btn {
-            position: relative;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.35s var(--transition-smooth);
-            white-space: nowrap;
-            user-select: none;
+            transition: all 0.3s var(--transition-smooth);
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid transparent;
+            position: relative;
         }
-        .tab-btn.active {
-            color: #f1f5f9;
-            font-weight: 700;
-        }
-        .tab-btn.active::after {
+
+        .tab-btn::after {
             content: '';
             position: absolute;
             bottom: -2px;
             left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
+            width: 0;
             height: 3px;
-            background: var(--accent);
-            border-radius: 10px;
-            box-shadow: 0 0 20px var(--glow-blue);
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transform: translateX(-50%);
+            transition: width 0.3s var(--transition-smooth);
+            border-radius: 2px;
         }
-        .tab-btn:not(.active) {
-            color: #64748b;
+
+        .tab-btn:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
         }
-        .tab-btn:not(.active):hover {
-            color: #cbd5e1;
+
+        .tab-btn.active {
+            color: white;
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
         }
+
+        .tab-btn.active::after {
+            width: 80%;
+        }
+
         .tab-panel {
             display: none;
-            animation: fadeSlideIn 0.45s var(--transition-smooth);
+            animation: fadeInPanel 0.4s ease;
         }
+
         .tab-panel.active {
             display: block;
         }
-        @keyframes fadeSlideIn {
+
+        @keyframes fadeInPanel {
             from {
                 opacity: 0;
-                transform: translateY(16px);
-                filter: blur(4px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
-                filter: blur(0);
             }
         }
 
-        /* ============ BOTTOM NAV (MOBILE) ============ */
-        .bottom-nav {
-            position: fixed;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 90;
-            display: flex;
-            gap: 6px;
-            padding: 6px 8px;
-            border-radius: 50px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--border-strong);
-            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
-        }
-        .bottom-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            padding: 8px 14px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s var(--transition-smooth);
-            color: #64748b;
-            font-size: 10px;
-            font-weight: 600;
-            white-space: nowrap;
-            min-width: 50px;
-            user-select: none;
-        }
-        .bottom-nav-item i {
-            font-size: 18px;
-            transition: all 0.3s var(--transition-smooth);
-        }
-        .bottom-nav-item.active {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
-        }
-        .bottom-nav-item.active i {
-            text-shadow: 0 0 20px rgba(96, 165, 250, 0.6);
-        }
-        .bottom-nav-item:not(.active):active {
-            background: rgba(255, 255, 255, 0.05);
-            transform: scale(0.9);
+        /* ============ SCROLLBAR PREMIUM ============ */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
         }
 
-        /* ============ FAB ============ */
-        .fab {
-            position: fixed;
-            bottom: 110px;
-            right: 20px;
-            width: 58px;
-            height: 58px;
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 10px;
+            border: 2px solid rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--accent2), var(--accent3));
+        }
+
+        /* ============ LOADING SPINNER ============ */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(59, 130, 246, 0.2);
+            border-top-color: var(--accent);
             border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
-            z-index: 85;
-            cursor: pointer;
-            transition: all 0.4s var(--transition-smooth);
-            border: none;
-            color: #fff;
-            font-size: 22px;
-        }
-        .fab:hover {
-            transform: scale(1.1) rotate(45deg);
-            box-shadow: 0 18px 45px rgba(59, 130, 246, 0.65);
-        }
-        .fab:active {
-            transform: scale(0.9) rotate(90deg);
-            transition: all 0.15s var(--transition-smooth);
+            animation: spin 0.8s linear infinite;
         }
 
-        /* ============ TOAST ============ */
-        .toast-container {
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ TOAST NOTIFICATION ============ */
+        .toast {
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
-        }
-        .toast {
-            pointer-events: auto;
-            padding: 14px 22px;
-            border-radius: 18px;
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            padding: 16px 24px;
+            background: var(--glass-strong);
+            backdrop-filter: blur(32px);
             border: 1px solid var(--border-strong);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-            color: #f1f5f9;
-            font-weight: 600;
-            font-size: 14px;
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            animation: slideInRight 0.4s var(--transition-spring);
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: toastIn 0.4s var(--transition-smooth);
-            min-width: 260px;
+            gap: 12px;
             max-width: 400px;
         }
-        .toast.success {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: rgba(16, 185, 129, 0.4);
-        }
-        .toast.error {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.4);
-        }
-        .toast.info {
-            background: rgba(59, 130, 246, 0.2);
-            border-color: rgba(59, 130, 246, 0.4);
-        }
-        @keyframes toastIn {
+
+        @keyframes slideInRight {
             from {
                 opacity: 0;
-                transform: translateX(60px);
-                filter: blur(6px);
+                transform: translateX(100px);
             }
             to {
                 opacity: 1;
                 transform: translateX(0);
-                filter: blur(0);
             }
         }
 
-        /* ============ SKELETON ============ */
-        .skeleton {
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.07) 50%, rgba(255, 255, 255, 0.03) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.6s infinite;
-            border-radius: 16px;
+        /* ============ BOTTOM NAVIGATION (MOBILE) ============ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass-strong);
+            backdrop-filter: blur(40px);
+            border-top: 1px solid var(--border-strong);
+            padding: 12px 8px calc(12px + env(safe-area-inset-bottom));
+            display: none;
+            z-index: 998;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
         }
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
+
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .bottom-nav-item i {
+            font-size: 20px;
+            transition: all 0.3s var(--transition-spring);
+        }
+
+        .bottom-nav-item.active {
+            color: var(--accent);
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .bottom-nav-item.active i {
+            transform: scale(1.15);
+        }
+
+        .bottom-nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* ============ RESPONSIVE DESIGN ============ */
+        @media (max-width: 768px) {
+            .bottom-nav {
+                display: flex;
             }
-            100% {
-                background-position: -200% 0;
+
+            .desktop-tabs {
+                display: none !important;
+            }
+
+            .main-content {
+                padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                border-radius: 20px;
+            }
+
+            .stat-card {
+                padding: 18px;
+            }
+
+            .card {
+                padding: 18px;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 24px !important;
+            }
+
+            h2 {
+                font-size: 20px !important;
             }
         }
 
-        /* ============ STAT COUNTER ============ */
-        .stat-card {
-            transition: all 0.4s var(--transition-smooth);
-            cursor: default;
+        @media (min-width: 769px) {
+            .desktop-tabs {
+                display: flex !important;
+            }
+        }
+
+        /* ============ UTILITY CLASSES ============ */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease;
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 30px var(--glow-blue);
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* ============ PREMIUM HOVER EFFECTS ============ */
+        .hover-lift {
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 10px 40px var(--glow-blue);
+        }
+
+        /* ============ SELECT CHECKBOX CUSTOM ============ */
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border-strong);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .custom-checkbox.checked {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-color: var(--accent);
+        }
+
+        .custom-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* ============ THEME TOGGLE ============ */
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 50%;
+            transition: all 0.3s var(--transition-spring);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle.active .theme-toggle-slider {
+            left: calc(100% - 27px);
+        }
+
+        /* ============ PROGRESS BAR ============ */
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+            border-radius: 10px;
+            transition: width 0.5s var(--transition-smooth);
             position: relative;
             overflow: hidden;
         }
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-        }
-        .stat-card .stat-icon {
-            transition: all 0.4s var(--transition-smooth);
-        }
-        .stat-card:hover .stat-icon {
-            transform: scale(1.2);
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        /* ============ SCROLLBAR ============ */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
-        ::-webkit-scrollbar-track {
-            background: transparent;
+
+        /* ============ ADMIN AVATAR ============ */
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            border: 2px solid var(--border-strong);
+            transition: all 0.3s var(--transition-smooth);
+            cursor: pointer;
         }
-        ::-webkit-scrollbar-thumb {
+
+        .admin-avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 5px 20px var(--glow-blue);
+        }
+
+        /* ============ TOOLTIP ============ */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 12px;
+            background: var(--glass-strong);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* ============ CONTEXT MENU ============ */
+        .context-menu {
+            position: absolute;
+            background: var(--glass-strong);
+            backdrop-filter: blur(32px);
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            min-width: 180px;
+        }
+
+        .context-menu-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .context-menu-item:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
+            color: var(--accent);
         }
 
-        /* ============ RESPONSIVE ============ */
-        @media (max-width: 768px) {
-            .desktop-tabs {
-                display: none !important;
-            }
-            .bottom-nav {
-                display: flex !important;
-            }
+        /* ============ CHART STYLES ============ */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            padding: 20px;
+            background: var(--glass-light);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        /* ============ SKELETON LOADING ============ */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ============ FLOATING ACTION BUTTON ============ */
+        .fab {
+            position: fixed;
+            bottom: calc(90px + env(safe-area-inset-bottom));
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            z-index: 997;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.7);
+        }
+
+        .fab:active {
+            transform: scale(0.95);
+        }
+
+        @media (min-width: 769px) {
             .fab {
-                display: flex !important;
-            }
-            .user-card {
-                border-radius: 20px;
-            }
-            .stat-card {
-                border-radius: 20px;
-                padding: 16px !important;
-            }
-            .toast-container {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                align-items: stretch;
-            }
-            .toast {
-                max-width: 100%;
+                bottom: 30px;
             }
         }
-        @media (min-width: 769px) {
-            .bottom-nav {
-                display: none !important;
-            }
-            .fab {
-                display: none !important;
-            }
-            .desktop-tabs {
-                display: flex !important;
-            }
+
+        /* ============ RIPPLE EFFECT ============ */
+        .ripple-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple-effect::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .ripple-effect:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* ============ NOTIFICATION DOT ============ */
+        .notification-dot {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+            border: 2px solid #020617;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
         }
     </style>
 </head>
 <body>
-
-    <!-- ============ BACKGROUND LAYERS ============ -->
+    <!-- Background Effects -->
     <div class="bg-orbs-layer">
         <div class="bg-orb bg-orb-1"></div>
         <div class="bg-orb bg-orb-2"></div>
         <div class="bg-orb bg-orb-3"></div>
         <div class="bg-orb bg-orb-4"></div>
+        <div class="bg-orb bg-orb-5"></div>
     </div>
     <div class="grid-overlay"></div>
 
-    <!-- ============ TOAST CONTAINER ============ -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- ============ LOGIN SHIELD ============ -->
-    <div id="loginSection" class="fixed inset-0 z-[200] flex items-center justify-center p-4" style="background: rgba(2,6,23,0.95); backdrop-filter:blur(40px);">
-        <div class="glass-strong p-8 sm:p-10 rounded-[36px] w-full max-w-md animate__animated animate__zoomIn" style="box-shadow: 0 20px 60px rgba(0,0,0,0.7);">
+    <!-- ============ LOGIN SECTION ============ -->
+    <div id="loginSection" class="hidden min-h-screen flex items-center justify-center p-4">
+        <div class="glass-strong w-full max-w-md p-8 rounded-3xl border border-white/10 shadow-2xl animate__animated animate__fadeInUp">
             <div class="text-center mb-8">
-                <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-5 rounded-[25px] flex items-center justify-center relative" style="background:rgba(59,130,246,0.12);">
-                    <i class="fas fa-fingerprint text-4xl sm:text-5xl text-blue-500"></i>
-                    <div class="absolute inset-0 border-2 border-blue-500/25 rounded-[25px] animate-pulse"></div>
-                    <div class="absolute inset-[-6px] border border-blue-400/10 rounded-[30px] animate-ping" style="animation-duration:3s;"></div>
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-4 shadow-lg shadow-blue-500/50">
+                    <i class="fas fa-shield-halved text-3xl text-white"></i>
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">SYSTEM ACCESS</h1>
-                <p class="text-slate-400 mt-2 text-xs sm:text-sm font-medium">Biometric-style identity verification</p>
+                <h1 class="text-3xl font-extrabold gradient-text mb-2">PSXD Cyber Panel</h1>
+                <p class="text-slate-400 text-sm">Premium Admin Control Center</p>
             </div>
+
             <div class="space-y-5">
-                <div class="relative">
-                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                    <input type="email" id="l_email" class="w-full custom-input p-4 sm:p-5 pl-11 rounded-2xl outline-none text-sm" placeholder="Admin Email">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                        <i class="fas fa-envelope mr-2"></i>Email Address
+                    </label>
+                    <input type="email" id="l_email" class="input-field" placeholder="admin@psxd.com" autocomplete="email">
                 </div>
-                <div class="relative">
-                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                    <input type="password" id="l_pass" class="w-full custom-input p-4 sm:p-5 pl-11 rounded-2xl outline-none text-sm" placeholder="Secure Password">
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    <input type="password" id="l_password" class="input-field" placeholder="••••••••" autocomplete="current-password">
                 </div>
-                <div class="flex items-center gap-2 text-slate-400 text-xs ml-1">
-                    <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-blue-500 rounded">
-                    <label for="rememberMe" class="cursor-pointer select-none">Remember this device for 7 days</label>
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="l_remember" class="w-4 h-4 rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-2 focus:ring-blue-500">
+                        <span class="text-sm text-slate-400">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm text-blue-400 hover:text-blue-300 transition">Forgot?</a>
                 </div>
-                <button onclick="handleLogin()" class="btn-primary w-full py-4 sm:py-5 rounded-2xl text-sm sm:text-base active:scale-95 transition">
-                    <i class="fas fa-arrow-right-to-bracket mr-2"></i> Access Terminal
+
+                <button onclick="handleLogin()" class="btn-primary w-full ripple-effect">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login to Dashboard
                 </button>
+
+                <div class="text-center mt-6">
+                    <p class="text-xs text-slate-500">
+                        <i class="fas fa-shield-check mr-1"></i>Protected by Advanced Security
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ============ MAIN DASHBOARD ============ -->
-    <div id="dashboardSection" class="hidden min-h-screen pb-32 md:pb-10">
+    <!-- ============ DASHBOARD SECTION ============ -->
+    <div id="dashboardSection" class="hidden">
+        <!-- Header -->
+        <header class="glass-strong sticky top-0 z-50 border-b border-white/10">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                            <i class="fas fa-shield-halved text-xl text-white"></i>
+                        </div>
+                        <div>
+                            <h1 id="brandTitle" class="text-xl font-bold gradient-text">PSXD CYBER PANEL</h1>
+                            <p class="text-xs text-slate-400">v2.0 Premium Edition</p>
+                        </div>
+                    </div>
 
-        <!-- HEADER -->
-        <header class="sticky top-0 z-40 p-4 sm:p-6 flex justify-between items-center glass-strong border-b border-white/5" style="box-shadow:0 4px 30px rgba(0,0,0,0.4);">
-            <div class="flex items-center gap-3 sm:gap-5">
-                <div class="relative flex-shrink-0">
-                    <img id="navLogo" class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl object-cover border border-white/10 shadow-xl" src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" alt="Logo">
-                    <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#020617] rounded-full animate-pulse"></div>
+                    <div class="flex items-center gap-3">
+                        <!-- Active Admins Indicator -->
+                        <div class="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            <span class="text-xs text-slate-400">
+                                <span id="activeAdminCount">1</span> Admin Online
+                            </span>
+                        </div>
+
+                        <!-- Admin Profile -->
+                        <div class="admin-avatar tooltip" data-tooltip="Admin Profile" id="adminAvatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+
+                        <!-- Settings -->
+                        <button onclick="openConfig()" class="btn-icon tooltip" data-tooltip="Settings">
+                            <i class="fas fa-cog"></i>
+                        </button>
+
+                        <!-- Logout -->
+                        <button onclick="logout()" class="btn-icon tooltip" data-tooltip="Logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="min-w-0">
-                    <h2 id="navTitle" class="text-lg sm:text-2xl font-black text-white leading-none truncate">PSXD ADMIN</h2>
-                    <span class="text-[9px] sm:text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Authorized Access</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-2 sm:gap-3">
-                <button onclick="openConfig()" class="p-2.5 sm:p-3 glass-subtle rounded-xl text-slate-400 hover:text-white transition active:scale-90" title="Settings">
-                    <i class="fas fa-sliders text-base sm:text-lg"></i>
-                </button>
-                <button onclick="exportData()" class="p-2.5 sm:p-3 glass-subtle rounded-xl text-slate-400 hover:text-emerald-400 transition active:scale-90 hidden sm:flex" title="Export Data">
-                    <i class="fas fa-file-export text-base sm:text-lg"></i>
-                </button>
-                <button onclick="logout()" class="p-2.5 sm:p-3 rounded-xl text-red-400 hover:bg-red-500 hover:text-white transition active:scale-90" style="background:rgba(239,68,68,0.08);" title="Logout">
-                    <i class="fas fa-power-off text-base sm:text-lg"></i>
-                </button>
             </div>
         </header>
 
-        <!-- DESKTOP TABS -->
-        <div class="desktop-tabs max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-2 flex gap-1 sm:gap-3 overflow-x-auto" id="desktopTabs">
-            <button class="tab-btn active px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-dashboard">
-                <i class="fas fa-th-large"></i> <span>Dashboard</span>
-            </button>
-            <button class="tab-btn px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-users">
-                <i class="fas fa-users"></i> <span>Nodes</span>
-            </button>
-            <button class="tab-btn px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-analytics">
-                <i class="fas fa-chart-pie"></i> <span>Analytics</span>
-            </button>
-            <button class="tab-btn px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2" data-tab="tab-logs">
-                <i class="fas fa-history"></i> <span>Activity Log</span>
-            </button>
-        </div>
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-6 main-content">
+            <!-- Desktop Tabs -->
+            <div class="desktop-tabs flex items-center gap-3 mb-6 overflow-x-auto pb-2" style="scrollbar-width: none;">
+                <button class="tab-btn active" data-tab="tab-dashboard">
+                    <i class="fas fa-chart-line mr-2"></i>Dashboard
+                </button>
+                <button class="tab-btn" data-tab="tab-users">
+                    <i class="fas fa-users mr-2"></i>Users
+                </button>
+                <button class="tab-btn" data-tab="tab-analytics">
+                    <i class="fas fa-chart-pie mr-2"></i>Analytics
+                </button>
+                <button class="tab-btn" data-tab="tab-logs">
+                    <i class="fas fa-history mr-2"></i>Activity Logs
+                </button>
+            </div>
 
-        <!-- TAB CONTENT -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
+            <!-- Tab: Dashboard -->
+            <div id="tab-dashboard" class="tab-panel active">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-card hover-lift">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 flex items-center justify-center">
+                                <i class="fas fa-users text-blue-400 text-xl"></i>
+                            </div>
+                            <span class="text-xs text-slate-400">Total</span>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-1" id="stat_total">0</h3>
+                        <p class="text-sm text-slate-400">Total Users</p>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" id="progress_total" style="width: 100%"></div>
+                        </div>
+                    </div>
 
-            <!-- TAB: DASHBOARD -->
-            <div class="tab-panel active" id="tab-dashboard">
-                <!-- Stat Cards -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-6 sm:mb-8" id="statCards">
-                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-blue-500">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">Total Nodes</p>
-                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_total">0</h3>
+                    <div class="stat-card hover-lift">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-400 text-xl"></i>
                             </div>
-                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(59,130,246,0.15);">
-                                <i class="fas fa-server text-blue-400 text-lg sm:text-xl"></i>
-                            </div>
+                            <span class="text-xs text-slate-400">Active</span>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-1" id="stat_active">0</h3>
+                        <p class="text-sm text-slate-400">Active Nodes</p>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" id="progress_active" style="width: 0%"></div>
                         </div>
                     </div>
-                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-emerald-500">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-[10px] sm:text-xs font-bold text-emerald-500 uppercase tracking-wider">Active</p>
-                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_active">0</h3>
+
+                    <div class="stat-card hover-lift">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 flex items-center justify-center">
+                                <i class="fas fa-times-circle text-red-400 text-xl"></i>
                             </div>
-                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(16,185,129,0.15);">
-                                <i class="fas fa-check-circle text-emerald-400 text-lg sm:text-xl"></i>
-                            </div>
+                            <span class="text-xs text-slate-400">Expired</span>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-1" id="stat_expired">0</h3>
+                        <p class="text-sm text-slate-400">Expired Nodes</p>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" id="progress_expired" style="width: 0%"></div>
                         </div>
                     </div>
-                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-amber-500">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-[10px] sm:text-xs font-bold text-amber-500 uppercase tracking-wider">Lifetime Elite</p>
-                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_life">0</h3>
+
+                    <div class="stat-card hover-lift">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/20 border border-amber-500/30 flex items-center justify-center">
+                                <i class="fas fa-clock text-amber-400 text-xl"></i>
                             </div>
-                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(245,158,11,0.15);">
-                                <i class="fas fa-crown text-amber-400 text-lg sm:text-xl"></i>
-                            </div>
+                            <span class="text-xs text-slate-400">Pending</span>
                         </div>
-                    </div>
-                    <div class="stat-card glass p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-l-4 border-red-500">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-[10px] sm:text-xs font-bold text-red-500 uppercase tracking-wider">Blocked</p>
-                                <h3 class="text-2xl sm:text-3xl font-black mt-1 text-white" id="st_block">0</h3>
-                            </div>
-                            <div class="stat-icon w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style="background:rgba(239,68,68,0.15);">
-                                <i class="fas fa-ban text-red-400 text-lg sm:text-xl"></i>
-                            </div>
+                        <h3 class="text-3xl font-bold text-white mb-1" id="stat_pending">0</h3>
+                        <p class="text-sm text-slate-400">Pending Review</p>
+                        <div class="progress-bar mt-3">
+                            <div class="progress-fill" id="progress_pending" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Actions + Recent -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
-                        <h3 class="text-base sm:text-lg font-bold text-white mb-4 flex items-center gap-2">
-                            <i class="fas fa-bolt text-amber-400"></i> Quick Actions
-                        </h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button onclick="switchTab('tab-users');openEditor(-1)" class="btn-primary py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
-                                <i class="fas fa-plus"></i> New Node
-                            </button>
-                            <button onclick="fetchData()" class="btn-ghost py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
-                                <i class="fas fa-sync-alt"></i> Refresh
-                            </button>
-                            <button onclick="switchTab('tab-users')" class="btn-ghost py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
-                                <i class="fas fa-list"></i> View All
-                            </button>
-                            <button onclick="openConfig()" class="btn-ghost py-3 sm:py-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2">
-                                <i class="fas fa-cog"></i> Settings
-                            </button>
-                        </div>
+                <!-- Quick Actions -->
+                <div class="glass p-6 rounded-2xl mb-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-bolt text-amber-400"></i>Quick Actions
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <button onclick="openEditor(-1)" class="btn-secondary ripple-effect">
+                            <i class="fas fa-user-plus mr-2"></i>Add User
+                        </button>
+                        <button onclick="fetchData()" class="btn-secondary ripple-effect">
+                            <i class="fas fa-sync mr-2"></i>Refresh
+                        </button>
+                        <button onclick="exportData()" class="btn-secondary ripple-effect">
+                            <i class="fas fa-download mr-2"></i>Export CSV
+                        </button>
+                        <button onclick="openConfig()" class="btn-secondary ripple-effect">
+                            <i class="fas fa-cog mr-2"></i>Settings
+                        </button>
                     </div>
-                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
-                        <h3 class="text-base sm:text-lg font-bold text-white mb-4 flex items-center gap-2">
-                            <i class="fas fa-clock text-blue-400"></i> Recent Activity
-                        </h3>
-                        <div id="recentActivity" class="space-y-3 max-h-48 overflow-y-auto">
-                            <p class="text-slate-500 text-xs sm:text-sm italic">No recent activity recorded.</p>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="glass p-6 rounded-2xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold flex items-center gap-2">
+                            <i class="fas fa-clock-rotate-left text-blue-400"></i>Recent Activity
+                        </h2>
+                        <button onclick="switchTab('tab-logs')" class="text-sm text-blue-400 hover:text-blue-300">View All →</button>
+                    </div>
+                    <div id="recentActivityContainer" class="space-y-3">
+                        <div class="text-center text-slate-500 py-8">
+                            <i class="fas fa-inbox text-4xl mb-2 opacity-30"></i>
+                            <p>No recent activity</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB: USERS (NODES) -->
-            <div class="tab-panel" id="tab-users">
-                <!-- Action Bar -->
-                <div class="flex flex-col md:flex-row gap-4 mb-6 items-center justify-between">
-                    <div class="relative w-full md:w-[420px] group">
-                        <i class="fas fa-search absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition text-sm"></i>
-                        <input type="text" id="searchBar" oninput="liveSearch()" onpaste="setTimeout(liveSearch,50)" class="w-full glass-subtle py-4 sm:py-5 pl-11 sm:pl-14 pr-5 rounded-[20px] sm:rounded-[25px] outline-none text-xs sm:text-sm tracking-wide" placeholder="Search Node ID, License Key or Status...">
-                        <button onclick="document.getElementById('searchBar').value='';liveSearch();" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-white transition text-sm hidden sm:block">
-                            <i class="fas fa-times"></i>
-                        </button>
+            <!-- Tab: Users -->
+            <div id="tab-users" class="tab-panel">
+                <!-- Search & Filters -->
+                <div class="glass p-4 rounded-2xl mb-6">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <input type="text" id="searchBar" class="input-field" placeholder="Search by Device ID, Status, Key..." oninput="liveSearch()">
+                        </div>
+                        <div class="flex gap-2">
+                            <select id="filterStatus" class="input-field" onchange="liveSearch()">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="expired">Expired</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                            <button onclick="openEditor(-1)" class="btn-primary whitespace-nowrap">
+                                <i class="fas fa-plus mr-2"></i>Add New
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex gap-3 w-full md:w-auto">
-                        <button onclick="fetchData()" class="p-4 sm:p-5 glass-subtle rounded-2xl hover:bg-slate-800 transition active:scale-90" title="Refresh Data">
-                            <i class="fas fa-sync-alt text-sm sm:text-base"></i>
+                </div>
+
+                <!-- Bulk Actions Bar -->
+                <div id="bulkBar" class="hidden glass p-4 rounded-2xl mb-4 items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-semibold">
+                            <span id="bulkCount">0</span> selected
+                        </span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="bulkDelete()" class="btn-secondary text-red-400">
+                            <i class="fas fa-trash mr-2"></i>Delete
                         </button>
-                        <select id="statusFilter" onchange="liveSearch()" class="custom-input py-4 sm:py-5 px-3 sm:px-4 rounded-2xl text-xs sm:text-sm font-semibold w-32 sm:w-auto">
-                            <option value="all">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="lifetime">Lifetime</option>
-                            <option value="blocked">Blocked</option>
-                        </select>
-                        <button onclick="openEditor(-1)" class="flex-1 md:flex-none px-6 sm:px-10 py-4 sm:py-5 btn-primary rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xl">
-                            <i class="fas fa-plus"></i> <span class="hidden sm:inline">NEW NODE</span>
+                        <button onclick="clearSelection()" class="btn-secondary">
+                            <i class="fas fa-times mr-2"></i>Clear
                         </button>
                     </div>
                 </div>
 
-                <!-- Bulk Actions -->
-                <div id="bulkBar" class="glass-subtle p-3 sm:p-4 rounded-2xl mb-5 hidden flex-wrap items-center gap-3 text-xs sm:text-sm">
-                    <span class="text-slate-400 font-semibold"><span id="bulkCount">0</span> selected</span>
-                    <button onclick="bulkDelete()" class="btn-danger py-2 px-4 rounded-xl text-xs font-semibold">Delete Selected</button>
-                    <button onclick="clearSelection()" class="btn-ghost py-2 px-4 rounded-xl text-xs font-semibold">Clear</button>
+                <!-- Users Grid -->
+                <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <!-- Cards will be inserted here -->
                 </div>
 
-                <!-- User Grid -->
-                <div id="userContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 animate__animated animate__fadeInUp">
-                    <!-- Skeleton loaders appear here initially -->
-                </div>
+                <!-- Empty State -->
                 <div id="emptyState" class="hidden text-center py-16">
-                    <i class="fas fa-inbox text-5xl text-slate-700 mb-4"></i>
-                    <p class="text-slate-500 font-semibold">No nodes found.</p>
-                    <button onclick="openEditor(-1)" class="btn-primary mt-4 py-3 px-8 rounded-xl text-sm inline-block">Create First Node</button>
+                    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-white/5 mb-4">
+                        <i class="fas fa-users text-5xl text-slate-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-400 mb-2">No users found</h3>
+                    <p class="text-slate-500 mb-6">Get started by adding your first user</p>
+                    <button onclick="openEditor(-1)" class="btn-primary">
+                        <i class="fas fa-user-plus mr-2"></i>Add First User
+                    </button>
                 </div>
             </div>
 
-            <!-- TAB: ANALYTICS -->
-            <div class="tab-panel" id="tab-analytics">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-7">
-                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
-                        <h3 class="text-base sm:text-lg font-bold text-white mb-5 flex items-center gap-2">
-                            <i class="fas fa-chart-bar text-blue-400"></i> Status Distribution
-                        </h3>
-                        <div class="space-y-4" id="statusDistribution">
-                            <div>
-                                <div class="flex justify-between text-xs sm:text-sm mb-1.5"><span class="text-emerald-400 font-semibold">Active</span><span class="text-slate-400" id="ana_active">0</span></div>
-                                <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
-                                    <div class="bg-emerald-500 h-full rounded-full transition-all duration-700" id="bar_active" style="width:0%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs sm:text-sm mb-1.5"><span class="text-amber-400 font-semibold">Lifetime</span><span class="text-slate-400" id="ana_life">0</span></div>
-                                <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
-                                    <div class="bg-amber-500 h-full rounded-full transition-all duration-700" id="bar_life" style="width:0%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs sm:text-sm mb-1.5"><span class="text-red-400 font-semibold">Blocked</span><span class="text-slate-400" id="ana_block">0</span></div>
-                                <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
-                                    <div class="bg-red-500 h-full rounded-full transition-all duration-700" id="bar_block" style="width:0%"></div>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Tab: Analytics -->
+            <div id="tab-analytics" class="tab-panel">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Status Distribution -->
+                    <div class="glass p-6 rounded-2xl">
+                        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-pie text-purple-400"></i>Status Distribution
+                        </h2>
+                        <div id="statusChart" class="chart-container"></div>
                     </div>
-                    <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
-                        <h3 class="text-base sm:text-lg font-bold text-white mb-5 flex items-center gap-2">
-                            <i class="fas fa-globe text-purple-400"></i> Global Config Status
-                        </h3>
-                        <div class="space-y-4 text-xs sm:text-sm" id="globalStatus">
-                            <div class="flex justify-between py-3 border-b border-white/5">
-                                <span class="text-slate-400">Global Key Switch</span>
-                                <span class="font-bold" id="gstatus_switch">—</span>
-                            </div>
-                            <div class="flex justify-between py-3 border-b border-white/5">
-                                <span class="text-slate-400">Global Key Set</span>
-                                <span class="font-bold text-blue-400 font-mono text-xs truncate max-w-[180px]" id="gstatus_key">—</span>
-                            </div>
-                            <div class="flex justify-between py-3 border-b border-white/5">
-                                <span class="text-slate-400">App Title</span>
-                                <span class="font-bold text-white truncate max-w-[180px]" id="gstatus_title">—</span>
-                            </div>
+
+                    <!-- Activity Timeline -->
+                    <div class="glass p-6 rounded-2xl">
+                        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-line text-cyan-400"></i>Activity Trends
+                        </h2>
+                        <div id="activityChart" class="chart-container"></div>
+                    </div>
+
+                    <!-- Key Metrics -->
+                    <div class="glass p-6 rounded-2xl lg:col-span-2">
+                        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-bar text-green-400"></i>Key Metrics
+                        </h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="keyMetrics">
+                            <!-- Metrics will be inserted here -->
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB: ACTIVITY LOG -->
-            <div class="tab-panel" id="tab-logs">
-                <div class="glass p-5 sm:p-7 rounded-2xl sm:rounded-3xl">
-                    <div class="flex justify-between items-center mb-5">
-                        <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fas fa-history text-teal-400"></i> Activity Log
-                        </h3>
-                        <button onclick="clearLogs()" class="btn-ghost py-2 px-4 rounded-xl text-xs font-semibold text-red-400 hover:text-red-300">
-                            <i class="fas fa-eraser mr-1"></i> Clear
+            <!-- Tab: Activity Logs -->
+            <div id="tab-logs" class="tab-panel">
+                <div class="glass p-6 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold flex items-center gap-2">
+                            <i class="fas fa-history text-blue-400"></i>Activity Logs
+                        </h2>
+                        <button onclick="clearLogs()" class="btn-secondary text-red-400">
+                            <i class="fas fa-trash mr-2"></i>Clear All
                         </button>
                     </div>
-                    <div id="activityLogList" class="space-y-3 max-h-[500px] overflow-y-auto">
-                        <p class="text-slate-500 text-xs sm:text-sm italic">No activity logged yet.</p>
+
+                    <div id="logsContainer" class="space-y-3">
+                        <!-- Logs will be inserted here -->
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <!-- Bottom Navigation (Mobile) -->
+        <nav class="bottom-nav">
+            <div class="bottom-nav-item active" data-tab="tab-dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="bottom-nav-item" data-tab="tab-users">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+                <div id="usersBadge" class="notification-dot hidden"></div>
+            </div>
+            <div class="bottom-nav-item" data-tab="tab-analytics">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </div>
+            <div class="bottom-nav-item" data-tab="tab-logs">
+                <i class="fas fa-history"></i>
+                <span>Logs</span>
+            </div>
+        </nav>
+
+        <!-- Floating Action Button -->
+        <button class="fab" onclick="openEditor(-1)">
+            <i class="fas fa-plus text-2xl text-white"></i>
+        </button>
     </div>
 
-    <!-- ============ BOTTOM NAV (MOBILE) ============ -->
-    <nav class="bottom-nav" id="bottomNav" style="display:none;">
-        <div class="bottom-nav-item active" data-tab="tab-dashboard">
-            <i class="fas fa-th-large"></i> <span>Home</span>
-        </div>
-        <div class="bottom-nav-item" data-tab="tab-users">
-            <i class="fas fa-users"></i> <span>Nodes</span>
-        </div>
-        <div class="bottom-nav-item" data-tab="tab-analytics">
-            <i class="fas fa-chart-pie"></i> <span>Stats</span>
-        </div>
-        <div class="bottom-nav-item" data-tab="tab-logs">
-            <i class="fas fa-clock"></i> <span>Logs</span>
-        </div>
-    </nav>
-
-    <!-- ============ FAB (MOBILE) ============ -->
-    <button class="fab" onclick="openEditor(-1)" title="Add New Node" style="display:none;">
-        <i class="fas fa-plus"></i>
-    </button>
-
-    <!-- ============ MODAL: EDITOR ============ -->
-    <div id="editModal" class="fixed inset-0 z-[150] hidden flex items-center justify-center p-4" style="background:rgba(0,0,0,0.88); backdrop-filter:blur(30px);" onclick="if(event.target===this)closeModal()">
-        <div class="glass-strong w-full max-w-xl p-6 sm:p-10 rounded-[32px] sm:rounded-[40px] animate__animated animate__zoomIn" onclick="event.stopPropagation()">
-            <div class="flex items-center justify-between mb-6 sm:mb-10">
-                <h2 id="modalTitle" class="text-2xl sm:text-3xl font-black text-white">MANAGE NODE</h2>
-                <button onclick="closeModal()" class="p-2 glass-subtle rounded-xl text-slate-400 hover:text-white transition">
-                    <i class="fas fa-times text-lg"></i>
+    <!-- ============ EDIT MODAL ============ -->
+    <div id="editModal" class="modal-overlay hidden" onclick="if(event.target===this) closeModal()">
+        <div class="modal-content p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold gradient-text" id="modalTitle">Edit User</h2>
+                <button onclick="closeModal()" class="btn-icon">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="space-y-5 sm:space-y-6">
+
+            <div class="space-y-4">
                 <div>
-                    <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Target Identity (Device ID)</label>
-                    <input id="m_device" class="w-full custom-input p-4 sm:p-5 rounded-2xl mt-1.5 font-mono uppercase tracking-widest text-sm" placeholder="DEVICE-XXXX-XXXX">
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                        <i class="fas fa-mobile-alt mr-2"></i>Device ID
+                    </label>
+                    <input type="text" id="e_dev" class="input-field" placeholder="Enter device ID">
                 </div>
-                <div class="grid grid-cols-2 gap-4 sm:gap-6">
-                    <div>
-                        <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Privilege Level</label>
-                        <select id="m_status" onchange="toggleDate()" class="w-full custom-input p-4 sm:p-5 rounded-2xl mt-1.5 text-sm font-semibold">
-                            <option value="active">🟢 Active</option>
-                            <option value="lifetime">👑 Lifetime</option>
-                            <option value="blocked">🔴 Blocked</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Expiry Date</label>
-                        <input type="date" id="m_expiry" class="w-full custom-input p-4 sm:p-5 rounded-2xl mt-1.5 text-sm">
-                    </div>
-                </div>
+
                 <div>
-                    <label class="text-[10px] sm:text-xs font-bold text-slate-500 ml-2 uppercase tracking-wider">Cyber Key (License)</label>
-                    <div class="relative mt-1.5">
-                        <input id="m_key" class="w-full custom-input p-4 sm:p-5 rounded-2xl font-mono text-blue-400 text-sm tracking-wider" placeholder="KEY-XXXXXX">
-                        <button onclick="generateKey()" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 glass-subtle rounded-lg text-slate-400 hover:text-emerald-400 transition text-xs font-bold" title="Generate Random Key">
-                            <i class="fas fa-dice-d6"></i>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                        <i class="fas fa-info-circle mr-2"></i>Status
+                    </label>
+                    <select id="e_status" class="input-field">
+                        <option value="active">Active</option>
+                        <option value="expired">Expired</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2 flex items-center justify-between">
+                        <span><i class="fas fa-calendar mr-2"></i>Expiry Date</span>
+                        <label class="flex items-center gap-2 cursor-pointer text-xs">
+                            <input type="checkbox" id="e_lifetime" onchange="toggleDate()" class="w-4 h-4 rounded">
+                            <span class="text-slate-400">Lifetime</span>
+                        </label>
+                    </label>
+                    <input type="date" id="e_exp" class="input-field">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                        <i class="fas fa-key mr-2"></i>License Key
+                    </label>
+                    <div class="flex gap-2">
+                        <input type="text" id="e_key" class="input-field flex-1" placeholder="Enter license key">
+                        <button onclick="generateKey()" class="btn-icon" title="Generate Key">
+                            <i class="fas fa-wand-magic-sparkles"></i>
                         </button>
                     </div>
                 </div>
-            </div>
-            <div class="flex gap-4 sm:gap-5 mt-8 sm:mt-12">
-                <button onclick="closeModal()" class="flex-1 p-4 sm:p-5 rounded-2xl font-bold bg-slate-800 text-slate-400 hover:bg-slate-700 transition text-sm">Discard</button>
-                <button onclick="saveChanges()" class="flex-[2] p-4 sm:p-5 rounded-2xl font-bold btn-primary text-sm active:scale-95 transition">Authorize Update</button>
+
+                <div class="flex gap-3 pt-4">
+                    <button onclick="saveChanges()" class="btn-primary flex-1">
+                        <i class="fas fa-save mr-2"></i>Save Changes
+                    </button>
+                    <button onclick="closeModal()" class="btn-secondary">
+                        <i class="fas fa-times mr-2"></i>Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ============ MODAL: APP CONFIG ============ -->
-    <div id="configModal" class="fixed inset-0 z-[150] hidden flex items-center justify-center p-4" style="background:rgba(0,0,0,0.88); backdrop-filter:blur(30px);" onclick="if(event.target===this)document.getElementById('configModal').classList.add('hidden')">
-        <div class="glass-strong w-full max-w-3xl p-6 sm:p-10 rounded-[32px] sm:rounded-[40px] max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
-            <div class="flex items-center justify-between mb-6 sm:mb-10">
-                <h2 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-3"><i class="fas fa-terminal text-blue-500"></i> SYSTEM CORE</h2>
-                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="p-2 glass-subtle rounded-xl text-slate-400 hover:text-white transition">
-                    <i class="fas fa-times text-lg"></i>
+    <!-- ============ CONFIG MODAL ============ -->
+    <div id="configModal" class="modal-overlay hidden" onclick="if(event.target===this) this.classList.add('hidden')">
+        <div class="modal-content p-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold gradient-text">
+                    <i class="fas fa-cog mr-2"></i>System Configuration
+                </h2>
+                <button onclick="$('#configModal').classList.add('hidden')" class="btn-icon">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                <div class="space-y-5">
-                    <h4 class="font-bold text-blue-400 border-b border-white/5 pb-3 uppercase tracking-widest text-[10px] sm:text-xs">Primary Config</h4>
-                    <input id="c_title" placeholder="App Title" class="w-full custom-input p-4 rounded-xl text-sm">
-                    <input id="c_logo" placeholder="Logo URL" class="w-full custom-input p-4 rounded-xl text-sm">
-                    <input id="c_buy" placeholder="Purchase Link" class="w-full custom-input p-4 rounded-xl text-sm">
-                </div>
-                <div class="space-y-5">
-                    <h4 class="font-bold text-emerald-400 border-b border-white/5 pb-3 uppercase tracking-widest text-[10px] sm:text-xs">Broadcast Config</h4>
-                    <div class="flex items-center justify-between p-4 glass-subtle rounded-xl">
-                        <span class="text-sm font-bold text-slate-300">Global Key Switch</span>
-                        <input type="checkbox" id="c_gl_on" class="w-5 h-5 accent-blue-500 rounded">
+
+            <div class="space-y-6">
+                <!-- App Branding -->
+                <div class="glass-light p-5 rounded-xl">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-palette text-purple-400"></i>App Branding
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Panel Title</label>
+                            <input type="text" id="c_title" class="input-field" placeholder="PSXD ADMIN">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Logo URL</label>
+                            <input type="text" id="c_logo" class="input-field" placeholder="https://...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Purchase URL</label>
+                            <input type="text" id="c_buy" class="input-field" placeholder="https://...">
+                        </div>
                     </div>
-                    <input id="c_gl_key" placeholder="Global Access Key" class="w-full custom-input p-4 rounded-xl text-sm">
-                    <textarea id="c_gl_msg" placeholder="Global Announcement Message..." rows="3" class="w-full custom-input p-4 rounded-xl text-sm resize-none"></textarea>
                 </div>
-            </div>
-            <div class="flex gap-4 sm:gap-5 mt-8 sm:mt-12">
-                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="flex-1 p-4 sm:p-5 rounded-2xl bg-slate-800 font-bold text-sm">Back</button>
-                <button onclick="saveSystem()" class="flex-[2] p-4 sm:p-5 rounded-2xl font-bold text-sm text-white active:scale-95 transition" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 8px 30px rgba(16,185,129,0.3);">Apply Protocol</button>
+
+                <!-- Global Key System -->
+                <div class="glass-light p-5 rounded-xl">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-globe text-cyan-400"></i>Global Key System
+                    </h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-white/5 transition">
+                            <input type="checkbox" id="c_gl_on" class="w-5 h-5 rounded border-slate-600">
+                            <span class="text-sm font-semibold">Enable Global Key Override</span>
+                        </label>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Global Key</label>
+                            <input type="text" id="c_gl_key" class="input-field" placeholder="GLOBAL-KEY-HERE">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Global Instruction Message</label>
+                            <textarea id="c_gl_msg" class="input-field" rows="3" placeholder="Enter message for global key users..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-Admin Settings -->
+                <div class="glass-light p-5 rounded-xl">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-users-cog text-green-400"></i>Multi-Admin Settings
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                            <div>
+                                <p class="font-semibold text-sm">Auto-Sync Enabled</p>
+                                <p class="text-xs text-slate-400">Automatic data synchronization</p>
+                            </div>
+                            <div class="theme-toggle active">
+                                <div class="theme-toggle-slider"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                            <div>
+                                <p class="font-semibold text-sm">Conflict Resolution</p>
+                                <p class="text-xs text-slate-400">Last write wins</p>
+                            </div>
+                            <span class="badge badge-active">Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button onclick="saveSystem()" class="btn-primary flex-1">
+                        <i class="fas fa-save mr-2"></i>Save Configuration
+                    </button>
+                    <button onclick="$('#configModal').classList.add('hidden')" class="btn-secondary">
+                        <i class="fas fa-times mr-2"></i>Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ============ SCRIPTS ============ -->
     <script>
-        (function() {
-            // ============ CONSTANTS ============
-            const DB_ENDPOINT =
-                "https://onedevicekeysxd-default-rtdb.firebaseio.com/psxd_loginkey_onedevice.json";
-            const ADM_USER = "admin@psxd.com";
-            const ADM_PASS = "shimulxd";
-            const SESSION_KEY = 'psxd_session_v2';
-            const REMEMBER_KEY = 'psxd_remember_v2';
+        (() => {
+            'use strict';
 
+            // ============ CONFIGURATION ============
+            const DB_ENDPOINT = 'https://api.jsonbin.io/v3/b/67999e7dacd3cb34a8d05fc9';
+            const $ = id => document.getElementById(id);
+            const $$ = sel => document.querySelectorAll(sel);
+
+            // ============ STATE MANAGEMENT ============
             let appData = null;
-            let activeIdx = -1;
-            let selectedNodes = new Set();
             let activityLog = [];
+            let selectedNodes = new Set();
+            let activeIdx = -1;
+            let currentAdmin = null;
+            let autoSyncInterval = null;
+            let lastSyncTime = null;
 
-            // ============ DOM REFS ============
-            const $ = (sel) => document.querySelector(sel);
-            const $$ = (sel) => document.querySelectorAll(sel);
-
-            // ============ TOAST SYSTEM ============
-            function showToast(msg, type = 'info', duration = 2800) {
-                const container = $('#toastContainer');
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                const icons = { success: 'fa-check-circle text-emerald-400', error: 'fa-exclamation-circle text-red-400',
-                    info: 'fa-info-circle text-blue-400' };
-                toast.innerHTML = `<i class="fas ${icons[type]||icons.info}"></i> ${msg}`;
-                container.appendChild(toast);
-                setTimeout(() => {
-                    toast.style.opacity = '0';
-                    toast.style.transform = 'translateX(80px)';
-                    toast.style.transition = 'all 0.4s ease';
-                    setTimeout(() => toast.remove(), 400);
-                }, duration);
-            }
-
-            // ============ ACTIVITY LOG ============
-            function addLog(action, target, details = '') {
-                const entry = {
-                    action,
-                    target,
-                    details,
-                    timestamp: new Date().toISOString(),
-                    timeFormatted: new Date().toLocaleString('bn-BD', { hour12: true })
+            // ============ MULTI-ADMIN SESSION MANAGEMENT ============
+            function initSession() {
+                const sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                const adminEmail = localStorage.getItem('psxd_admin_email') || 'Unknown';
+                currentAdmin = {
+                    id: sessionId,
+                    email: adminEmail,
+                    loginTime: new Date().toISOString(),
+                    lastActive: new Date().toISOString()
                 };
-                activityLog.unshift(entry);
-                if (activityLog.length > 200) activityLog.length = 200;
-                renderActivityLog();
+                
+                // Save to localStorage
+                const activeSessions = JSON.parse(localStorage.getItem('psxd_active_sessions') || '[]');
+                activeSessions.push(currentAdmin);
+                localStorage.setItem('psxd_active_sessions', JSON.stringify(activeSessions));
+                
+                // Update UI
+                updateActiveAdminCount();
+                updateAdminAvatar();
+                
+                // Start heartbeat
+                startHeartbeat();
             }
 
-            function renderActivityLog() {
-                const list = $('#activityLogList');
-                if (!list) return;
-                if (activityLog.length === 0) {
-                    list.innerHTML =
-                        '<p class="text-slate-500 text-xs sm:text-sm italic">No activity logged yet.</p>';
-                    return;
+            function startHeartbeat() {
+                setInterval(() => {
+                    if (currentAdmin) {
+                        currentAdmin.lastActive = new Date().toISOString();
+                        const activeSessions = JSON.parse(localStorage.getItem('psxd_active_sessions') || '[]');
+                        const updated = activeSessions.map(s => s.id === currentAdmin.id ? currentAdmin : s);
+                        localStorage.setItem('psxd_active_sessions', JSON.stringify(updated));
+                    }
+                }, 30000); // Every 30 seconds
+            }
+
+            function cleanupInactiveSessions() {
+                const activeSessions = JSON.parse(localStorage.getItem('psxd_active_sessions') || '[]');
+                const now = new Date();
+                const active = activeSessions.filter(s => {
+                    const lastActive = new Date(s.lastActive);
+                    const diff = (now - lastActive) / 1000 / 60; // minutes
+                    return diff < 15; // Remove if inactive for 15+ minutes
+                });
+                localStorage.setItem('psxd_active_sessions', JSON.stringify(active));
+                updateActiveAdminCount();
+            }
+
+            function updateActiveAdminCount() {
+                cleanupInactiveSessions();
+                const activeSessions = JSON.parse(localStorage.getItem('psxd_active_sessions') || '[]');
+                const count = activeSessions.length;
+                const elem = $('#activeAdminCount');
+                if (elem) elem.textContent = count;
+            }
+
+            function updateAdminAvatar() {
+                const email = currentAdmin?.email || 'Admin';
+                const initial = email.charAt(0).toUpperCase();
+                const avatar = $('#adminAvatar');
+                if (avatar) avatar.innerHTML = initial;
+            }
+
+            // ============ AUTO-SYNC SYSTEM ============
+            function startAutoSync() {
+                if (autoSyncInterval) clearInterval(autoSyncInterval);
+                autoSyncInterval = setInterval(() => {
+                    fetchDataSilent();
+                }, 60000); // Every 60 seconds
+            }
+
+            async function fetchDataSilent() {
+                try {
+                    const res = await fetch(DB_ENDPOINT + '/latest');
+                    if (res.ok) {
+                        const json = await res.json();
+                        const newData = json.record;
+                        
+                        // Check if data changed
+                        if (JSON.stringify(newData) !== JSON.stringify(appData)) {
+                            appData = newData;
+                            activityLog = appData.activity_log || [];
+                            lastSyncTime = new Date();
+                            renderAll();
+                            showToast('Data synced from server', 'info', 2000);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Silent sync failed:', e);
                 }
-                const colors = {
-                    create: 'text-emerald-400',
-                    update: 'text-blue-400',
-                    delete: 'text-red-400',
-                    config: 'text-purple-400',
-                    login: 'text-amber-400',
-                    export: 'text-teal-400',
-                    bulk_delete: 'text-red-500'
-                };
-                const icons = {
-                    create: 'fa-plus-circle',
-                    update: 'fa-pen',
-                    delete: 'fa-trash',
-                    config: 'fa-cog',
-                    login: 'fa-sign-in-alt',
-                    export: 'fa-download',
-                    bulk_delete: 'fa-trash-alt'
-                };
-                list.innerHTML = activityLog.slice(0, 50).map(a => `
-                <div class="flex items-center gap-3 py-2.5 border-b border-white/5 text-xs sm:text-sm">
-                    <i class="fas ${icons[a.action]||'fa-circle'} ${colors[a.action]||'text-slate-400'} w-6 text-center"></i>
-                    <span class="text-slate-300 font-semibold capitalize">${a.action.replace('_',' ')}</span>
-                    <span class="text-slate-500 truncate flex-1">${a.target||''}</span>
-                    <span class="text-slate-600 text-[10px] sm:text-xs whitespace-nowrap">${a.timeFormatted}</span>
-                </div>
-            `).join('');
-            }
-
-            function clearLogs() {
-                activityLog = [];
-                renderActivityLog();
-                showToast('Activity log cleared', 'info');
             }
 
             // ============ SESSION MANAGEMENT ============
             function checkSession() {
-                const session = localStorage.getItem(SESSION_KEY);
-                const remember = localStorage.getItem(REMEMBER_KEY);
-                if (session === 'true') return true;
-                if (remember === 'true') {
-                    const exp = localStorage.getItem('psxd_remember_exp');
-                    if (exp && Date.now() < parseInt(exp)) {
-                        localStorage.setItem(SESSION_KEY, 'true');
-                        return true;
-                    }
-                    localStorage.removeItem(REMEMBER_KEY);
-                    localStorage.removeItem('psxd_remember_exp');
+                const session = localStorage.getItem('psxd_session');
+                const sessionTime = localStorage.getItem('psxd_session_time');
+                
+                if (!session || !sessionTime) return false;
+                
+                // Check if session is expired (7 days)
+                const now = new Date().getTime();
+                const sessionAge = now - parseInt(sessionTime);
+                const sevenDays = 7 * 24 * 60 * 60 * 1000;
+                
+                if (sessionAge > sevenDays) {
+                    clearSession();
+                    return false;
                 }
-                return false;
+                
+                return session === 'active';
             }
 
-            function handleLogin() {
-                const e = $('#l_email').value.trim();
-                const p = $('#l_pass').value.trim();
-                const remember = $('#rememberMe').checked;
-                if (e === ADM_USER && p === ADM_PASS) {
-                    localStorage.setItem(SESSION_KEY, 'true');
+            function createSession(email) {
+                localStorage.setItem('psxd_session', 'active');
+                localStorage.setItem('psxd_session_time', new Date().getTime().toString());
+                localStorage.setItem('psxd_admin_email', email);
+            }
+
+            function clearSession() {
+                // Remove current admin from active sessions
+                if (currentAdmin) {
+                    const activeSessions = JSON.parse(localStorage.getItem('psxd_active_sessions') || '[]');
+                    const filtered = activeSessions.filter(s => s.id !== currentAdmin.id);
+                    localStorage.setItem('psxd_active_sessions', JSON.stringify(filtered));
+                }
+                
+                localStorage.removeItem('psxd_session');
+                localStorage.removeItem('psxd_session_time');
+                localStorage.removeItem('psxd_admin_email');
+                
+                if (autoSyncInterval) clearInterval(autoSyncInterval);
+            }
+
+            // ============ AUTHENTICATION ============
+            async function handleLogin() {
+                const email = $('#l_email').value.trim();
+                const password = $('#l_password').value.trim();
+                const remember = $('#l_remember').checked;
+
+                if (!email || !password) {
+                    showToast('Please fill all fields!', 'error', 2500);
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Authenticating...',
+                    html: '<div class="spinner mx-auto"></div>',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    background: '#0f172a',
+                    color: '#fff'
+                });
+
+                // Simulate auth delay
+                await new Promise(r => setTimeout(r, 1500));
+
+                // Simple auth (replace with real backend)
+                if (email === 'admin@psxd.com' && password === 'admin123') {
+                    createSession(email);
                     if (remember) {
-                        localStorage.setItem(REMEMBER_KEY, 'true');
-                        localStorage.setItem('psxd_remember_exp', String(Date.now() + 7 * 24 * 60 * 60 * 1000));
+                        localStorage.setItem('psxd_saved_email', email);
                     }
-                    addLog('login', 'Admin authenticated');
-                    showToast('Access granted! Welcome back.', 'success', 2000);
-                    setTimeout(() => {
-                        $('#loginSection').classList.add('hidden');
-                        $('#dashboardSection').classList.remove('hidden');
-                        fetchData();
-                    }, 400);
+                    
+                    Swal.close();
+                    $('#loginSection').classList.add('hidden');
+                    $('#dashboardSection').classList.remove('hidden');
+                    
+                    initSession();
+                    fetchData();
+                    startAutoSync();
+                    
+                    showToast('Welcome back, Admin! 👋', 'success', 3000);
                 } else {
-                    showToast('Access Denied! Unauthorized identity.', 'error', 3000);
                     Swal.fire({
                         icon: 'error',
-                        title: 'ACCESS DENIED',
-                        text: 'Invalid credentials detected!',
-                        background: '#020617',
-                        color: '#fff',
-                        confirmButtonColor: '#ef4444'
+                        title: 'Authentication Failed',
+                        text: 'Invalid credentials. Try: admin@psxd.com / admin123',
+                        background: '#0f172a',
+                        color: '#fff'
                     });
                 }
             }
 
             function logout() {
-                addLog('login', 'Admin logged out');
-                localStorage.removeItem(SESSION_KEY);
-                localStorage.removeItem(REMEMBER_KEY);
-                localStorage.removeItem('psxd_remember_exp');
-                showToast('Logged out successfully.', 'info', 1500);
-                setTimeout(() => location.reload(), 500);
+                Swal.fire({
+                    title: 'Logout Confirmation',
+                    text: 'Are you sure you want to logout?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Logout',
+                    cancelButtonText: 'Cancel',
+                    background: '#0f172a',
+                    color: '#fff'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        clearSession();
+                        $('#dashboardSection').classList.add('hidden');
+                        $('#loginSection').classList.remove('hidden');
+                        showToast('Logged out successfully', 'info', 2000);
+                    }
+                });
             }
 
-            // ============ DATABASE OPS ============
-            async function fetchData() {
-                const container = $('#userContainer');
-                if (container) {
-                    container.innerHTML = Array(6).fill(`
-                    <div class="user-card p-6 sm:p-8">
-                        <div class="skeleton h-4 w-24 mb-4"></div>
-                        <div class="skeleton h-8 w-full mb-3"></div>
-                        <div class="skeleton h-6 w-3/4 mb-4"></div>
-                        <div class="skeleton h-12 w-full mb-3"></div>
-                        <div class="skeleton h-4 w-20"></div>
-                    </div>
-                `).join('');
+            // ============ TOAST NOTIFICATION ============
+            function showToast(message, type = 'info', duration = 3000) {
+                const icons = {
+                    success: '<i class="fas fa-check-circle text-green-400 text-xl"></i>',
+                    error: '<i class="fas fa-times-circle text-red-400 text-xl"></i>',
+                    info: '<i class="fas fa-info-circle text-blue-400 text-xl"></i>',
+                    warning: '<i class="fas fa-exclamation-triangle text-amber-400 text-xl"></i>'
+                };
+
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.innerHTML = `
+                    ${icons[type]}
+                    <span class="font-semibold">${message}</span>
+                `;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.animation = 'slideOutRight 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, duration);
+            }
+
+            // ============ ACTIVITY LOG ============
+            function addLog(action, target, details = '') {
+                const log = {
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    action,
+                    target,
+                    details,
+                    admin: currentAdmin?.email || 'System'
+                };
+                activityLog.unshift(log);
+                if (activityLog.length > 100) activityLog.pop();
+                renderActivityLog();
+                renderRecentActivity();
+            }
+
+            function renderActivityLog() {
+                const container = $('#logsContainer');
+                if (!container) return;
+
+                if (activityLog.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-12 text-slate-500">
+                            <i class="fas fa-clipboard-list text-5xl mb-3 opacity-30"></i>
+                            <p>No activity logs yet</p>
+                        </div>
+                    `;
+                    return;
                 }
+
+                container.innerHTML = activityLog.map(log => {
+                    const date = new Date(log.timestamp);
+                    const icons = {
+                        create: 'fa-plus-circle text-green-400',
+                        update: 'fa-edit text-blue-400',
+                        delete: 'fa-trash text-red-400',
+                        config: 'fa-cog text-purple-400',
+                        export: 'fa-download text-cyan-400',
+                        login: 'fa-sign-in-alt text-green-400',
+                        logout: 'fa-sign-out-alt text-orange-400'
+                    };
+
+                    return `
+                        <div class="glass-light p-4 rounded-xl hover:bg-white/10 transition">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas ${icons[log.action] || 'fa-circle text-slate-400'}"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between gap-2 mb-1">
+                                        <p class="font-semibold text-sm">${log.target}</p>
+                                        <span class="text-xs text-slate-500">${formatTime(date)}</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400">${log.details}</p>
+                                    <p class="text-xs text-slate-500 mt-1">
+                                        <i class="fas fa-user mr-1"></i>${log.admin}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function renderRecentActivity() {
+                const container = $('#recentActivityContainer');
+                if (!container) return;
+
+                const recent = activityLog.slice(0, 5);
+                if (recent.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center text-slate-500 py-8">
+                            <i class="fas fa-inbox text-4xl mb-2 opacity-30"></i>
+                            <p>No recent activity</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = recent.map(log => {
+                    const date = new Date(log.timestamp);
+                    return `
+                        <div class="glass-light p-3 rounded-lg hover:bg-white/10 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-semibold">${log.target}</span>
+                                <span class="text-xs text-slate-500">${formatTime(date)}</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">${log.details}</p>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function clearLogs() {
+                Swal.fire({
+                    title: 'Clear All Logs?',
+                    text: 'This action cannot be undone',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Clear',
+                    cancelButtonText: 'Cancel',
+                    background: '#0f172a',
+                    color: '#fff'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        activityLog = [];
+                        renderActivityLog();
+                        renderRecentActivity();
+                        showToast('All logs cleared', 'success', 2000);
+                    }
+                });
+            }
+
+            // ============ DATA FETCHING ============
+            async function fetchData() {
+                Swal.fire({
+                    title: 'Loading Data...',
+                    html: '<div class="spinner mx-auto"></div>',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    background: '#0f172a',
+                    color: '#fff'
+                });
+
                 try {
-                    const res = await fetch(DB_ENDPOINT);
-                    if (!res.ok) throw new Error('Network error');
-                    appData = await res.json();
-                    if (!appData.auth_database) appData.auth_database = [];
-                    if (!appData.app_config) appData.app_config = { title: 'PSXD ADMIN', logo_url: '',
-                        buy_url: '' };
-                    if (!appData.global_config) appData.global_config = { global_key_enabled: false, global_key: '',
-                        global_instruction: '' };
-                    if (!appData.activity_log) appData.activity_log = [];
+                    const res = await fetch(DB_ENDPOINT + '/latest');
+                    if (!res.ok) throw new Error('Failed to fetch');
+                    
+                    const json = await res.json();
+                    appData = json.record;
                     activityLog = appData.activity_log || [];
+                    lastSyncTime = new Date();
+                    
+                    Swal.close();
                     renderAll();
-                    showToast('Data synced successfully', 'success', 1800);
+                    updateBranding();
+                    showToast('Data loaded successfully! ✓', 'success', 2000);
                 } catch (e) {
-                    showToast('Database offline! Check connection.', 'error', 3500);
-                    Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Unable to reach database.',
-                        background: '#020617', color: '#fff' });
-                    if (container) container.innerHTML = '';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Load Failed',
+                        text: 'Could not fetch data. Check connection.',
+                        background: '#0f172a',
+                        color: '#fff'
+                    });
                 }
             }
 
@@ -1208,318 +1922,432 @@
                 renderAnalytics();
                 renderActivityLog();
                 renderRecentActivity();
-                updateBranding();
                 updateGlobalStatus();
             }
 
-            function renderCards() {
-                const grid = $('#userContainer');
-                const emptyState = $('#emptyState');
-                const users = appData.auth_database || [];
-                if (!grid) return;
-
-                if (users.length === 0) {
-                    grid.innerHTML = '';
-                    if (emptyState) emptyState.classList.remove('hidden');
-                } else {
-                    if (emptyState) emptyState.classList.add('hidden');
-                }
-
-                const searchVal = ($('#searchBar')?.value || '').toLowerCase();
-                const statusFilter = $('#statusFilter')?.value || 'all';
-
-                let filtered = users;
-                if (searchVal) {
-                    filtered = filtered.filter(u =>
-                        (u.device_id || '').toLowerCase().includes(searchVal) ||
-                        (u.key || '').toLowerCase().includes(searchVal) ||
-                        (u.status || '').toLowerCase().includes(searchVal)
-                    );
-                }
-                if (statusFilter !== 'all') {
-                    filtered = filtered.filter(u => u.status === statusFilter);
-                }
-
-                grid.innerHTML = filtered.map((user, i) => {
-                    const origIdx = users.indexOf(user);
-                    const isLife = user.status === 'lifetime';
-                    const isBlocked = user.status === 'blocked';
-                    const sColor = isLife ? 'text-amber-400 bg-amber-400/10' : (isBlocked ?
-                        'text-red-400 bg-red-400/10' : 'text-emerald-400 bg-emerald-400/10');
-                    const cardClass = isLife ? 'lifetime-card' : (isBlocked ? 'blocked-card' : '');
-                    const isSelected = selectedNodes.has(origIdx);
-
-                    return `
-                <div class="user-card p-5 sm:p-7 group ${cardClass} ${isSelected ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-slate-900' : ''}" data-orig-idx="${origIdx}">
-                    <div class="flex justify-between items-start mb-5 sm:mb-7">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-3 h-3 rounded-full ${isBlocked ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'} shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-                            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${sColor} px-2.5 py-1 rounded-lg">${user.status}</span>
-                            <input type="checkbox" class="node-checkbox w-4 h-4 accent-blue-500 rounded cursor-pointer" data-idx="${origIdx}" ${isSelected?'checked':''} onclick="event.stopPropagation();toggleSelect(${origIdx},this.checked)" title="Select node">
-                        </div>
-                        <div class="flex gap-3 sm:gap-4 opacity-30 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="openEditor(${origIdx})" class="text-blue-400 hover:text-white transition" title="Edit"><i class="fas fa-pen-nib text-base sm:text-lg"></i></button>
-                            <button onclick="copy('${(user.device_id||'').replace(/'/g,"\\'")}', this)" class="text-slate-400 hover:text-emerald-400 transition" title="Copy ID"><i class="fas fa-copy text-sm sm:text-base"></i></button>
-                            <button onclick="removeNode(${origIdx})" class="text-red-400 hover:text-white transition" title="Delete"><i class="fas fa-trash-alt text-base sm:text-lg"></i></button>
-                        </div>
-                    </div>
-                    <div class="space-y-4 sm:space-y-5">
-                        <div>
-                            <p class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-tighter mb-1.5">NODE IDENTITY</p>
-                            <p class="font-mono text-white text-sm sm:text-base font-bold truncate tracking-wider">${user.device_id||'—'}</p>
-                        </div>
-                        <div>
-                            <p class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-tighter mb-1.5">ACCESS KEY</p>
-                            <div class="bg-slate-950/80 p-3 rounded-xl border border-white/5 font-mono text-[10px] sm:text-[11px] text-blue-300 truncate tracking-wider flex items-center justify-between gap-2">
-                                <span class="truncate">${user.key||'—'}</span>
-                                <button onclick="copy('${(user.key||'').replace(/'/g,"\\'")}', this)" class="text-slate-500 hover:text-emerald-400 transition flex-shrink-0" title="Copy Key"><i class="fas fa-link text-xs"></i></button>
-                            </div>
-                        </div>
-                        <div class="pt-3 sm:pt-4 border-t border-white/5 flex justify-between items-center">
-                            <div>
-                                <p class="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase mb-0.5">VALID UNTIL</p>
-                                <p class="text-xs font-black ${isLife ? 'text-amber-400' : 'text-slate-200'}">${isLife ? '<i class="fas fa-infinity mr-1"></i> ELITE LIFETIME' : (user.expiry||'—')}</p>
-                            </div>
-                            ${isLife ? '<i class="fas fa-crown text-amber-400 text-lg sm:text-xl drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]"></i>' : ''}
-                        </div>
-                    </div>
-                </div>`;
-                }).join('');
-
-                if (filtered.length === 0 && users.length > 0) {
-                    grid.innerHTML =
-                        `<div class="col-span-full text-center py-12"><i class="fas fa-search text-4xl text-slate-700 mb-3"></i><p class="text-slate-500 font-semibold">No matching nodes found.</p></div>`;
-                }
-            }
-
+            // ============ STATS RENDERING ============
             function renderStats() {
-                const users = appData.auth_database || [];
+                if (!appData || !appData.auth_database) return;
+
+                const users = getFilteredUsers();
                 const total = users.length;
                 const active = users.filter(u => u.status === 'active').length;
-                const lifetime = users.filter(u => u.status === 'lifetime').length;
-                const blocked = users.filter(u => u.status === 'blocked').length;
-                animateCounter($('#st_total'), total);
-                animateCounter($('#st_active'), active);
-                animateCounter($('#st_life'), lifetime);
-                animateCounter($('#st_block'), blocked);
+                const expired = users.filter(u => u.status === 'expired').length;
+                const pending = users.filter(u => u.status === 'pending').length;
+
+                $('#stat_total').textContent = total;
+                $('#stat_active').textContent = active;
+                $('#stat_expired').textContent = expired;
+                $('#stat_pending').textContent = pending;
+
+                // Update progress bars
+                const activePercent = total > 0 ? (active / total * 100) : 0;
+                const expiredPercent = total > 0 ? (expired / total * 100) : 0;
+                const pendingPercent = total > 0 ? (pending / total * 100) : 0;
+
+                $('#progress_active').style.width = activePercent + '%';
+                $('#progress_expired').style.width = expiredPercent + '%';
+                $('#progress_pending').style.width = pendingPercent + '%';
             }
 
-            function animateCounter(el, target) {
-                if (!el) return;
-                const current = parseInt(el.innerText) || 0;
-                if (current === target) return;
-                const diff = target - current;
-                const steps = Math.min(Math.abs(diff), 30);
-                const duration = 400;
-                const stepTime = duration / (steps || 1);
-                let step = 0;
-                const interval = setInterval(() => {
-                    step++;
-                    el.innerText = Math.round(current + (diff * step / steps));
-                    if (step >= steps) {
-                        el.innerText = target;
-                        clearInterval(interval);
-                    }
-                }, stepTime);
-            }
+            // ============ CARDS RENDERING ============
+            function renderCards() {
+                const container = $('#cardsContainer');
+                const emptyState = $('#emptyState');
+                if (!container || !emptyState) return;
 
-            function renderAnalytics() {
-                const users = appData.auth_database || [];
-                const total = users.length || 1;
-                const active = users.filter(u => u.status === 'active').length;
-                const lifetime = users.filter(u => u.status === 'lifetime').length;
-                const blocked = users.filter(u => u.status === 'blocked').length;
-                if ($('#ana_active')) $('#ana_active').innerText = active;
-                if ($('#ana_life')) $('#ana_life').innerText = lifetime;
-                if ($('#ana_block')) $('#ana_block').innerText = blocked;
-                if ($('#bar_active')) $('#bar_active').style.width = (active / total * 100) + '%';
-                if ($('#bar_life')) $('#bar_life').style.width = (lifetime / total * 100) + '%';
-                if ($('#bar_block')) $('#bar_block').style.width = (blocked / total * 100) + '%';
-            }
+                const users = getFilteredUsers();
 
-            function renderRecentActivity() {
-                const el = $('#recentActivity');
-                if (!el) return;
-                const recent = activityLog.slice(0, 5);
-                if (recent.length === 0) {
-                    el.innerHTML = '<p class="text-slate-500 text-xs sm:text-sm italic">No recent activity recorded.</p>';
+                if (users.length === 0) {
+                    container.innerHTML = '';
+                    emptyState.classList.remove('hidden');
                     return;
                 }
-                el.innerHTML = recent.map(a => `
-                <div class="flex items-center gap-3 text-xs sm:text-sm py-1.5">
-                    <span class="w-2 h-2 rounded-full ${a.action==='delete'||a.action==='bulk_delete'?'bg-red-500':a.action==='create'?'bg-emerald-500':a.action==='config'?'bg-purple-500':'bg-blue-500'}"></span>
-                    <span class="text-slate-400 capitalize">${a.action.replace('_',' ')}</span>
-                    <span class="text-slate-600 truncate">${a.target||''}</span>
-                    <span class="text-slate-700 text-[10px] ml-auto">${a.timeFormatted}</span>
-                </div>
-            `).join('');
+
+                emptyState.classList.add('hidden');
+                container.innerHTML = users.map((user, idx) => {
+                    const isSelected = selectedNodes.has(idx);
+                    const expDate = user.expiry && user.expiry !== 'lifetime' ? new Date(user.expiry) : null;
+                    const expStr = expDate ? expDate.toLocaleDateString('en-GB') : 'Lifetime';
+                    const daysLeft = expDate ? Math.ceil((expDate - new Date()) / 86400000) : null;
+
+                    const statusColors = {
+                        active: 'badge-active',
+                        expired: 'badge-expired',
+                        pending: 'badge-pending'
+                    };
+
+                    return `
+                        <div class="card hover-lift ${isSelected ? 'ring-2 ring-blue-500' : ''}" data-idx="${idx}">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="custom-checkbox ${isSelected ? 'checked' : ''}" onclick="toggleSelect(${idx})"></div>
+                                    <div>
+                                        <h3 class="font-bold text-lg text-white mb-1">${user.device_id || 'N/A'}</h3>
+                                        <span class="badge ${statusColors[user.status] || 'badge-pending'}">
+                                            <i class="fas fa-circle text-xs"></i>${user.status}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="openEditor(${idx})" class="btn-icon" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="removeNode(${idx})" class="btn-icon text-red-400" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                                    <span class="text-sm text-slate-400">
+                                        <i class="fas fa-calendar mr-2"></i>Expiry
+                                    </span>
+                                    <span class="font-semibold text-sm">${expStr}</span>
+                                </div>
+
+                                ${daysLeft !== null ? `
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                                    <span class="text-sm text-slate-400">
+                                        <i class="fas fa-clock mr-2"></i>Days Left
+                                    </span>
+                                    <span class="font-semibold text-sm ${daysLeft < 7 ? 'text-red-400' : 'text-green-400'}">
+                                        ${daysLeft} days
+                                    </span>
+                                </div>
+                                ` : ''}
+
+                                <div class="p-3 rounded-lg bg-white/5">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-slate-400">
+                                            <i class="fas fa-key mr-2"></i>License Key
+                                        </span>
+                                        <button onclick="copy('${user.key}', this)" class="text-blue-400 hover:text-blue-300 text-xs">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <code class="text-xs text-green-400 font-mono break-all">${user.key || 'N/A'}</code>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
             }
 
-            function updateBranding() {
-                const cfg = appData.app_config || {};
-                const logo = $('#navLogo');
-                const title = $('#navTitle');
-                if (logo && cfg.logo_url) logo.src = cfg.logo_url;
-                if (title && cfg.title) title.innerText = cfg.title;
-                document.title = (cfg.title || 'PSXD') + ' | Cyber Panel Pro';
+            function getFilteredUsers() {
+                if (!appData || !appData.auth_database) return [];
+
+                const search = $('#searchBar')?.value.toLowerCase() || '';
+                const status = $('#filterStatus')?.value || '';
+
+                return appData.auth_database.filter(u => {
+                    const matchSearch = !search || 
+                        (u.device_id && u.device_id.toLowerCase().includes(search)) ||
+                        (u.status && u.status.toLowerCase().includes(search)) ||
+                        (u.key && u.key.toLowerCase().includes(search));
+                    
+                    const matchStatus = !status || u.status === status;
+
+                    return matchSearch && matchStatus;
+                });
             }
 
-            function updateGlobalStatus() {
-                const gc = appData.global_config || {};
-                if ($('#gstatus_switch')) $('#gstatus_switch').innerHTML = gc.global_key_enabled ?
-                    '<span class="text-emerald-400">🟢 Enabled</span>' :
-                    '<span class="text-red-400">🔴 Disabled</span>';
-                if ($('#gstatus_key')) $('#gstatus_key').innerText = gc.global_key || 'Not set';
-                if ($('#gstatus_title')) $('#gstatus_title').innerText = (appData.app_config || {}).title ||
-                    'PSXD ADMIN';
-            }
+            // ============ ANALYTICS ============
+            function renderAnalytics() {
+                if (!appData || !appData.auth_database) return;
 
-            // ============ CRUD OPERATIONS ============
-            function openEditor(idx = -1) {
-                activeIdx = idx;
-                $('#modalTitle').innerText = idx === -1 ? "🚀 DEPLOY NEW NODE" : "🔧 MODIFY PROTOCOL";
-                if (idx !== -1 && appData.auth_database[idx]) {
-                    const u = appData.auth_database[idx];
-                    $('#m_device').value = u.device_id || '';
-                    $('#m_status').value = u.status || 'active';
-                    $('#m_key').value = u.key || '';
-                    $('#m_expiry').value = (u.expiry && u.expiry !== 'unlimited') ? u.expiry : '';
-                } else {
-                    $('#m_device').value = '';
-                    $('#m_status').value = 'active';
-                    $('#m_key').value = '';
-                    $('#m_expiry').value = '';
+                const users = appData.auth_database;
+                const total = users.length;
+                const active = users.filter(u => u.status === 'active').length;
+                const expired = users.filter(u => u.status === 'expired').length;
+                const pending = users.filter(u => u.status === 'pending').length;
+
+                // Status Chart (Simple Text-based)
+                const statusChart = $('#statusChart');
+                if (statusChart) {
+                    const activePercent = total > 0 ? (active / total * 100).toFixed(1) : 0;
+                    const expiredPercent = total > 0 ? (expired / total * 100).toFixed(1) : 0;
+                    const pendingPercent = total > 0 ? (pending / total * 100).toFixed(1) : 0;
+
+                    statusChart.innerHTML = `
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-semibold text-green-400">Active</span>
+                                    <span class="text-sm">${activePercent}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${activePercent}%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-semibold text-red-400">Expired</span>
+                                    <span class="text-sm">${expiredPercent}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${expiredPercent}%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-semibold text-amber-400">Pending</span>
+                                    <span class="text-sm">${pendingPercent}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${pendingPercent}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 }
+
+                // Activity Timeline
+                const activityChart = $('#activityChart');
+                if (activityChart) {
+                    const last7Days = activityLog.filter(log => {
+                        const logDate = new Date(log.timestamp);
+                        const diff = (new Date() - logDate) / 1000 / 60 / 60 / 24;
+                        return diff <= 7;
+                    });
+
+                    activityChart.innerHTML = `
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-400">Last 7 Days Activity</span>
+                                <span class="text-2xl font-bold">${last7Days.length}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${Math.min(last7Days.length * 10, 100)}%"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <div class="text-center p-2 rounded bg-white/5">
+                                    <p class="text-xs text-slate-400">Creates</p>
+                                    <p class="text-lg font-bold">${last7Days.filter(l => l.action === 'create').length}</p>
+                                </div>
+                                <div class="text-center p-2 rounded bg-white/5">
+                                    <p class="text-xs text-slate-400">Updates</p>
+                                    <p class="text-lg font-bold">${last7Days.filter(l => l.action === 'update').length}</p>
+                                </div>
+                                <div class="text-center p-2 rounded bg-white/5">
+                                    <p class="text-xs text-slate-400">Deletes</p>
+                                    <p class="text-lg font-bold">${last7Days.filter(l => l.action === 'delete').length}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Key Metrics
+                const keyMetrics = $('#keyMetrics');
+                if (keyMetrics) {
+                    const expiringSoon = users.filter(u => {
+                        if (u.status !== 'active' || !u.expiry || u.expiry === 'lifetime') return false;
+                        const exp = new Date(u.expiry);
+                        const days = (exp - new Date()) / 86400000;
+                        return days > 0 && days <= 7;
+                    }).length;
+
+                    const lifetimeUsers = users.filter(u => u.expiry === 'lifetime').length;
+
+                    keyMetrics.innerHTML = `
+                        <div class="text-center p-4 rounded-xl bg-white/5">
+                            <i class="fas fa-exclamation-triangle text-2xl text-amber-400 mb-2"></i>
+                            <p class="text-2xl font-bold">${expiringSoon}</p>
+                            <p class="text-xs text-slate-400 mt-1">Expiring Soon</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl bg-white/5">
+                            <i class="fas fa-infinity text-2xl text-purple-400 mb-2"></i>
+                            <p class="text-2xl font-bold">${lifetimeUsers}</p>
+                            <p class="text-xs text-slate-400 mt-1">Lifetime</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl bg-white/5">
+                            <i class="fas fa-chart-line text-2xl text-green-400 mb-2"></i>
+                            <p class="text-2xl font-bold">${((active/total)*100).toFixed(0)}%</p>
+                            <p class="text-xs text-slate-400 mt-1">Active Rate</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl bg-white/5">
+                            <i class="fas fa-database text-2xl text-cyan-400 mb-2"></i>
+                            <p class="text-2xl font-bold">${total}</p>
+                            <p class="text-xs text-slate-400 mt-1">Total Records</p>
+                        </div>
+                    `;
+                }
+            }
+
+            // ============ EDITOR FUNCTIONS ============
+            function openEditor(idx) {
+                activeIdx = idx;
+                const modal = $('#editModal');
+                const title = $('#modalTitle');
+
+                if (idx === -1) {
+                    title.textContent = 'Add New User';
+                    $('#e_dev').value = '';
+                    $('#e_status').value = 'pending';
+                    $('#e_exp').value = '';
+                    $('#e_key').value = '';
+                    $('#e_lifetime').checked = false;
+                } else {
+                    const user = appData.auth_database[idx];
+                    title.textContent = 'Edit User';
+                    $('#e_dev').value = user.device_id || '';
+                    $('#e_status').value = user.status || 'pending';
+                    $('#e_lifetime').checked = user.expiry === 'lifetime';
+                    $('#e_exp').value = user.expiry !== 'lifetime' ? user.expiry : '';
+                    $('#e_key').value = user.key || '';
+                }
+
                 toggleDate();
-                $('#editModal').classList.remove('hidden');
-                setTimeout(() => $('#m_device').focus(), 200);
+                modal.classList.remove('hidden');
+            }
+
+            function closeModal() {
+                $('#editModal').classList.add('hidden');
+                activeIdx = -1;
             }
 
             function toggleDate() {
-                const isLife = $('#m_status').value === 'lifetime';
-                const exp = $('#m_expiry');
-                exp.disabled = isLife;
-                exp.style.opacity = isLife ? '0.3' : '1';
-                if (isLife) exp.value = '';
+                const lifetime = $('#e_lifetime').checked;
+                const expField = $('#e_exp');
+                expField.disabled = lifetime;
+                expField.style.opacity = lifetime ? '0.5' : '1';
             }
 
             function generateKey() {
-                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-                let key = 'KEY-';
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let key = 'PSXD-';
                 for (let i = 0; i < 4; i++) {
-                    for (let j = 0; j < 4; j++) key += chars[Math.floor(Math.random() * chars.length)];
+                    for (let j = 0; j < 4; j++) {
+                        key += chars[Math.floor(Math.random() * chars.length)];
+                    }
                     if (i < 3) key += '-';
                 }
-                $('#m_key').value = key;
-                showToast('Random key generated', 'info', 1500);
+                $('#e_key').value = key;
             }
 
             async function saveChanges() {
-                const s = $('#m_status').value;
-                const nodeObj = {
-                    device_id: $('#m_device').value.trim() || "DEVICE-" + Math.random().toString(36).substr(2, 8)
-                        .toUpperCase(),
-                    status: s,
-                    expiry: s === 'lifetime' ? 'unlimited' : ($('#m_expiry').value || new Date().toISOString()
-                        .split('T')[0]),
-                    key: $('#m_key').value.trim() || ("KEY-" + Math.random().toString(36).substr(2, 6).toUpperCase())
-                };
+                const devId = $('#e_dev').value.trim();
+                const status = $('#e_status').value;
+                const lifetime = $('#e_lifetime').checked;
+                const expiry = lifetime ? 'lifetime' : $('#e_exp').value;
+                const key = $('#e_key').value.trim();
+
+                if (!devId) {
+                    showToast('Device ID is required!', 'error', 2000);
+                    return;
+                }
+
+                if (!key) {
+                    showToast('License Key is required!', 'error', 2000);
+                    return;
+                }
+
+                if (!lifetime && !expiry) {
+                    showToast('Expiry date is required!', 'error', 2000);
+                    return;
+                }
+
+                const user = { device_id: devId, status, expiry, key };
 
                 if (activeIdx === -1) {
-                    appData.auth_database.unshift(nodeObj);
-                    addLog('create', nodeObj.device_id, 'New node deployed');
+                    appData.auth_database.push(user);
+                    addLog('create', devId, `New user added with ${status} status`);
                 } else {
-                    const old = appData.auth_database[activeIdx];
-                    appData.auth_database[activeIdx] = nodeObj;
-                    addLog('update', nodeObj.device_id, 'Node configuration modified');
+                    appData.auth_database[activeIdx] = user;
+                    addLog('update', devId, `User details updated`);
                 }
+
                 await sync();
                 closeModal();
-                switchTab('tab-users');
+                showToast('Changes saved successfully! ✓', 'success', 2000);
             }
 
             async function removeNode(idx) {
                 const user = appData.auth_database[idx];
-                if (!user) return;
-                const confirm = await Swal.fire({
-                    title: '⚠️ TERMINATE NODE?',
-                    html: `<p class="text-sm">This will permanently revoke access for:</p><p class="font-mono text-blue-400 mt-2 text-xs">${user.device_id||'Unknown'}</p>`,
+                
+                Swal.fire({
+                    title: 'Delete User?',
+                    text: `Delete ${user.device_id}?`,
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#ef4444',
-                    confirmButtonText: 'Yes, terminate!',
+                    confirmButtonText: 'Yes, Delete',
                     cancelButtonText: 'Cancel',
-                    background: '#020617',
-                    color: '#fff'
-                });
-                if (confirm.isConfirmed) {
-                    const removed = appData.auth_database.splice(idx, 1)[0];
-                    selectedNodes.delete(idx);
-                    addLog('delete', removed.device_id || 'Unknown', 'Node permanently removed');
-                    await sync();
-                    showToast('Node terminated permanently.', 'success', 2000);
-                }
-            }
-
-            async function bulkDelete() {
-                if (selectedNodes.size === 0) {
-                    showToast('No nodes selected!', 'error', 2000);
-                    return;
-                }
-                const confirm = await Swal.fire({
-                    title: '⚠️ BULK TERMINATION',
-                    html: `<p class="text-sm">Permanently delete <b class="text-red-400">${selectedNodes.size}</b> selected nodes?</p>`,
-                    icon: 'warning',
-                    showCancelButton: true,
                     confirmButtonColor: '#ef4444',
-                    confirmButtonText: 'Delete All Selected',
-                    background: '#020617',
+                    background: '#0f172a',
                     color: '#fff'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        addLog('delete', user.device_id, 'User deleted from system');
+                        appData.auth_database.splice(idx, 1);
+                        await sync();
+                        showToast('User deleted successfully', 'success', 2000);
+                    }
                 });
-                if (confirm.isConfirmed) {
-                    const indices = Array.from(selectedNodes).sort((a, b) => b - a);
-                    const removed = [];
-                    indices.forEach(i => {
-                        if (appData.auth_database[i]) {
-                            removed.push(appData.auth_database[i].device_id || 'Unknown');
-                            appData.auth_database.splice(i, 1);
-                        }
-                    });
-                    selectedNodes.clear();
-                    updateBulkBar();
-                    addLog('bulk_delete', `${removed.length} nodes`, removed.join(', '));
-                    await sync();
-                    showToast(`${removed.length} nodes terminated.`, 'success', 2500);
-                }
             }
 
-            function toggleSelect(idx, checked) {
-                if (checked) selectedNodes.add(idx);
-                else selectedNodes.delete(idx);
-                updateBulkBar();
+            // ============ BULK OPERATIONS ============
+            function toggleSelect(idx) {
+                if (selectedNodes.has(idx)) {
+                    selectedNodes.delete(idx);
+                } else {
+                    selectedNodes.add(idx);
+                }
                 renderCards();
+                updateBulkBar();
             }
 
             function clearSelection() {
                 selectedNodes.clear();
-                updateBulkBar();
                 renderCards();
+                updateBulkBar();
+            }
+
+            async function bulkDelete() {
+                if (selectedNodes.size === 0) return;
+
+                Swal.fire({
+                    title: 'Bulk Delete',
+                    text: `Delete ${selectedNodes.size} users?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Delete All',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonColor: '#ef4444',
+                    background: '#0f172a',
+                    color: '#fff'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const toDelete = Array.from(selectedNodes).sort((a, b) => b - a);
+                        toDelete.forEach(idx => {
+                            const user = appData.auth_database[idx];
+                            addLog('delete', user.device_id, 'Bulk delete operation');
+                            appData.auth_database.splice(idx, 1);
+                        });
+                        selectedNodes.clear();
+                        await sync();
+                        showToast(`${toDelete.length} users deleted`, 'success', 2000);
+                    }
+                });
             }
 
             function updateBulkBar() {
                 const bar = $('#bulkBar');
                 const count = $('#bulkCount');
                 if (!bar || !count) return;
+                
                 if (selectedNodes.size > 0) {
                     bar.classList.remove('hidden');
                     bar.classList.add('flex');
-                    count.innerText = selectedNodes.size;
+                    count.textContent = selectedNodes.size;
                 } else {
                     bar.classList.add('hidden');
                     bar.classList.remove('flex');
                 }
             }
 
+            // ============ SYSTEM CONFIG ============
             async function saveSystem() {
                 appData.app_config.title = $('#c_title').value.trim() || 'PSXD ADMIN';
                 appData.app_config.logo_url = $('#c_logo').value.trim();
@@ -1527,34 +2355,103 @@
                 appData.global_config.global_key_enabled = $('#c_gl_on').checked;
                 appData.global_config.global_key = $('#c_gl_key').value.trim();
                 appData.global_config.global_instruction = $('#c_gl_msg').value.trim();
-                addLog('config', 'System settings', 'Global configuration updated');
+                
+                addLog('config', 'System Settings', 'Configuration updated');
                 await sync();
+                
                 $('#configModal').classList.add('hidden');
                 updateBranding();
                 updateGlobalStatus();
-                showToast('System protocol applied!', 'success', 2000);
+                showToast('Configuration saved! ✓', 'success', 2000);
             }
 
+            function updateBranding() {
+                if (!appData?.app_config) return;
+                const title = $('#brandTitle');
+                if (title) title.textContent = appData.app_config.title || 'PSXD CYBER PANEL';
+            }
+
+            function updateGlobalStatus() {
+                // Can add global key status indicator here
+            }
+
+            function openConfig() {
+                if (!appData) {
+                    showToast('Please wait for data to load', 'info', 2000);
+                    fetchData();
+                    return;
+                }
+
+                $('#c_title').value = appData.app_config?.title || '';
+                $('#c_logo').value = appData.app_config?.logo_url || '';
+                $('#c_buy').value = appData.app_config?.buy_url || '';
+                $('#c_gl_on').checked = appData.global_config?.global_key_enabled || false;
+                $('#c_gl_key').value = appData.global_config?.global_key || '';
+                $('#c_gl_msg').value = appData.global_config?.global_instruction || '';
+                
+                $('#configModal').classList.remove('hidden');
+            }
+
+            // ============ SYNC FUNCTION ============
             async function sync() {
                 Swal.fire({
-                    title: '🔄 Syncing...',
+                    title: 'Syncing...',
+                    html: '<div class="spinner mx-auto"></div>',
                     allowOutsideClick: false,
-                    didOpen: () => Swal.showLoading(),
-                    background: '#020617',
+                    showConfirmButton: false,
+                    background: '#0f172a',
                     color: '#fff'
                 });
+
                 try {
                     appData.activity_log = activityLog;
-                    const res = await fetch(DB_ENDPOINT, { method: 'PUT', body: JSON.stringify(appData),
-                        headers: { 'Content-Type': 'application/json' } });
+                    const res = await fetch(DB_ENDPOINT, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(appData)
+                    });
+
                     if (res.ok) {
                         Swal.close();
                         renderAll();
-                    } else throw new Error('Sync failed');
+                        lastSyncTime = new Date();
+                    } else {
+                        throw new Error('Sync failed');
+                    }
                 } catch (e) {
-                    Swal.fire({ icon: 'error', title: 'Sync Failure!', text: 'Check your connection.',
-                        background: '#020617', color: '#fff' });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Sync Failed',
+                        text: 'Could not save changes. Check connection.',
+                        background: '#0f172a',
+                        color: '#fff'
+                    });
                 }
+            }
+
+            // ============ EXPORT DATA ============
+            function exportData() {
+                if (!appData?.auth_database) {
+                    showToast('No data to export!', 'error', 2000);
+                    return;
+                }
+
+                const users = appData.auth_database;
+                let csv = 'Device ID,Status,Expiry,License Key\n';
+                users.forEach(u => {
+                    csv += `"${u.device_id || ''}","${u.status || ''}","${u.expiry || ''}","${u.key || ''}"\n`;
+                });
+
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `psxd_export_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+
+                addLog('export', `${users.length} records`, 'Data exported to CSV');
+                showToast('Data exported successfully! ✓', 'success', 2000);
             }
 
             // ============ SEARCH & FILTER ============
@@ -1568,12 +2465,16 @@
                 $$('.tab-panel').forEach(p => p.classList.remove('active'));
                 $$('.tab-btn').forEach(b => b.classList.remove('active'));
                 $$('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+
                 const panel = $('#' + tabId);
                 if (panel) panel.classList.add('active');
+
                 const desktopBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
                 if (desktopBtn) desktopBtn.classList.add('active');
+
                 const mobileBtn = document.querySelector(`.bottom-nav-item[data-tab="${tabId}"]`);
                 if (mobileBtn) mobileBtn.classList.add('active');
+
                 if (tabId === 'tab-analytics') renderAnalytics();
                 if (tabId === 'tab-logs') renderActivityLog();
             }
@@ -1582,74 +2483,48 @@
             document.addEventListener('click', function(e) {
                 const tabBtn = e.target.closest('.tab-btn');
                 const bottomNavItem = e.target.closest('.bottom-nav-item');
+                
                 if (tabBtn) {
                     const tabId = tabBtn.getAttribute('data-tab');
                     if (tabId) switchTab(tabId);
                 }
+                
                 if (bottomNavItem) {
                     const tabId = bottomNavItem.getAttribute('data-tab');
                     if (tabId) switchTab(tabId);
                 }
             });
 
-            // ============ UTILS ============
+            // ============ UTILITY FUNCTIONS ============
             function copy(text, btn) {
                 navigator.clipboard.writeText(text).then(() => {
                     const icon = btn.querySelector('i');
                     if (!icon) return;
                     const origClass = icon.className;
-                    icon.className = 'fas fa-check text-emerald-400';
-                    showToast('Copied to clipboard!', 'success', 1200);
+                    icon.className = 'fas fa-check text-green-400';
+                    showToast('Copied to clipboard! ✓', 'success', 1500);
                     setTimeout(() => { icon.className = origClass; }, 1500);
                 }).catch(() => {
                     showToast('Copy failed!', 'error', 1500);
                 });
             }
 
-            function closeModal() { $('#editModal').classList.add('hidden');
-                activeIdx = -1; }
+            function formatTime(date) {
+                const now = new Date();
+                const diff = (now - date) / 1000; // seconds
 
-            function openConfig() {
-                if (!appData) { showToast('Please wait for data to load.', 'info', 2000);
-                    fetchData(); return; }
-                $('#c_title').value = (appData.app_config || {}).title || '';
-                $('#c_logo').value = (appData.app_config || {}).logo_url || '';
-                $('#c_buy').value = (appData.app_config || {}).buy_url || '';
-                $('#c_gl_on').checked = (appData.global_config || {}).global_key_enabled || false;
-                $('#c_gl_key').value = (appData.global_config || {}).global_key || '';
-                $('#c_gl_msg').value = (appData.global_config || {}).global_instruction || '';
-                $('#configModal').classList.remove('hidden');
-            }
-
-            function exportData() {
-                if (!appData || !appData.auth_database) {
-                    showToast('No data to export!', 'error', 2000);
-                    return;
-                }
-                const users = appData.auth_database;
-                let csv = 'Device ID,Status,Expiry,License Key\n';
-                users.forEach(u => {
-                    csv +=
-                        `"${u.device_id||''}","${u.status||''}","${u.expiry||''}","${u.key||''}"\n`;
-                });
-                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `psxd_nodes_export_${new Date().toISOString().split('T')[0]}.csv`;
-                a.click();
-                URL.revokeObjectURL(url);
-                addLog('export', `${users.length} nodes`, 'CSV exported');
-                renderActivityLog();
-                showToast('Data exported as CSV!', 'success', 2000);
+                if (diff < 60) return 'just now';
+                if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+                if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+                if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
+                return date.toLocaleDateString();
             }
 
             // ============ KEYBOARD SHORTCUTS ============
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     if (!$('#editModal').classList.contains('hidden')) closeModal();
-                    if (!$('#configModal').classList.contains('hidden')) $('#configModal').classList.add(
-                        'hidden');
+                    if (!$('#configModal').classList.contains('hidden')) $('#configModal').classList.add('hidden');
                 }
                 if (e.ctrlKey && e.key === 'n') {
                     e.preventDefault();
@@ -1671,25 +2546,25 @@
                 if (checkSession()) {
                     $('#loginSection').classList.add('hidden');
                     $('#dashboardSection').classList.remove('hidden');
+                    initSession();
                     fetchData();
+                    startAutoSync();
                 } else {
                     $('#loginSection').classList.remove('hidden');
                     $('#dashboardSection').classList.add('hidden');
                 }
-                // Check for saved email
+
+                // Load saved email
                 const savedEmail = localStorage.getItem('psxd_saved_email');
-                if (savedEmail && $('#l_email')) $('#l_email').value = savedEmail;
+                if (savedEmail && $('#l_email')) {
+                    $('#l_email').value = savedEmail;
+                }
+
+                // Cleanup inactive sessions
+                setInterval(updateActiveAdminCount, 60000); // Every minute
             };
 
-            // Save email on login attempt
-            const origHandleLogin = handleLogin;
-            handleLogin = function() {
-                const email = $('#l_email').value.trim();
-                if (email) localStorage.setItem('psxd_saved_email', email);
-                origHandleLogin();
-            };
-
-            // ============ EXPOSE TO GLOBAL SCOPE ============
+            // ============ EXPOSE GLOBAL FUNCTIONS ============
             window.handleLogin = handleLogin;
             window.logout = logout;
             window.fetchData = fetchData;
