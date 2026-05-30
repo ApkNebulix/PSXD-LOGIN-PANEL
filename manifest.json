@@ -3,7 +3,7 @@
   "short_name": "PSXD Pro",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#03040d",
+  "background_color": "#ffffff",
   "theme_color": "#00f5ff",
   "icons": [
     {
